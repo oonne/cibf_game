@@ -1,18 +1,3 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import categorys from '@/constant/category';
-import features from '@/constant/features';
-
-/* 分类 */
-const active = ref('All');
-const SetCategory = (en: string) => {
-  active.value = en;
-};
-
-/* 功能 */
-const featuresList = computed(() => features.filter((f) => f.category.includes(active.value)));
-</script>
-
 <template>
   <div class="index">
     <!-- 标题 -->
@@ -52,18 +37,26 @@ const featuresList = computed(() => features.filter((f) => f.category.includes(a
   </div>
 </template>
 
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import categorys from '@/constant/category';
+import features from '@/constant/features';
+
+/* 分类 */
+const active = ref('All');
+const SetCategory = (en: string) => {
+  active.value = en;
+};
+
+/* 功能 */
+const featuresList = computed(() => features.filter((f) => f.category.includes(active.value)));
+</script>
+
 <style scoped>
 .index{
   margin: auto;
   padding-top: 3rem;
   max-width: 768px;
-}
-
-.logo{
-  font-family: 'MFQiHei';
-  font-size: 3rem;
-  text-align: center;
-  margin-bottom: 2rem;
 }
 
 .category-warp{

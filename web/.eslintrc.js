@@ -1,4 +1,6 @@
-module.exports = {
+import path from 'path';
+
+export default {
   env: {
     browser: true,
     es2021: true,
@@ -17,7 +19,7 @@ module.exports = {
       },
       alias: {
         map: [
-          ['@', './src'],
+          ['@', path.resolve(__dirname, './src')],
         ],
         extensions: ['.ts', '.tsx'], // 可忽略的后缀名
       },

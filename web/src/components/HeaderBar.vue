@@ -21,7 +21,6 @@ header{
   display: flex;
 }
 .logo{
-  font-family: 'MFQiHei';
   font-size: 1.6rem;
   color: var(--color);
   text-decoration: none;

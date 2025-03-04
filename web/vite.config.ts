@@ -13,11 +13,11 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': resolve(__dirname, './src'),
     },
   },
   server: {
-    port: 10001,
+    port: 10002,
   },
   build: {
     assetsInlineLimit: 0,

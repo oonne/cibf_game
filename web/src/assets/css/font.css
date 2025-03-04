@@ -1,0 +1,7 @@
+/* 字体 */
+@font-face {
+  font-family: "MFQiHei";
+  src: url("../font/MFQiHei.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}

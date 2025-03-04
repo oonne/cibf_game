@@ -1,0 +1,35 @@
+/* 全局配置 */
+:root{
+  /* 底色 */
+  --background: #202124;
+  /* 默认字体颜色 */
+  --color: #bdc1c6;
+  /* 默认输入框 */
+  --input-background: #666;
+  
+  /* 功能页首底色 */
+  --header-background: #101114;
+  /* 功能页底色 */
+  --content-background: #3f3f3f;
+  /* 功能页折叠区底色 */
+  --content-stacked-background: #303134;
+  /* 功能页最大宽度 */
+  --content-max-width: 1060px;
+
+
+  /* 颜色 */
+  --safe-color: #52c41a;
+  --warning-color: #faad14;
+  --danger-color: #cf1322;
+}
+
+/* 颜色 */
+.safe{
+  color: var(--safe-color);
+}
+.warning{
+  color: var(--warning-color);
+}
+.danger{
+  color: var(--danger-color);
+}

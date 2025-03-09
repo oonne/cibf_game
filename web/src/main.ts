@@ -1,28 +1,17 @@
 import { createApp } from 'vue';
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import pages from './constant/pages';
-import App from './App.vue';
+import App from '@/App.vue';
+import router from '@/router';
 
-const app = createApp(App);
+/* 初始化 */
+const bootstrap = async () => {
+  const app = createApp(App);
 
-/* 路由 */
-// 懒加载
-const getPage = (pageName: string) => import(`./pages/${pageName}/IndexPage.vue`);
-const routes: RouteRecordRaw[] = pages.map((route) => ({
-  path: route.path,
-  name: route.pageName,
-  component: getPage.bind(this, route.pageName),
-}));
+  // 路由
+  app.use(router);
+  await router.isReady();
 
-// 404重定向到首页
-routes.push({
-  path: '/:pathMatch(.*)*',
-  redirect: '/',
-});
+  // 挂载应用
+  app.mount('#app');
+};
 
-// 绑定页面
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-app.use(router).mount('#app');
+bootstrap();

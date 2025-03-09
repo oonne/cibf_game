@@ -15,7 +15,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.ts', '.css'],
+        extensions: ['.js', '.ts', '.css', 'vue'],
       },
       alias: {
         map: [
@@ -39,8 +39,19 @@ module.exports = {
     'import/extensions': ['error', 'always', {
       js: 'never',
       ts: 'never',
+      tsx: 'never',
       vue: 'never',
     }],
+    'import/prefer-default-export': 'off',
+    'vue/multi-word-component-names': ['error', {
+      ignores: [
+        'index',
+      ],
+    }],
+    'no-bitwise': 'off',
+    'no-mixed-operators': 'off',
+    'no-console': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'max-len': ['warn', { code: 100 }],
   },
 };

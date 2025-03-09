@@ -1,6 +1,6 @@
 <template>
   <div>
-    内容
+    拼图
   </div>
 </template>
 

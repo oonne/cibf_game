@@ -18,11 +18,11 @@
   <!-- 中奖提示 -->
   <div v-if="showResult" class="result-modal">
     <div class="result-content">
-      <div class="result-title">
-        恭喜您
+      <div class="result-title" :class="{ 'no-win': !currentPrize.isWin }">
+        {{ currentPrize.isWin ? '恭喜您' : '感谢参与' }}
       </div>
-      <div class="result-prize">
-        获得了 {{ currentPrize }}
+      <div class="result-prize" v-if="currentPrize.isWin">
+        获得了 {{ currentPrize.name }}
       </div>
       <div class="result-btn" @click="closeResult">
         确定
@@ -40,14 +40,18 @@ import PrizeHistory from './components/prize-history.vue';
 import { Prize } from '@/constant/prizes';
 
 // 抽奖次数
-const drawCount = ref(0);
+const drawCount = ref(1);
 
 // 记录中奖记录列表
 const prizeHistory = ref<Prize[]>([]);
 // 是否显示结果
 const showResult = ref(false);
 // 当前中奖奖品
-const currentPrize = ref('');
+const currentPrize = ref<Prize>({
+  id: 0,
+  name: '',
+  isWin: false
+});
 
 // 关闭结果弹窗
 const closeResult = () => {
@@ -69,7 +73,7 @@ const increaseDrawCount = () => {
 // 处理抽奖完成事件
 const handlePrizeDrawn = (result: Prize) => {
   console.log('抽奖完成，获得奖品：', result.name);
-  currentPrize.value = result.name;
+  currentPrize.value = result;
   showResult.value = true;
   // 如果是中奖的奖品，添加到历史记录中
   if (result.isWin) {
@@ -111,6 +115,10 @@ const handlePrizeDrawn = (result: Prize) => {
   font-weight: bold;
   margin-bottom: 10px;
   color: #E91E63;
+}
+
+.result-title.no-win {
+  color: #666;
 }
 
 .result-prize {

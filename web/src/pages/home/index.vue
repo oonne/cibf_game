@@ -70,28 +70,33 @@ const startRotate = () => {
   // 随机选择一个奖品索引 (0 到 prizeCount-1)
   const prizeIndex = Math.floor(Math.random() * prizeCount);
   
-  // 计算旋转角度：确保顺时针旋转至少1圈以上
-  // 由于CSS transform rotate是顺时针旋转的，所以正值就是顺时针
-  // 为了确保每次都是新的旋转，先重置当前角度
-  rotation.value = 0;
+  // 获取当前旋转角度（可能已经旋转了多次）
+  const currentRotation = rotation.value;
   
-  // 使用setTimeout确保DOM更新后再设置新的旋转角度
+  // 计算目标角度：在当前角度基础上至少旋转2圈以上
+  const minRotation = 720; // 最小旋转两圈
+  const randomExtra = Math.floor(Math.random() * 360); // 随机额外旋转0-360度
+  
+  // 计算奖品的绝对角度位置
+  const prizeAngle = (prizeIndex * anglePerPrize);
+  
+  // 计算需要旋转的角度：当前角度 + 最小旋转圈数 + 随机额外角度 + 奖品位置调整
+  // 使用模运算(% 360)确定当前角度在一圈内的位置，然后计算到目标奖品位置需要旋转的角度
+  const currentPositionInWheel = currentRotation % 360;
+  const angleToTarget = (360 - currentPositionInWheel + prizeAngle) % 360;
+  
+  // 设置新的旋转角度：当前角度 + 最小旋转圈数 + 随机额外角度 + 到目标位置的角度
+  const targetAngle = currentRotation + minRotation + randomExtra + angleToTarget;
+  
+  // 设置新的旋转角度
+  rotation.value = targetAngle;
+  
+  // 旋转结束后显示中奖结果
   setTimeout(() => {
-    // 计算目标角度：至少旋转1圈(360度)再加上随机奖品的位置
-    const minRotation = 360; // 最小旋转一圈
-    const randomExtra = Math.floor(Math.random() * 360); // 随机额外旋转0-360度
-    const targetAngle = minRotation + randomExtra + (prizeIndex * anglePerPrize);
-    
-    // 设置新的旋转角度
-    rotation.value = targetAngle;
-    
-    // 旋转结束后显示中奖结果
-    setTimeout(() => {
-      isRotating.value = false;
-      currentPrize.value = prizes[prizeIndex];
-      showResult.value = true;
-    }, 5000); // 旋转动画持续5秒
-  }, 10);
+    isRotating.value = false;
+    currentPrize.value = prizes[prizeIndex];
+    showResult.value = true;
+  }, 5000); // 旋转动画持续5秒
 };
 </script>
 

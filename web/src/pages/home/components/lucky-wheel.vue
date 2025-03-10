@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue';
+import prizes from '@/constant/prizes';
 
 // 定义组件事件
 const emit = defineEmits(['prize-drawn']);
@@ -37,22 +38,13 @@ const rotation = ref(0);
 // 是否正在旋转
 const isRotating = ref(false);
 
-// 奖品列表
-const prizes = [
-  '耳机',
-  'iPhone',
-  '相机',
-  '咖啡杯',
-  '日历',
-  '键盘',
-];
 // 奖品数量
 const prizeCount = prizes.length;
 // 每个奖品区域的角度
 const anglePerPrize = 360 / prizeCount;
 
 // 开始旋转
-const startRotate = () => {
+const startRotate = async () => {
   if (isRotating.value) return;
 
   isRotating.value = true;
@@ -85,12 +77,8 @@ const startRotate = () => {
   // 旋转结束后触发中奖事件
   setTimeout(() => {
     isRotating.value = false;
-    const prize = prizes[prizeIndex];
-    // 通知父组件抽奖已完成
-    emit('prize-drawn', {
-      prize,
-      prizeIndex,
-    });
+    // 通知父组件抽奖已完成，返回完整的奖品对象
+    emit('prize-drawn', prizes[prizeIndex]);
   }, 5000); // 旋转动画持续5秒
 };
 </script>

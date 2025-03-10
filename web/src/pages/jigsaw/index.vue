@@ -18,6 +18,7 @@
         v-for="(piece, index) in pieces"
         :key="index"
         class="puzzle-piece"
+        :class="{ 'returning': piece.isReturning }"
         :style="{
           backgroundImage: `url(${piece.image})`,
           left: piece.currentX + 'px',
@@ -29,6 +30,7 @@
         @mousedown="startDrag($event, piece)"
         @mousemove="onDrag($event, piece)"
         @mouseup="endDrag($event, piece)"
+        @transitionend="onTransitionEnd(piece)"
       />
     </div>
   </div>
@@ -59,7 +61,10 @@ interface PuzzlePiece {
   correctY: number;
   currentX: number;
   currentY: number;
+  initialX: number;
+  initialY: number;
   isDragging: boolean;
+  isReturning: boolean;
   dragOffsetX: number;
   dragOffsetY: number;
 }
@@ -97,17 +102,36 @@ const initPieces = () => {
     '5_3': block53,
   };
 
+  const piecesArea = document.querySelector('.pieces-area');
+  const piecesAreaRect = piecesArea?.getBoundingClientRect();
+  const pieceWidth = GRID_SIZE.value;
+  const pieceHeight = GRID_SIZE.value;
+
+  if (!piecesAreaRect) return;
+
+  // 计算可用区域
+  const availableWidth = piecesAreaRect.width - pieceWidth;
+  const availableHeight = piecesAreaRect.height - pieceHeight;
+
   for (let row = 1; row <= 5; row += 1) {
     for (let col = 1; col <= 3; col += 1) {
       const id = `${row}_${col}`;
+
+      // 计算初始位置，确保在可见区域内
+      const initialX = Math.random() * availableWidth;
+      const initialY = Math.random() * availableHeight;
+
       const piece: PuzzlePiece = {
         id,
         image: blockImages[id as keyof typeof blockImages],
         correctX: (col - 1) * GRID_SIZE.value,
         correctY: (row - 1) * GRID_SIZE.value,
-        currentX: Math.random() * (window.innerWidth - GRID_SIZE.value),
-        currentY: window.innerHeight - GRID_SIZE.value - Math.random() * 200,
+        currentX: initialX,
+        currentY: initialY,
+        initialX,
+        initialY,
         isDragging: false,
+        isReturning: false,
         dragOffsetX: 0,
         dragOffsetY: 0,
       };
@@ -119,7 +143,8 @@ const initPieces = () => {
 
 // 拖拽相关函数
 const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
-  const updatedPiece = { ...piece, isDragging: true };
+  event.preventDefault();
+  const updatedPiece = { ...piece, isDragging: true, isReturning: false };
   const pos = event instanceof MouseEvent ? event : event.touches[0];
   const rect = (event.target as HTMLElement).getBoundingClientRect();
   updatedPiece.dragOffsetX = pos.clientX - rect.left;
@@ -154,29 +179,55 @@ const endDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
       // 吸附到正确位置
       updatedPiece.currentX = piece.correctX + canvasRect.left;
       updatedPiece.currentY = piece.correctY + canvasRect.top;
+    } else {
+      // 如果没有吸附到正确位置，添加返回初始位置的动画
+      updatedPiece.isReturning = true;
+      updatedPiece.currentX = piece.initialX;
+      updatedPiece.currentY = piece.initialY;
     }
   }
   Object.assign(piece, updatedPiece);
+};
+
+// 动画结束后的处理
+const onTransitionEnd = (piece: PuzzlePiece) => {
+  if (piece.isReturning) {
+    const updatedPiece = { ...piece, isReturning: false };
+    Object.assign(piece, updatedPiece);
+  }
 };
 
 onMounted(() => {
   // 计算格子大小
   const canvasWidth = document.querySelector('.canvas-grid')?.clientWidth || 300;
   GRID_SIZE.value = canvasWidth / 3; // 3列
-  initPieces();
+
+  // 确保pieces-area已经渲染
+  setTimeout(() => {
+    initPieces();
+  }, 100);
+
+  // 监听窗口大小变化，重新计算拼图块大小
+  window.addEventListener('resize', () => {
+    const element = document.querySelector('.canvas-grid');
+    if (element) {
+      GRID_SIZE.value = element.clientWidth / 3;
+    }
+  });
 });
 </script>
 
 <style scoped>
 .jigsaw-game {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #f5f5f5;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  padding-bottom: 300px; /* 为拼图块区域预留空间 */
 }
 
 .canvas-area {
@@ -206,8 +257,9 @@ onMounted(() => {
 
 .pieces-area {
   width: 100%;
+  height: 300px;
   position: relative;
-  margin-top: auto;
+  margin-top: 20px;
   background: rgba(0, 0, 0, 0.1);
 }
 
@@ -223,6 +275,11 @@ onMounted(() => {
   touch-action: none;
   user-select: none;
   transition: transform 0.1s;
+  z-index: 1;
+}
+
+.puzzle-piece.returning {
+  transition: left 0.5s ease, top 0.5s ease;
 }
 
 .puzzle-piece:active {

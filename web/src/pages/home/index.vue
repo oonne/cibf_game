@@ -1,13 +1,25 @@
 <template>
-  <div class="wheel-wrap">
-    <LuckyWheel @prize-drawn="handlePrizeDrawn" />
+  <div class="home-wrap">
+    <!-- 转盘 -->
+    <div class="wheel-wrap">
+      <LuckyWheel @prize-drawn="handlePrizeDrawn" />
+    </div>
+
+    <!-- 抽奖次数 -->
+    <div>抽奖次数</div>
+
+    <!-- 中奖结果 -->
+    <div v-if="lastPrize" class="prize-history">
+      <h3>上次抽中的奖品</h3>
+      <p>{{ lastPrize }}</p>
+    </div>
+
+    <!-- 活动说明 -->
+    <div>活动说明</div>
   </div>
-  
+
   <!-- 中奖提示 -->
-  <div
-    v-if="showResult"
-    class="result-modal"
-  >
+  <div v-if="showResult" class="result-modal">
     <div class="result-content">
       <div class="result-title">
         恭喜您
@@ -15,19 +27,10 @@
       <div class="result-prize">
         获得了 {{ currentPrize }}
       </div>
-      <div
-        class="result-btn"
-        @click="closeResult"
-      >
+      <div class="result-btn" @click="closeResult">
         确定
       </div>
     </div>
-  </div>
-  
-  <!-- 可以在这里添加其他内容，例如抽奖历史记录等 -->
-  <div v-if="lastPrize" class="prize-history">
-    <h3>上次抽中的奖品</h3>
-    <p>{{ lastPrize }}</p>
   </div>
 </template>
 
@@ -58,9 +61,10 @@ const handlePrizeDrawn = (result: Prize) => {
 </script>
 
 <style scoped>
-.wheel-wrap{
+.wheel-wrap {
   padding: 100px 40px;
 }
+
 .prize-history {
   margin-top: 20px;
   padding: 15px;

@@ -78,12 +78,14 @@ const startRotate = () => {
   const randomExtra = Math.floor(Math.random() * 360); // 随机额外旋转0-360度
   
   // 计算奖品的绝对角度位置
-  const prizeAngle = (prizeIndex * anglePerPrize);
+  // 注意：图片旋转0度时已经位于第一个奖品的正中间
+  // 由于CSS transform rotate是顺时针旋转，所以需要用360度减去目标角度
+  const prizeAngle = 360 - (prizeIndex * anglePerPrize);
   
-  // 计算需要旋转的角度：当前角度 + 最小旋转圈数 + 随机额外角度 + 奖品位置调整
+  // 计算需要旋转的角度
   // 使用模运算(% 360)确定当前角度在一圈内的位置，然后计算到目标奖品位置需要旋转的角度
   const currentPositionInWheel = currentRotation % 360;
-  const angleToTarget = (360 - currentPositionInWheel + prizeAngle) % 360;
+  const angleToTarget = (prizeAngle - currentPositionInWheel + 360) % 360;
   
   // 设置新的旋转角度：当前角度 + 最小旋转圈数 + 随机额外角度 + 到目标位置的角度
   const targetAngle = currentRotation + minRotation + randomExtra + angleToTarget;

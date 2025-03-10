@@ -1,5 +1,7 @@
 <template>
-  <LuckyWheel @prize-drawn="handlePrizeDrawn" />
+  <div class="wheel-wrap">
+    <LuckyWheel @prize-drawn="handlePrizeDrawn" />
+  </div>
   
   <!-- 中奖提示 -->
   <div
@@ -56,6 +58,9 @@ const handlePrizeDrawn = (result: Prize) => {
 </script>
 
 <style scoped>
+.wheel-wrap{
+  padding: 100px 40px;
+}
 .prize-history {
   margin-top: 20px;
   padding: 15px;

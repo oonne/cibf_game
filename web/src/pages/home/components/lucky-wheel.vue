@@ -21,7 +21,7 @@
       :class="{ 'disabled': isRotating }"
       @click="startRotate"
     >
-      <span>{{ isRotating ? '旋转中' : '开始' }}</span>
+      <span>{{ isRotating ? '抽奖中' : '开始' }}</span>
     </div>
   </div>
 </template>
@@ -86,9 +86,9 @@ const startRotate = async () => {
 <style scoped>
 .wheel-container {
   position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 20px auto;
+  width: 80vw;
+  height: 80vw;
+  margin: auto;
 }
 
 .wheel {
@@ -109,15 +109,15 @@ const startRotate = async () => {
 
 .pointer {
   position: absolute;
-  top: -15px;
+  top: 25vw;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 30px solid #E91E63;
-  z-index: 20;
+  border-bottom: 30px solid #E91E63;
+  z-index: 10;
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
 }
 
@@ -137,7 +137,7 @@ const startRotate = async () => {
   color: white;
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  z-index: 20;
   border: 4px solid white;
   transition: all 0.3s ease;
 }

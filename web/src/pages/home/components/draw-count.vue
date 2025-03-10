@@ -25,6 +25,9 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 // 接收父组件传递的抽奖次数
 defineProps<{
@@ -41,8 +44,7 @@ const hasShared = ref(false);
 // 处理玩游戏按钮点击
 const handlePlayGame = () => {
   if (!hasPlayedGame.value) {
-    emit('increase-count');
-    hasPlayedGame.value = true;
+    router.push({ name: 'jigsaw' });
   }
 };
 

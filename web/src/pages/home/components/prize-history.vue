@@ -9,6 +9,7 @@
         v-for="prize in prizes"
         :key="prize.id"
         class="prize-item"
+        @click="handlePrizeClick(prize)"
       >
         {{ prize.name }}
       </div>
@@ -17,11 +18,18 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
 import { Prize } from '@/constant/prizes';
+
+const router = useRouter();
 
 defineProps<{
   prizes: Prize[]
 }>();
+
+const handlePrizeClick = (prize: Prize) => {
+  router.push({ name: 'redeem', query: { prizeId: prize.id } });
+};
 </script>
 
 <style scoped>

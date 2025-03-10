@@ -1,49 +1,27 @@
 <template>
-  <div class="wheel-wrapper">
-    <div class="wheel-container">
-      <div
-        class="wheel"
-        :style="{ transform: `rotate(${rotation}deg)` }"
-        :class="{ 'rotating': isRotating }"
-      >
-        <!-- 使用指定的转盘图片 -->
-        <img
-          src="../img/disk.png"
-          alt="转盘"
-          class="wheel-img"
-        >
-      </div>
-      <!-- 指针 -->
-      <div class="pointer" />
-      <!-- 开始按钮 -->
-      <div
-        class="start-btn"
-        :class="{ 'disabled': isRotating }"
-        @click="startRotate"
-      >
-        <span>{{ isRotating ? '旋转中' : '开始' }}</span>
-      </div>
-    </div>
-
-    <!-- 中奖提示 -->
+  <!-- 转盘 -->
+  <div class="wheel-container">
     <div
-      v-if="showResult"
-      class="result-modal"
+      class="wheel"
+      :style="{ transform: `rotate(${rotation}deg)` }"
+      :class="{ 'rotating': isRotating }"
     >
-      <div class="result-content">
-        <div class="result-title">
-          恭喜您
-        </div>
-        <div class="result-prize">
-          获得了 {{ currentPrize }}
-        </div>
-        <div
-          class="result-btn"
-          @click="closeResult"
-        >
-          确定
-        </div>
-      </div>
+      <!-- 使用指定的转盘图片 -->
+      <img
+        src="../img/disk.png"
+        alt="转盘"
+        class="wheel-img"
+      >
+    </div>
+    <!-- 指针 -->
+    <div class="pointer" />
+    <!-- 开始按钮 -->
+    <div
+      class="start-btn"
+      :class="{ 'disabled': isRotating }"
+      @click="startRotate"
+    >
+      <span>{{ isRotating ? '旋转中' : '开始' }}</span>
     </div>
   </div>
 </template>
@@ -58,10 +36,6 @@ const emit = defineEmits(['prize-drawn']);
 const rotation = ref(0);
 // 是否正在旋转
 const isRotating = ref(false);
-// 是否显示结果
-const showResult = ref(false);
-// 当前中奖奖品
-const currentPrize = ref('');
 
 // 奖品列表
 const prizes = [
@@ -76,16 +50,6 @@ const prizes = [
 const prizeCount = prizes.length;
 // 每个奖品区域的角度
 const anglePerPrize = 360 / prizeCount;
-
-// 关闭结果弹窗
-const closeResult = () => {
-  showResult.value = false;
-  // 通知父组件抽奖已完成
-  emit('prize-drawn', {
-    prize: currentPrize.value,
-    prizeIndex: prizes.indexOf(currentPrize.value),
-  });
-};
 
 // 开始旋转
 const startRotate = () => {
@@ -118,28 +82,25 @@ const startRotate = () => {
   // 设置新的旋转角度
   rotation.value = targetAngle;
 
-  // 旋转结束后显示中奖结果
+  // 旋转结束后触发中奖事件
   setTimeout(() => {
     isRotating.value = false;
-    currentPrize.value = prizes[prizeIndex];
-    showResult.value = true;
+    const prize = prizes[prizeIndex];
+    // 通知父组件抽奖已完成
+    emit('prize-drawn', {
+      prize,
+      prizeIndex,
+    });
   }, 5000); // 旋转动画持续5秒
 };
 </script>
 
 <style scoped>
-.wheel-wrapper {
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
 .wheel-container {
   position: relative;
   width: 300px;
   height: 300px;
-  margin: 20px;
+  margin: 20px auto;
 }
 
 .wheel {
@@ -205,65 +166,5 @@ const startRotate = () => {
 
 .rotating {
   pointer-events: none;
-}
-
-/* 结果弹窗 */
-.result-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.result-content {
-  background-color: white;
-  border-radius: 10px;
-  padding: 30px;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  animation: popup 0.5s ease;
-}
-
-.result-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #E91E63;
-}
-
-.result-prize {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.result-btn {
-  background-color: #E91E63;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-block;
-  transition: background-color 0.3s;
-}
-
-.result-btn:hover {
-  background-color: #C2185B;
-}
-
-@keyframes popup {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 </style>

@@ -1,12 +1,31 @@
 <template>
-  <div class="lucky-wheel-container">
-    <LuckyWheel @prize-drawn="handlePrizeDrawn" />
-    
-    <!-- 可以在这里添加其他内容，例如抽奖历史记录等 -->
-    <div v-if="lastPrize" class="prize-history">
-      <h3>上次抽中的奖品</h3>
-      <p>{{ lastPrize }}</p>
+  <LuckyWheel @prize-drawn="handlePrizeDrawn" />
+  
+  <!-- 中奖提示 -->
+  <div
+    v-if="showResult"
+    class="result-modal"
+  >
+    <div class="result-content">
+      <div class="result-title">
+        恭喜您
+      </div>
+      <div class="result-prize">
+        获得了 {{ currentPrize }}
+      </div>
+      <div
+        class="result-btn"
+        @click="closeResult"
+      >
+        确定
+      </div>
     </div>
+  </div>
+  
+  <!-- 可以在这里添加其他内容，例如抽奖历史记录等 -->
+  <div v-if="lastPrize" class="prize-history">
+    <h3>上次抽中的奖品</h3>
+    <p>{{ lastPrize }}</p>
   </div>
 </template>
 
@@ -16,10 +35,21 @@ import LuckyWheel from './components/lucky-wheel.vue';
 
 // 记录上次抽中的奖品
 const lastPrize = ref('');
+// 是否显示结果
+const showResult = ref(false);
+// 当前中奖奖品
+const currentPrize = ref('');
+
+// 关闭结果弹窗
+const closeResult = () => {
+  showResult.value = false;
+};
 
 // 处理抽奖完成事件
 const handlePrizeDrawn = (result: { prize: string, prizeIndex: number }) => {
   console.log('抽奖完成，获得奖品：', result.prize, '索引：', result.prizeIndex);
+  currentPrize.value = result.prize;
+  showResult.value = true;
   lastPrize.value = result.prize;
   
   // 这里可以添加其他逻辑，例如记录抽奖历史、发送请求到服务器等
@@ -27,16 +57,6 @@ const handlePrizeDrawn = (result: { prize: string, prizeIndex: number }) => {
 </script>
 
 <style scoped>
-.lucky-wheel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 20px;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-}
-
 .prize-history {
   margin-top: 20px;
   padding: 15px;
@@ -49,5 +69,66 @@ const handlePrizeDrawn = (result: { prize: string, prizeIndex: number }) => {
 .prize-history h3 {
   color: #E91E63;
   margin-bottom: 10px;
+}
+
+/* 结果弹窗 */
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.result-content {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: popup 0.5s ease;
+}
+
+.result-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #E91E63;
+}
+
+.result-prize {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.result-btn {
+  background-color: #E91E63;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.result-btn:hover {
+  background-color: #C2185B;
+}
+
+@keyframes popup {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 </style>

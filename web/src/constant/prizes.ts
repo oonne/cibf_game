@@ -10,17 +10,17 @@ export interface Prize {
 const prizes: Prize[] = [
   {
     id: 1,
-    name: '耳机',
+    name: '玩偶',
     isWin: true,
   },
   {
     id: 2,
-    name: 'iPhone',
+    name: '加湿器',
     isWin: true,
   },
   {
     id: 3,
-    name: '相机',
+    name: '雨伞',
     isWin: true,
   },
   {
@@ -30,12 +30,12 @@ const prizes: Prize[] = [
   },
   {
     id: 5,
-    name: '日历',
+    name: '手持电风扇',
     isWin: true,
   },
   {
     id: 6,
-    name: '键盘',
+    name: '车载音响',
     isWin: true,
   },
 ];

@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import LuckyWheel from './components/lucky-wheel.vue';
+import { Prize } from '@/constant/prizes';
 
 // 记录上次抽中的奖品
 const lastPrize = ref('');
@@ -46,13 +47,11 @@ const closeResult = () => {
 };
 
 // 处理抽奖完成事件
-const handlePrizeDrawn = (result: { prize: string, prizeIndex: number }) => {
-  console.log('抽奖完成，获得奖品：', result.prize, '索引：', result.prizeIndex);
-  currentPrize.value = result.prize;
+const handlePrizeDrawn = (result: Prize) => {
+  console.log('抽奖完成，获得奖品：', result.name);
+  currentPrize.value = result.name;
   showResult.value = true;
-  lastPrize.value = result.prize;
-  
-  // 这里可以添加其他逻辑，例如记录抽奖历史、发送请求到服务器等
+  lastPrize.value = result.name;
 };
 </script>
 

@@ -6,16 +6,13 @@
     </div>
 
     <!-- 抽奖次数 -->
-    <div>抽奖次数</div>
+    <DrawCount />
 
     <!-- 中奖结果 -->
-    <div v-if="lastPrize" class="prize-history">
-      <h3>上次抽中的奖品</h3>
-      <p>{{ lastPrize }}</p>
-    </div>
+    <PrizeHistory :prize="lastPrize" />
 
     <!-- 活动说明 -->
-    <div>活动说明</div>
+    <ActivityInfo />
   </div>
 
   <!-- 中奖提示 -->
@@ -37,6 +34,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import LuckyWheel from './components/lucky-wheel.vue';
+import DrawCount from './components/draw-count.vue';
+import ActivityInfo from './components/activity-info.vue';
+import PrizeHistory from './components/prize-history.vue';
 import { Prize } from '@/constant/prizes';
 
 // 记录上次抽中的奖品
@@ -63,20 +63,6 @@ const handlePrizeDrawn = (result: Prize) => {
 <style scoped>
 .wheel-wrap {
   padding: 100px 40px;
-}
-
-.prize-history {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.prize-history h3 {
-  color: #E91E63;
-  margin-bottom: 10px;
 }
 
 /* 结果弹窗 */

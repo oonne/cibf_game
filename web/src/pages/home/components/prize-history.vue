@@ -28,7 +28,13 @@ defineProps<{
 }>();
 
 const handlePrizeClick = (prize: Prize) => {
-  router.push({ name: 'redeem', query: { prizeId: prize.id } });
+  router.push({
+    name: 'redeem',
+    query: {
+      id: prize.id,
+      name: prize.name,
+    },
+  });
 };
 </script>
 

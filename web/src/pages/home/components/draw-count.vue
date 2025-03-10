@@ -2,15 +2,18 @@
   <div class="draw-count">
     <h3>抽奖次数</h3>
     <div class="count-info">
-      剩余次数：{{ count }}
+      我的抽奖次数：{{ count }}次
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { defineProps } from 'vue';
 
-const count = ref(3); // 默认次数，实际应该从props或store中获取
+// 接收父组件传递的抽奖次数
+defineProps<{
+  count: number
+}>();
 
 </script>
 

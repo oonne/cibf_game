@@ -2,11 +2,11 @@
   <div class="home-wrap">
     <!-- 转盘 -->
     <div class="wheel-wrap">
-      <LuckyWheel @prize-drawn="handlePrizeDrawn" />
+      <LuckyWheel @prize-drawn="handlePrizeDrawn" :drawCount="drawCount" @draw="decreaseDrawCount" :canDraw="drawCount > 0" />
     </div>
 
     <!-- 抽奖次数 -->
-    <DrawCount />
+    <DrawCount :count="drawCount" />
 
     <!-- 中奖结果 -->
     <PrizeHistory :prize="lastPrize" />
@@ -39,6 +39,9 @@ import ActivityInfo from './components/activity-info.vue';
 import PrizeHistory from './components/prize-history.vue';
 import { Prize } from '@/constant/prizes';
 
+// 抽奖次数
+const drawCount = ref(2);
+
 // 记录上次抽中的奖品
 const lastPrize = ref('');
 // 是否显示结果
@@ -49,6 +52,13 @@ const currentPrize = ref('');
 // 关闭结果弹窗
 const closeResult = () => {
   showResult.value = false;
+};
+
+// 减少抽奖次数
+const decreaseDrawCount = () => {
+  if (drawCount.value > 0) {
+    drawCount.value--;
+  }
 };
 
 // 处理抽奖完成事件
@@ -62,7 +72,7 @@ const handlePrizeDrawn = (result: Prize) => {
 
 <style scoped>
 .wheel-wrap {
-  padding: 100px 40px;
+  padding: 60px 0;
 }
 
 /* 结果弹窗 */

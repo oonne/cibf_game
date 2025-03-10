@@ -2,9 +2,9 @@
   <div class="activity-info">
     <h3>活动说明</h3>
     <div class="info-content">
-      <p>1. 每位用户每天有3次抽奖机会</p>
-      <p>2. 奖品将在7个工作日内发放</p>
-      <p>3. 活动最终解释权归主办方所有</p>
+      <p>1. 玩拼图获得一次抽奖</p>
+      <p>2. 转发获得一次抽奖</p>
+      <p>3. 抽到奖现场兑换</p>
     </div>
   </div>
 </template>

@@ -12,6 +12,7 @@
 defineProps<{
   prize: string
 }>();
+
 </script>
 
 <style scoped>

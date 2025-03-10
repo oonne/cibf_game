@@ -18,20 +18,26 @@
     <!-- 开始按钮 -->
     <div
       class="start-btn"
-      :class="{ 'disabled': isRotating }"
+      :class="{ 'disabled': isRotating || !canDraw }"
       @click="startRotate"
     >
-      <span>{{ isRotating ? '抽奖中' : '开始' }}</span>
+      <span>{{ isRotating ? '抽奖中' : (canDraw ? '开始' : '次数不足') }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, defineProps } from 'vue';
 import prizes from '@/constant/prizes';
 
 // 定义组件事件
-const emit = defineEmits(['prize-drawn']);
+const emit = defineEmits(['prize-drawn', 'draw']);
+
+// 定义props
+const props = defineProps<{
+  drawCount?: number;
+  canDraw?: boolean;
+}>();
 
 // 转盘旋转角度
 const rotation = ref(0);
@@ -46,6 +52,10 @@ const anglePerPrize = 360 / prizeCount;
 // 开始旋转
 const startRotate = async () => {
   if (isRotating.value) return;
+  if (!props.canDraw) return;
+
+  // 通知父组件减少抽奖次数
+  emit('draw');
 
   isRotating.value = true;
 

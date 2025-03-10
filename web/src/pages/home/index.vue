@@ -8,8 +8,8 @@
     <!-- 抽奖次数 -->
     <DrawCount :count="drawCount" @increase-count="increaseDrawCount" />
 
-    <!-- 中奖结果 -->
-    <PrizeHistory :prize="lastPrize" />
+    <!-- 中奖记录 -->
+    <PrizeHistory :prizes="prizeHistory" />
 
     <!-- 活动说明 -->
     <ActivityInfo />
@@ -42,8 +42,8 @@ import { Prize } from '@/constant/prizes';
 // 抽奖次数
 const drawCount = ref(0);
 
-// 记录上次抽中的奖品
-const lastPrize = ref('');
+// 记录中奖记录列表
+const prizeHistory = ref<Prize[]>([]);
 // 是否显示结果
 const showResult = ref(false);
 // 当前中奖奖品
@@ -71,7 +71,10 @@ const handlePrizeDrawn = (result: Prize) => {
   console.log('抽奖完成，获得奖品：', result.name);
   currentPrize.value = result.name;
   showResult.value = true;
-  lastPrize.value = result.name;
+  // 如果是中奖的奖品，添加到历史记录中
+  if (result.isWin) {
+    prizeHistory.value.push(result);
+  }
 };
 </script>
 

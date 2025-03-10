@@ -2,11 +2,19 @@
   <div class="home-wrap">
     <!-- 转盘 -->
     <div class="wheel-wrap">
-      <LuckyWheel @prize-drawn="handlePrizeDrawn" :drawCount="drawCount" @draw="decreaseDrawCount" :canDraw="drawCount > 0" />
+      <LuckyWheel
+        :draw-count="drawCount"
+        :can-draw="drawCount > 0"
+        @prize-drawn="handlePrizeDrawn"
+        @draw="decreaseDrawCount"
+      />
     </div>
 
     <!-- 抽奖次数 -->
-    <DrawCount :count="drawCount" @increase-count="increaseDrawCount" />
+    <DrawCount
+      :count="drawCount"
+      @increase-count="increaseDrawCount"
+    />
 
     <!-- 中奖记录 -->
     <PrizeHistory :prizes="prizeHistory" />
@@ -16,15 +24,27 @@
   </div>
 
   <!-- 中奖提示 -->
-  <div v-if="showResult" class="result-modal">
+  <div
+    v-if="showResult"
+    class="result-modal"
+  >
     <div class="result-content">
-      <div class="result-title" :class="{ 'no-win': !currentPrize.isWin }">
+      <div
+        class="result-title"
+        :class="{ 'no-win': !currentPrize.isWin }"
+      >
         {{ currentPrize.isWin ? '恭喜您' : '感谢参与' }}
       </div>
-      <div class="result-prize" v-if="currentPrize.isWin">
+      <div
+        v-if="currentPrize.isWin"
+        class="result-prize"
+      >
         获得了 {{ currentPrize.name }}
       </div>
-      <div class="result-btn" @click="closeResult">
+      <div
+        class="result-btn"
+        @click="closeResult"
+      >
         确定
       </div>
     </div>
@@ -33,11 +53,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { Prize } from '@/constant/prizes';
 import LuckyWheel from './components/lucky-wheel.vue';
 import DrawCount from './components/draw-count.vue';
 import ActivityInfo from './components/activity-info.vue';
 import PrizeHistory from './components/prize-history.vue';
-import { Prize } from '@/constant/prizes';
 
 // 抽奖次数
 const drawCount = ref(1);
@@ -50,7 +70,7 @@ const showResult = ref(false);
 const currentPrize = ref<Prize>({
   id: 0,
   name: '',
-  isWin: false
+  isWin: false,
 });
 
 // 关闭结果弹窗
@@ -61,18 +81,17 @@ const closeResult = () => {
 // 减少抽奖次数
 const decreaseDrawCount = () => {
   if (drawCount.value > 0) {
-    drawCount.value--;
+    drawCount.value -= 1;
   }
 };
 
 // 增加抽奖次数
 const increaseDrawCount = () => {
-  drawCount.value++;
+  drawCount.value += 1;
 };
 
 // 处理抽奖完成事件
 const handlePrizeDrawn = (result: Prize) => {
-  console.log('抽奖完成，获得奖品：', result.name);
   currentPrize.value = result;
   showResult.value = true;
   // 如果是中奖的奖品，添加到历史记录中

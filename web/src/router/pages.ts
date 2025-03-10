@@ -14,6 +14,13 @@ const pages: RouteRecordRaw[] = [
     name: 'jigsaw',
     component: () => import('@/pages/jigsaw/index.vue'),
   },
+
+  // 兑奖
+  {
+    path: '/redeem',
+    name: 'redeem',
+    component: () => import('@/pages/redeem/index.vue'),
+  },
 ];
 
 export default pages;

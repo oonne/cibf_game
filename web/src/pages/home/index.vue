@@ -6,7 +6,7 @@
     </div>
 
     <!-- 抽奖次数 -->
-    <DrawCount :count="drawCount" />
+    <DrawCount :count="drawCount" @increase-count="increaseDrawCount" />
 
     <!-- 中奖结果 -->
     <PrizeHistory :prize="lastPrize" />
@@ -40,7 +40,7 @@ import PrizeHistory from './components/prize-history.vue';
 import { Prize } from '@/constant/prizes';
 
 // 抽奖次数
-const drawCount = ref(2);
+const drawCount = ref(0);
 
 // 记录上次抽中的奖品
 const lastPrize = ref('');
@@ -59,6 +59,11 @@ const decreaseDrawCount = () => {
   if (drawCount.value > 0) {
     drawCount.value--;
   }
+};
+
+// 增加抽奖次数
+const increaseDrawCount = () => {
+  drawCount.value++;
 };
 
 // 处理抽奖完成事件

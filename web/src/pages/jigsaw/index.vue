@@ -71,13 +71,15 @@ const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   }
   event.preventDefault();
 
-  // 获取
-  // const pos = event instanceof MouseEvent ? event : event.touches[0];
-  // const { pageX, pageY } = pos;
-  // console.log('pageX', pageX);
-  // console.log('pageY', pageY);
+  // 获取当前拖拽点的位置
+  const pos = event instanceof MouseEvent ? event : event.touches[0];
+  const { pageX, pageY } = pos;
 
-  const updatedPiece = { ...piece };
+  // 计算离开初始触摸位置的距离，换算成vw
+  const x = (pageX - piece.touchX) / vwSize.value;
+  const y = (pageY - piece.touchY) / vwSize.value;
+
+  const updatedPiece = { ...piece, currentX: piece.currentX + x, currentY: piece.currentY - y };
   Object.assign(piece, updatedPiece);
 };
 
@@ -122,6 +124,7 @@ const onTransitionEnd = (piece: PuzzlePiece) => {
 /* 获取vw单位对应的像素值 */
 const getVwSize = () => {
   vwSize.value = document.documentElement.clientWidth / 100;
+  console.log('vwSize', vwSize.value);
 };
 
 /* 进入页面 */

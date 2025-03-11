@@ -58,9 +58,6 @@ import { PuzzlePiece, piecesList } from './pieces-list';
 const router = useRouter();
 const pieces = ref<PuzzlePiece[]>(piecesList);
 
-// 是否显示结果弹窗
-const showResult = ref(false);
-
 /*
  * 配置值
  */
@@ -70,20 +67,24 @@ const vwSize = ref(1); // vw单位对应的像素值
 /*
  * 判断是否完成拼图
  */
+// 是否显示结果弹窗
+const showResult = ref(false);
+
+// 检查所有拼图块是否都在正确位置
 const checkIsComplete = () => {
-  // 检查所有拼图块是否都在正确位置
   const isComplete = pieces.value.every((piece) => piece.isCorrect);
 
-  if (isComplete) {
-    showResult.value = true;
+  if (!isComplete) {
+    return;
   }
+
+  showResult.value = true;
 };
 
-/* 处理弹窗确认 */
+// 弹框确认时返回
 const handleConfirm = () => {
   showResult.value = false;
-  // 返回首页
-  router.push({ name: 'home' });
+  router.back();
 };
 
 /* 开始拖拽 */
@@ -129,7 +130,6 @@ const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   };
 
   Object.assign(piece, updatedPiece);
-  checkIsComplete();
 };
 
 /*
@@ -157,6 +157,9 @@ const endDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
     currentY: isCorrect ? piece.correctY : piece.initialY,
   };
   Object.assign(piece, updatedPiece);
+
+  // 检查是否完成拼图
+  checkIsComplete();
 };
 
 /* 动画结束后的处理 */

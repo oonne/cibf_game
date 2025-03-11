@@ -29,36 +29,18 @@
   <ActivityInfo />
 
   <!-- 中奖提示 -->
-  <div
-    v-if="showResult"
-    class="result-modal"
-  >
-    <div class="result-content">
-      <div
-        class="result-title"
-        :class="{ 'no-win': !currentPrize.isWin }"
-      >
-        {{ currentPrize.isWin ? '恭喜您' : '感谢参与' }}
-      </div>
-      <div
-        v-if="currentPrize.isWin"
-        class="result-prize"
-      >
-        获得了 {{ currentPrize.name }}
-      </div>
-      <div
-        class="result-btn"
-        @click="closeResult"
-      >
-        确定
-      </div>
-    </div>
-  </div>
+  <ModalPopup
+    :show="showResult"
+    :title="currentPrize.isWin ? '恭喜您' : '感谢参与'"
+    :content="currentPrize.isWin ? `获得了 ${currentPrize.name}` : ''"
+    @confirm="closeResult"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Prize } from '@/constant/prizes';
+import ModalPopup from '@/components/modal-popup.vue';
 import LuckyWheel from './components/lucky-wheel.vue';
 import DrawCount from './components/draw-count.vue';
 import ActivityInfo from './components/activity-info.vue';

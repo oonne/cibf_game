@@ -9,6 +9,6 @@ docker compose build
 echo "构建镜像完成"
 
 # 保存镜像
-rm -rf nest_demo_image.tar
-docker save -o nest_demo_image.tar nest_demo
-echo "镜像已保存为 nest_demo_image.tar"
+rm -rf game_api_image.tar
+docker save -o game_api_image.tar game_api
+echo "镜像已保存为 game_api_image.tar"

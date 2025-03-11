@@ -3,16 +3,17 @@
     class="header"
     @click="$emit('update:collapsed', !collapsed)"
   >
-    <!-- Ring -->
+    <!-- LOGO -->
     <div
       class="sidebar-logo"
-      :style="logoStyle"
+      :class="{ 'sidebar-logo-collapsed': collapsed }"
     >
       <img
-        :src="AuraImg"
-        class="logo-rotation"
-        :class="`${collapsed ? 'logo-collapsed' : 'logo'}`"
-        :style="rotationStyle"
+        :src="logoImg"
+        class="logo"
+        :class="{
+          'logo-collapsed': collapsed,
+        }"
       >
     </div>
   </div>
@@ -74,13 +75,13 @@
 
 <script lang="ts" setup>
 import {
-  ref, watch, computed, onMounted,
+  ref, watch, computed,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStaffStore } from '@/store/index';
 import SideMenuConfig, { ISideConfig } from '@/config/side-menu';
 import Icon from '@/components/icon-svg/index.vue';
-import AuraImg from '@/assets/img/aura.png';
+import logoImg from '@/assets/img/logo.png';
 
 const route = useRoute();
 const router = useRouter();
@@ -166,28 +167,6 @@ const onSelectMenu = (selectedItem: any) => {
   const key = selectedItem.key as string;
   router.push({ name: key });
 };
-
-/* 旋转光环 */
-const logoStyle = ref({});
-const rotationStyle = ref({});
-
-const initStyle = () => {
-  const now = new Date();
-  const seconds = now.getSeconds();
-  const animationDelay = `-${seconds}s`;
-  logoStyle.value = {
-    'animation-delay': animationDelay,
-    'background-image': 'linear-gradient(135deg, #e7604a, #de6262)',
-  };
-  rotationStyle.value = {
-    display: 'block',
-    'animation-delay': animationDelay,
-  };
-};
-
-onMounted(() => {
-  initStyle();
-});
 </script>
 
 <style scoped>
@@ -199,71 +178,23 @@ onMounted(() => {
 /* LOGO */
 .sidebar-logo {
   display: block;
-  background-image: -webkit-linear-gradient(135deg, #333, #333);
-  background-image: linear-gradient(135deg, #333, #333);
-  animation: hue 60s linear infinite;
+  background-color: #efefef;
   padding: 4px;
   width: 200px;
   height: 80px;
 }
 
-@-webkit-keyframes hue {
-  from {
-    -webkit-filter: hue-rotate(0deg);
-    filter: hue-rotate(0deg);
-  }
-
-  to {
-    -webkit-filter: hue-rotate(-360deg);
-    filter: hue-rotate(-360deg);
-  }
+.sidebar-logo-collapsed {
+  height: 36px;
 }
 
-@keyframes hue {
-  from {
-    -webkit-filter: hue-rotate(0deg);
-    filter: hue-rotate(0deg);
-  }
-
-  to {
-    -webkit-filter: hue-rotate(-360deg);
-    filter: hue-rotate(-360deg);
-  }
+.sidebar-logo .logo {
+  width: 190px;
+  transition: all 0.3s;
 }
 
-.sidebar-logo img {
-  height: 72px;
+.sidebar-logo .logo-collapsed {
   width: 72px;
-}
-
-.logo-rotation {
-  display: none;
-  -webkit-animation: rotation linear 30s infinite;
-  animation: rotation linear 30s infinite;
-}
-
-@-webkit-keyframes rotation {
-  from {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  to {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes rotation {
-  from {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  to {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
 }
 
 /* 菜单 */

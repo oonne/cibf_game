@@ -111,7 +111,7 @@ import { recycleApi } from '@/api/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
 import TextContent from '@/components/text-content/index';
 import type { IRecycle } from '@/types/recycle';
-import { getRecycleTypeName } from './recycle-utils';
+import { getRecycleTypeName, getRecycleTypeFilters } from './recycle-utils';
 
 const router = useRouter();
 const { confirmModal } = Feedback;
@@ -129,16 +129,7 @@ const columns = ref<TableColumnsType>([
     title: '类型',
     key: 'type',
     sorter: true,
-    filters: [
-      {
-        text: '账号',
-        value: 1,
-      },
-      {
-        text: '配置',
-        value: 2,
-      },
-    ],
+    filters: getRecycleTypeFilters(),
     resizable: true,
     width: 100,
   },

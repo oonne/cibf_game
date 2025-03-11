@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrap">
     <h1 class="title">
-      耀你好看·点亮深圳
+      倒计时
     </h1>
   </div>
 
@@ -39,19 +39,52 @@
       @transitionend="onTransitionEnd(piece)"
     />
   </div>
+
+  <!-- 结果弹窗 -->
+  <modal-popup
+    :show="showResult"
+    title="恭喜您"
+    content="获得了抽奖机会+1"
+    @confirm="handleConfirm"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+import ModalPopup from '@/components/modal-popup.vue';
 import { PuzzlePiece, piecesList } from './pieces-list';
 
+const router = useRouter();
 const pieces = ref<PuzzlePiece[]>(piecesList);
 
+// 是否显示结果弹窗
+const showResult = ref(false);
+
 /*
- * 拼图块
+ * 配置值
  */
 const SNAP_THRESHOLD = 10; // 吸附阈值(单位：vw)
 const vwSize = ref(1); // vw单位对应的像素值
+
+/*
+ * 判断是否完成拼图
+ */
+const checkIsComplete = () => {
+  // 检查所有拼图块是否都在正确位置
+  const isComplete = pieces.value.every((piece) => piece.isCorrect);
+
+  if (isComplete) {
+    showResult.value = true;
+  }
+};
+
+/* 处理弹窗确认 */
+const handleConfirm = () => {
+  showResult.value = false;
+  // 返回首页
+  router.push({ name: 'home' });
+};
 
 /* 开始拖拽 */
 const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
@@ -96,6 +129,7 @@ const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   };
 
   Object.assign(piece, updatedPiece);
+  checkIsComplete();
 };
 
 /*
@@ -125,9 +159,7 @@ const endDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   Object.assign(piece, updatedPiece);
 };
 
-/*
- * 动画结束后的处理
- */
+/* 动画结束后的处理 */
 const onTransitionEnd = (piece: PuzzlePiece) => {
   if (piece.isReturning) {
     const updatedPiece = { ...piece, isReturning: false };

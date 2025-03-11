@@ -147,8 +147,11 @@ const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   const updatedPiece = { ...piece, isDragging: true, isReturning: false };
   const pos = event instanceof MouseEvent ? event : event.touches[0];
   const rect = (event.target as HTMLElement).getBoundingClientRect();
+
+  // 更新拖拽偏移量的计算
   updatedPiece.dragOffsetX = pos.clientX - rect.left;
-  updatedPiece.dragOffsetY = pos.clientY - rect.top;
+  updatedPiece.dragOffsetY = pos.clientY - rect.top - window.scrollY;
+
   Object.assign(piece, updatedPiece);
 };
 
@@ -156,9 +159,16 @@ const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   if (!piece.isDragging) return;
   event.preventDefault();
   const pos = event instanceof MouseEvent ? event : event.touches[0];
+  const piecesArea = document.querySelector('.pieces-area');
+  if (!piecesArea) return;
+
+  const piecesAreaRect = piecesArea.getBoundingClientRect();
   const updatedPiece = { ...piece };
-  updatedPiece.currentX = pos.clientX - piece.dragOffsetX;
-  updatedPiece.currentY = pos.clientY - piece.dragOffsetY;
+
+  // 计算相对于pieces-area的位置
+  updatedPiece.currentX = pos.clientX - piecesAreaRect.left - piece.dragOffsetX;
+  updatedPiece.currentY = pos.clientY - piecesAreaRect.top - piece.dragOffsetY + window.scrollY;
+
   Object.assign(piece, updatedPiece);
 };
 

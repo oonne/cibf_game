@@ -59,11 +59,11 @@ const router = useRouter();
 const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
 
 /*
- * 配置值
+ * 游戏控制
  */
 const SNAP_THRESHOLD = 10; // 吸附阈值(单位：vw)
 const vwSize = ref(1); // vw单位对应的像素值
-const countDown = ref(10); // 倒计时
+const countDown = ref(100); // 倒计时
 let timer: number | null = null; // 计时器
 const isGameOver = ref(false); // 游戏是否结束
 

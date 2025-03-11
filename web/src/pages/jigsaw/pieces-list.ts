@@ -37,7 +37,39 @@ const piecesWidth = 27;
 // 拼图块突出的长度
 const piecesOverlap = 36.31;
 // jigsaw-wrap的高度
-const jigsawWrapHeight = 240;
+const jigsawWrapHeight = 220;
+
+// 生成随机位置
+const generateRandomPositions = () => {
+  const positions: { x: number; y: number }[] = [];
+  const rows = 3;
+  const cols = 5;
+  const startX = 0; // 起始X坐标
+  const startY = 0; // 起始Y坐标
+  const spacingX = 17; // X方向间距
+  const spacingY = 20; // Y方向间距
+
+  // 生成所有可能的位置
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      positions.push({
+        x: startX + col * spacingX,
+        y: startY + row * spacingY,
+      });
+    }
+  }
+
+  // 随机打乱位置
+  for (let i = positions.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [positions[i], positions[j]] = [positions[j], positions[i]];
+  }
+
+  return positions;
+};
+
+// 获取随机位置
+const randomPositions = generateRandomPositions();
 
 // 拼图块列表
 export const piecesList: PuzzlePiece[] = [
@@ -46,10 +78,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block11,
     width: piecesOverlap,
     height: piecesWidth,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[0].x,
+    initialY: randomPositions[0].y,
+    currentX: randomPositions[0].x,
+    currentY: randomPositions[0].y,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
     touchX: 0,
@@ -63,10 +95,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block12,
     width: piecesOverlap,
     height: piecesWidth,
-    initialX: 0,
-    currentX: 0,
-    currentY: 0,
-    initialY: 0,
+    initialX: randomPositions[1].x,
+    initialY: randomPositions[1].y,
+    currentX: randomPositions[1].x,
+    currentY: randomPositions[1].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
     touchX: 0,
@@ -80,10 +112,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block13,
     width: piecesWidth,
     height: piecesWidth,
-    initialX: 0,
-    currentX: 0,
-    currentY: 0,
-    initialY: 0,
+    initialX: randomPositions[2].x,
+    initialY: randomPositions[2].y,
+    currentX: randomPositions[2].x,
+    currentY: randomPositions[2].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
     touchX: 0,
@@ -97,10 +129,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block21,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    currentX: 0,
-    currentY: 0,
-    initialY: 0,
+    initialX: randomPositions[3].x,
+    initialY: randomPositions[3].y,
+    currentX: randomPositions[3].x,
+    currentY: randomPositions[3].y,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
     touchX: 0,
@@ -114,10 +146,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block22,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    currentX: 0,
-    currentY: 0,
-    initialY: 0,
+    initialX: randomPositions[4].x,
+    initialY: randomPositions[4].y,
+    currentX: randomPositions[4].x,
+    currentY: randomPositions[4].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
     touchX: 0,
@@ -131,10 +163,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block23,
     width: piecesWidth,
     height: piecesOverlap,
-    initialX: 0,
-    currentX: 0,
-    currentY: 0,
-    initialY: 0,
+    initialX: randomPositions[5].x,
+    initialY: randomPositions[5].y,
+    currentX: randomPositions[5].x,
+    currentY: randomPositions[5].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
     touchX: 0,
@@ -148,10 +180,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block31,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[6].x,
+    initialY: randomPositions[6].y,
+    currentX: randomPositions[6].x,
+    currentY: randomPositions[6].y,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
     touchX: 0,
@@ -165,10 +197,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block32,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    currentX: 0,
-    currentY: 0,
-    initialY: 0,
+    initialX: randomPositions[7].x,
+    initialY: randomPositions[7].y,
+    currentX: randomPositions[7].x,
+    currentY: randomPositions[7].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
     touchX: 0,
@@ -182,10 +214,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block33,
     width: piecesWidth,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[8].x,
+    initialY: randomPositions[8].y,
+    currentX: randomPositions[8].x,
+    currentY: randomPositions[8].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
     touchX: 0,
@@ -199,10 +231,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block41,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[9].x,
+    initialY: randomPositions[9].y,
+    currentX: randomPositions[9].x,
+    currentY: randomPositions[9].y,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
     touchX: 0,
@@ -216,10 +248,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block42,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[10].x,
+    initialY: randomPositions[10].y,
+    currentX: randomPositions[10].x,
+    currentY: randomPositions[10].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
     touchX: 0,
@@ -233,10 +265,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block43,
     width: piecesWidth,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[11].x,
+    initialY: randomPositions[11].y,
+    currentX: randomPositions[11].x,
+    currentY: randomPositions[11].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
     touchX: 0,
@@ -250,10 +282,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block51,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[12].x,
+    initialY: randomPositions[12].y,
+    currentX: randomPositions[12].x,
+    currentY: randomPositions[12].y,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
     touchX: 0,
@@ -267,10 +299,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block52,
     width: piecesOverlap,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[13].x,
+    initialY: randomPositions[13].y,
+    currentX: randomPositions[13].x,
+    currentY: randomPositions[13].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
     touchX: 0,
@@ -284,10 +316,10 @@ export const piecesList: PuzzlePiece[] = [
     image: block53,
     width: piecesWidth,
     height: piecesOverlap,
-    initialX: 0,
-    initialY: 0,
-    currentX: 0,
-    currentY: 0,
+    initialX: randomPositions[14].x,
+    initialY: randomPositions[14].y,
+    currentX: randomPositions[14].x,
+    currentY: randomPositions[14].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
     touchX: 0,

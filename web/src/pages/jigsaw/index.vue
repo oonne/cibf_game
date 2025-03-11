@@ -166,7 +166,7 @@ onUnmounted(() => {
 
 .jigsaw-wrap {
   width: 100vw;
-  height: 240vw;
+  height: 220vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -210,7 +210,7 @@ onUnmounted(() => {
   touch-action: none;
   user-select: none;
   z-index: 10;
-  transform: scale(0.7);
+  transform: scale(0.5);
   transition: all 0.3s;
 }
 

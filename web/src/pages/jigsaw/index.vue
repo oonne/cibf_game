@@ -75,11 +75,22 @@ const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   const pos = event instanceof MouseEvent ? event : event.touches[0];
   const { pageX, pageY } = pos;
 
-  // 计算离开初始触摸位置的距离，换算成vw
-  const x = (pageX - piece.touchX) / vwSize.value;
-  const y = (pageY - piece.touchY) / vwSize.value;
+  // 计算移动的像素距离
+  const deltaX = pageX - piece.touchX;
+  const deltaY = pageY - piece.touchY;
 
-  const updatedPiece = { ...piece, currentX: piece.currentX + x, currentY: piece.currentY - y };
+  // 将当前位置从vw转为px，加上移动距离，再转回vw
+  const currentXPx = piece.currentX * vwSize.value;
+  const currentYPx = piece.currentY * vwSize.value;
+
+  const updatedPiece = {
+    ...piece,
+    currentX: (currentXPx + deltaX) / vwSize.value,
+    currentY: (currentYPx - deltaY) / vwSize.value,
+    touchX: pageX,
+    touchY: pageY,
+  };
+
   Object.assign(piece, updatedPiece);
 };
 

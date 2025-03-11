@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrap">
     <h1 class="title">
-      倒计时
+      倒计时：{{ countDown }}秒
     </h1>
   </div>
 
@@ -43,8 +43,8 @@
   <!-- 结果弹窗 -->
   <modal-popup
     :show="showResult"
-    title="恭喜您"
-    content="获得了抽奖机会+1"
+    :title="title"
+    :content="content"
     @confirm="handleConfirm"
   />
 </template>
@@ -56,19 +56,53 @@ import ModalPopup from '@/components/modal-popup.vue';
 import { PuzzlePiece, piecesList } from './pieces-list';
 
 const router = useRouter();
-const pieces = ref<PuzzlePiece[]>(piecesList);
+const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
 
 /*
  * 配置值
  */
 const SNAP_THRESHOLD = 10; // 吸附阈值(单位：vw)
 const vwSize = ref(1); // vw单位对应的像素值
+const countDown = ref(10); // 倒计时
+let timer: number | null = null; // 计时器
+const isGameOver = ref(false); // 游戏是否结束
 
-/*
- * 判断是否完成拼图
- */
 // 是否显示结果弹窗
 const showResult = ref(false);
+
+// 弹窗标题和内容
+const title = ref('恭喜您');
+const content = ref('获得了抽奖机会+1');
+
+// 停止倒计时
+const stopCountDown = () => {
+  if (timer) {
+    window.clearInterval(timer);
+    timer = null;
+  }
+};
+
+// 结束游戏
+const endGame = (isSuccess: boolean) => {
+  stopCountDown();
+  isGameOver.value = true;
+  showResult.value = true;
+  if (!isSuccess) {
+    title.value = '游戏失败';
+    content.value = '请再接再厉';
+  }
+};
+
+// 开始倒计时
+const startCountDown = () => {
+  timer = window.setInterval(() => {
+    if (countDown.value > 0) {
+      countDown.value -= 1;
+    } else {
+      endGame(false);
+    }
+  }, 1000);
+};
 
 // 检查所有拼图块是否都在正确位置
 const checkIsComplete = () => {
@@ -78,7 +112,7 @@ const checkIsComplete = () => {
     return;
   }
 
-  showResult.value = true;
+  endGame(true);
 };
 
 // 弹框确认时返回
@@ -90,7 +124,7 @@ const handleConfirm = () => {
 /* 开始拖拽 */
 const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   event.preventDefault();
-  if (piece.isDragging || piece.isCorrect || piece.isReturning) {
+  if (piece.isDragging || piece.isCorrect || piece.isReturning || isGameOver.value) {
     return;
   }
   const pos = event instanceof MouseEvent ? event : event.touches[0];
@@ -178,12 +212,13 @@ const getVwSize = () => {
 /* 进入页面 */
 onMounted(() => {
   getVwSize();
-
+  startCountDown();
   window.addEventListener('resize', getVwSize);
 });
 
 /* 离开页面 */
 onUnmounted(() => {
+  stopCountDown();
   window.removeEventListener('resize', getVwSize);
 });
 </script>

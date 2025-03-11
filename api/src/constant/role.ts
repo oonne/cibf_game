@@ -7,7 +7,7 @@ interface IRole {
 const roleList: IRole[] = [
   {
     key: 1,
-    name: '超级管理员',
+    name: '管理员',
   },
   {
     key: 2,

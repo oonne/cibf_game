@@ -79,8 +79,7 @@
 
       <!-- 角色 -->
       <template v-if="column.key === 'role'">
-        <span v-if="record.role === 1">管理员</span>
-        <span v-if="record.role === 2">合伙人</span>
+        {{ getRoleName(record.role) }}
       </template>
 
       <!-- RefreshToken -->
@@ -149,6 +148,7 @@ import { staffApi } from '@/api/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
 import Icon from '@/components/icon-svg/index.vue';
 import type { IStaff } from '@/types/staff';
+import { getRoleName, getRoleFilters } from './staff-utils';
 
 const router = useRouter();
 const { confirmModal, copyText } = Feedback;
@@ -195,16 +195,7 @@ const columns = ref<TableColumnsType>([
     title: '角色',
     key: 'role',
     sorter: true,
-    filters: [
-      {
-        text: '管理员',
-        value: 1,
-      },
-      {
-        text: '合伙人',
-        value: 2,
-      },
-    ],
+    filters: getRoleFilters(),
     resizable: true,
     width: 150,
   },

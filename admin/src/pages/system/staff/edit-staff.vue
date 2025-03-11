@@ -30,11 +30,12 @@
 
       <a-form-item label="角色">
         <a-select v-model:value="formData.role">
-          <a-select-option :value="1">
-            管理员
-          </a-select-option>
-          <a-select-option :value="2">
-            合伙人
+          <a-select-option
+            v-for="item in roleList"
+            :key="item.type"
+            :value="item.type"
+          >
+            {{ item.name }}
           </a-select-option>
         </a-select>
       </a-form-item>
@@ -62,6 +63,7 @@ import { emit as busEmit } from 'eventbus-typescript';
 import { staffApi } from '@/api/index';
 import { useStaffStore } from '@/store/index';
 import { to, buildErrorMsg, Utils } from '@/utils/index';
+import roleList from '@/constant/role';
 import type { IStaff } from '@/types/staff';
 
 const route = useRoute();

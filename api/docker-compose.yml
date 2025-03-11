@@ -1,0 +1,24 @@
+name: nest_demo
+
+services:
+  # Node应用服务配置
+  nest_demo:
+    image: nest_demo
+    container_name: nest_demo  # 容器名称
+    platform: linux/amd64 # 构建后到服务端使用
+    build:
+      context: .  # 使用当前目录作为构建上下文
+      dockerfile: Dockerfile
+    restart: unless-stopped # 自动重启
+    ports:
+      - "10011:10011"  # 映射应用端口
+    environment:
+      # - NODE_ENV=production
+      # 使用宿主机的网络，可以通过 host.docker.internal 访问宿主机的服务
+      - DB_HOST=host.docker.internal 
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - /Users/jay/dev/nest_demo/logs:/app/logs # 挂载日志目录
+      - /Users/jay/dev/nest_demo/file_storage:/app/file_storage # 挂载文件存储目录
+      - /Users/jay/dev/nest_demo/blog:/app/blog  # 挂载博客目录

@@ -25,6 +25,8 @@ export interface PuzzlePiece {
   currentY: number; // 当前y坐标（单位：vw）
   correctX: number; // 正确x坐标（单位：vw）
   correctY: number; // 正确y坐标（单位：vw）
+  touchX: number; // 开始拖拽时触摸的x坐标（单位：px）
+  touchY: number; // 开始拖拽时触摸的y坐标（单位：px）
   isDragging: boolean; // 是否正在拖拽
   isReturning: boolean; // 是否正在返回
   isCorrect: boolean; // 是否正确
@@ -35,7 +37,7 @@ const piecesWidth = 30;
 // 拼图块突出的长度
 const piecesOverlap = 40.35;
 // jigsaw-wrap的高度
-const jigsawWrapHeight = 200;
+const jigsawWrapHeight = 240;
 
 // 拼图块列表
 export const piecesList: PuzzlePiece[] = [
@@ -50,6 +52,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -65,6 +69,8 @@ export const piecesList: PuzzlePiece[] = [
     initialY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -80,6 +86,8 @@ export const piecesList: PuzzlePiece[] = [
     initialY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -95,6 +103,8 @@ export const piecesList: PuzzlePiece[] = [
     initialY: 0,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -110,6 +120,8 @@ export const piecesList: PuzzlePiece[] = [
     initialY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -125,6 +137,8 @@ export const piecesList: PuzzlePiece[] = [
     initialY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -140,6 +154,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -155,6 +171,8 @@ export const piecesList: PuzzlePiece[] = [
     initialY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -170,6 +188,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -185,6 +205,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -200,6 +222,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -215,6 +239,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -230,6 +256,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -245,6 +273,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,
@@ -260,6 +290,8 @@ export const piecesList: PuzzlePiece[] = [
     currentY: 0,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
     correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
+    touchX: 0,
+    touchY: 0,
     isDragging: false,
     isReturning: false,
     isCorrect: false,

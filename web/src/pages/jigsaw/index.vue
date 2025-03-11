@@ -1,5 +1,10 @@
 <template>
-  <h1>耀你好看·点亮深圳</h1>
+  <div class="header-wrap">
+    <h1 class="title">
+      耀你好看·点亮深圳
+    </h1>
+  </div>
+
   <div class="jigsaw-wrap">
     <!-- 画布区域 -->
     <div class="canvas-grid">
@@ -33,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { PuzzlePiece, piecesList } from './pieces-list';
 
 const pieces = ref<PuzzlePiece[]>(piecesList);
@@ -41,33 +46,38 @@ const pieces = ref<PuzzlePiece[]>(piecesList);
 /*
  *拼图块
  */
-const SNAP_THRESHOLD = 30; // 吸附阈值
+const SNAP_THRESHOLD = 10; // 吸附阈值(单位：vw)
+const vwSize = ref(1); // vw单位对应的像素值
 
 /* 开始拖拽 */
 const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   event.preventDefault();
-  const updatedPiece = { ...piece, isDragging: true, isReturning: false };
-  // const pos = event instanceof MouseEvent ? event : event.touches[0];
-  // const rect = (event.target as HTMLElement).getBoundingClientRect();
+  if (piece.isDragging || piece.isCorrect || piece.isReturning) {
+    return;
+  }
+  const pos = event instanceof MouseEvent ? event : event.touches[0];
+  const { pageX, pageY } = pos;
 
-  // // 更新拖拽偏移量的计算
-  // updatedPiece.dragOffsetX = pos.clientX - rect.left;
-  // updatedPiece.dragOffsetY = pos.clientY - rect.top - window.scrollY;
-
+  const updatedPiece = {
+    ...piece, isDragging: true, isReturning: false, touchX: pageX, touchY: pageY,
+  };
   Object.assign(piece, updatedPiece);
 };
 
 /* 拖拽中 */
 const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
-  if (!piece.isDragging) return;
+  if (!piece.isDragging) {
+    return;
+  }
   event.preventDefault();
+
+  // 获取
   // const pos = event instanceof MouseEvent ? event : event.touches[0];
-  // const piecesArea = document.querySelector('.pieces-area');
-  // if (!piecesArea) return;
+  // const { pageX, pageY } = pos;
+  // console.log('pageX', pageX);
+  // console.log('pageY', pageY);
 
-  // const piecesAreaRect = piecesArea.getBoundingClientRect();
   const updatedPiece = { ...piece };
-
   Object.assign(piece, updatedPiece);
 };
 
@@ -108,16 +118,42 @@ const onTransitionEnd = (piece: PuzzlePiece) => {
     Object.assign(piece, updatedPiece);
   }
 };
+
+/* 获取vw单位对应的像素值 */
+const getVwSize = () => {
+  vwSize.value = document.documentElement.clientWidth / 100;
+};
+
+/* 进入页面 */
+onMounted(() => {
+  getVwSize();
+
+  window.addEventListener('resize', getVwSize);
+});
+
+/* 离开页面 */
+onUnmounted(() => {
+  window.removeEventListener('resize', getVwSize);
+});
 </script>
 
 <style scoped>
+.header-wrap {
+  padding: 20px 0;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .jigsaw-wrap {
   width: 100vw;
-  height: 200vw;
+  height: 240vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f5f5f5;
   position: relative;
   overflow-x: hidden;
 }
@@ -137,6 +173,7 @@ const onTransitionEnd = (piece: PuzzlePiece) => {
   grid-template-rows: repeat(5, 1fr);
   gap: 1px;
   position: relative;
+  background: #f5f5f5;
 }
 
 .grid-cell {
@@ -158,7 +195,7 @@ const onTransitionEnd = (piece: PuzzlePiece) => {
   touch-action: none;
   user-select: none;
   z-index: 10;
-  transform: scale(0.5);
+  transform: scale(0.6);
   transition: all 0.3s;
 }
 

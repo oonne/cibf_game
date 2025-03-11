@@ -12,32 +12,30 @@
       </div>
     </div>
 
-    <!-- 拼图块区域 -->
-    <div class="pieces-area">
-      <div
-        v-for="(piece, index) in pieces"
-        :key="index"
-        class="puzzle-piece"
-        :class="{ 'returning': piece.isReturning }"
-        :style="{
-          backgroundImage: `url(${piece.image})`,
-          left: piece.currentX + 'px',
-          top: piece.currentY + 'px'
-        }"
-        @touchstart="startDrag($event, piece)"
-        @touchmove="onDrag($event, piece)"
-        @touchend="endDrag($event, piece)"
-        @mousedown="startDrag($event, piece)"
-        @mousemove="onDrag($event, piece)"
-        @mouseup="endDrag($event, piece)"
-        @transitionend="onTransitionEnd(piece)"
-      />
-    </div>
+    <!-- 拼图块 -->
+    <div
+      v-for="(piece, index) in pieces"
+      :key="index"
+      class="puzzle-piece"
+      :class="{ 'returning': piece.isReturning }"
+      :style="{
+        backgroundImage: `url(${piece.image})`,
+        left: piece.currentX + 'px',
+        top: piece.currentY + 'px'
+      }"
+      @touchstart="startDrag($event, piece)"
+      @touchmove="onDrag($event, piece)"
+      @touchend="endDrag($event, piece)"
+      @mousedown="startDrag($event, piece)"
+      @mousemove="onDrag($event, piece)"
+      @mouseup="endDrag($event, piece)"
+      @transitionend="onTransitionEnd(piece)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import block11 from './block/1_1.png';
 import block12 from './block/1_2.png';
 import block13 from './block/1_3.png';
@@ -69,11 +67,6 @@ interface PuzzlePiece {
   dragOffsetY: number;
 }
 
-// 初始化拼图块数据
-const pieces = ref<PuzzlePiece[]>([]);
-const GRID_SIZE = ref(0); // 格子大小，将在mounted时计算
-const SNAP_THRESHOLD = 30; // 吸附阈值
-
 // 获取位置标识
 const getPosition = (index: number) => {
   const row = Math.floor((index - 1) / 3) + 1;
@@ -81,7 +74,12 @@ const getPosition = (index: number) => {
   return `${row}_${col}`;
 };
 
-// 初始化拼图块
+// 初始化拼图块数据
+const pieces = ref<PuzzlePiece[]>([]);
+const GRID_SIZE = ref(0); // 格子大小，将在mounted时计算
+const SNAP_THRESHOLD = 30; // 吸附阈值
+
+/* 初始化拼图块 */
 const initPieces = () => {
   const piecesData: PuzzlePiece[] = [];
   const blockImages = {
@@ -141,7 +139,7 @@ const initPieces = () => {
   pieces.value = piecesData;
 };
 
-// 拖拽相关函数
+/* 开始拖拽 */
 const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   event.preventDefault();
   const updatedPiece = { ...piece, isDragging: true, isReturning: false };
@@ -155,6 +153,7 @@ const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   Object.assign(piece, updatedPiece);
 };
 
+/* 拖拽中 */
 const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   if (!piece.isDragging) return;
   event.preventDefault();
@@ -172,6 +171,9 @@ const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   Object.assign(piece, updatedPiece);
 };
 
+/*
+ * 拖拽结束
+ */
 const endDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   if (!piece.isDragging) return;
   const updatedPiece = { ...piece, isDragging: false };
@@ -185,7 +187,7 @@ const endDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
 
     // 检查是否接近正确位置
     if (Math.abs(relativeX - piece.correctX) < SNAP_THRESHOLD
-        && Math.abs(relativeY - piece.correctY) < SNAP_THRESHOLD) {
+      && Math.abs(relativeY - piece.correctY) < SNAP_THRESHOLD) {
       // 吸附到正确位置
       updatedPiece.currentX = piece.correctX + canvasRect.left;
       updatedPiece.currentY = piece.correctY + canvasRect.top;
@@ -207,15 +209,17 @@ const onTransitionEnd = (piece: PuzzlePiece) => {
   }
 };
 
-onMounted(() => {
+/*
+ * 初始化
+ */
+const init = async () => {
   // 计算格子大小
   const canvasWidth = document.querySelector('.canvas-grid')?.clientWidth || 300;
   GRID_SIZE.value = canvasWidth / 3; // 3列
 
   // 确保pieces-area已经渲染
-  setTimeout(() => {
-    initPieces();
-  }, 100);
+  await nextTick();
+  initPieces();
 
   // 监听窗口大小变化，重新计算拼图块大小
   window.addEventListener('resize', () => {
@@ -224,20 +228,23 @@ onMounted(() => {
       GRID_SIZE.value = element.clientWidth / 3;
     }
   });
+};
+
+/* 进入页面 */
+onMounted(() => {
+  init();
 });
 </script>
 
 <style scoped>
 .jigsaw-game {
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #f5f5f5;
   position: relative;
   overflow-x: hidden;
-  padding-bottom: 300px; /* 为拼图块区域预留空间 */
 }
 
 .canvas-area {
@@ -263,14 +270,6 @@ onMounted(() => {
 .grid-cell {
   border: 1px dashed #999;
   background: rgba(0, 0, 0, 0.05);
-}
-
-.pieces-area {
-  width: 100%;
-  height: 300px;
-  position: relative;
-  margin-top: 20px;
-  background: rgba(0, 0, 0, 0.1);
 }
 
 .puzzle-piece {

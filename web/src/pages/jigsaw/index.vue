@@ -178,9 +178,8 @@ onUnmounted(() => {
  * 画布
  */
 .canvas-grid {
-  margin: calc(5vw - 2px);
-  width: 90vw;
-  height: 150vw;
+  margin: calc(9.5vw - 2px);
+  width: 81vw;
   aspect-ratio: 3/5;
   background: rgba(255, 255, 255, 0.8);
   border: 2px solid #333;
@@ -201,7 +200,7 @@ onUnmounted(() => {
  * 拼图块
  */
 .puzzle-piece {
-  width: 30vw;
+  width: 27vw;
   aspect-ratio: 1;
   position: absolute;
   background-size: contain;
@@ -211,12 +210,12 @@ onUnmounted(() => {
   touch-action: none;
   user-select: none;
   z-index: 10;
-  transform: scale(0.6);
+  transform: scale(0.7);
   transition: all 0.3s;
 }
 
 .puzzle-piece-active {
-  transform: scale(1.1);
+  transform: scale(1.05);
   z-index: 100;
 }
 

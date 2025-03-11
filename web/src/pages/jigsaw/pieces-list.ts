@@ -33,9 +33,9 @@ export interface PuzzlePiece {
 }
 
 // 每个格子的宽度
-const piecesWidth = 30;
+const piecesWidth = 27;
 // 拼图块突出的长度
-const piecesOverlap = 40.35;
+const piecesOverlap = 36.31;
 // jigsaw-wrap的高度
 const jigsawWrapHeight = 240;
 

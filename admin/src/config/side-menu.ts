@@ -31,33 +31,12 @@ const sideMenu: ISideConfig[] = [
       {
         key: 'recycle',
         title: '回收站',
+        roles: [1],
       },
       {
         key: 'setting',
         title: '系统配置',
         roles: [1],
-      },
-    ],
-  },
-
-  // 博客
-  {
-    key: 'blog',
-    title: '博客',
-    icon: 'blog',
-    roles: [1],
-    children: [
-      {
-        key: 'blog-list',
-        title: '博客列表',
-      },
-      {
-        key: 'img-list',
-        title: '图片管理',
-      },
-      {
-        key: 'about-me',
-        title: '关于我',
       },
     ],
   },

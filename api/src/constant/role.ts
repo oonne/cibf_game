@@ -13,6 +13,10 @@ const roleList: IRole[] = [
     key: 2,
     name: '合伙人',
   },
+  {
+    key: 3,
+    name: 'CIBF工作人员',
+  },
 ];
 
 /* 角色key枚举 */

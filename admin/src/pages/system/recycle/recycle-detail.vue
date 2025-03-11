@@ -12,7 +12,7 @@
       label="类型"
       :span="3"
     >
-      {{ typeName }}
+      {{ getRecycleTypeName(detail.type) }}
     </a-descriptions-item>
     <a-descriptions-item label="删除时间">
       {{ dayjs(detail.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { message } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 import dayjs from 'dayjs';
@@ -40,6 +40,7 @@ import { to, buildErrorMsg } from '@/utils/index';
 import Loading from '@/components/loading/index.vue';
 import TextContent from '@/components/text-content/index';
 import type { IRecycle } from '@/types/recycle';
+import { getRecycleTypeName } from './recycle-utils';
 
 const route = useRoute();
 
@@ -49,19 +50,6 @@ const detail = ref<IRecycle>({
   content: '',
 });
 const loading = ref(false);
-
-const typeName = computed(() => {
-  if (detail.value.type === 1) {
-    return '账号';
-  }
-  if (detail.value.type === 2) {
-    return '配置';
-  }
-  if (detail.value.type === 3) {
-    return '博客';
-  }
-  return '';
-});
 
 /* 查询详情 */
 const getDetail = async () => {

@@ -60,9 +60,7 @@
 
       <!-- 类型 -->
       <template v-if="column.key === 'type'">
-        <span v-if="record.type === 1">账号</span>
-        <span v-if="record.type === 2">配置</span>
-        <span v-if="record.type === 3">博客</span>
+        {{ getRecycleTypeName(record.type) }}
       </template>
 
       <!-- 内容 -->
@@ -113,6 +111,7 @@ import { recycleApi } from '@/api/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
 import TextContent from '@/components/text-content/index';
 import type { IRecycle } from '@/types/recycle';
+import { getRecycleTypeName } from './recycle-utils';
 
 const router = useRouter();
 const { confirmModal } = Feedback;
@@ -125,7 +124,6 @@ const columns = ref<TableColumnsType>([
     title: '#',
     key: 'index',
     width: 50,
-    fixed: 'left',
   },
   {
     title: '类型',
@@ -168,7 +166,6 @@ const columns = ref<TableColumnsType>([
     key: 'operation',
     resizable: true,
     width: 100,
-    fixed: 'right',
   },
 ]);
 

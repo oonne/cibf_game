@@ -20,7 +20,7 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    port: 11011,
+    port: 11012,
   },
   build: {
     assetsInlineLimit: 0,

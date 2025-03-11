@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   env: {
     browser: true,
@@ -17,7 +19,7 @@ module.exports = {
       },
       alias: {
         map: [
-          ['@', './src'],
+          ['@', path.resolve(__dirname, './src')],
         ],
         extensions: ['.ts', '.tsx'], // 可忽略的后缀名
       },

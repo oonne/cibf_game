@@ -1,27 +1,32 @@
 <template>
-  <div class="home-wrap">
-    <!-- 转盘 -->
-    <div class="wheel-wrap">
-      <LuckyWheel
-        :draw-count="drawCount"
-        :can-draw="drawCount > 0"
-        @prize-drawn="handlePrizeDrawn"
-        @draw="decreaseDrawCount"
-      />
-    </div>
-
-    <!-- 抽奖次数 -->
-    <DrawCount
-      :count="drawCount"
-      @increase-count="increaseDrawCount"
-    />
-
-    <!-- 中奖记录 -->
-    <PrizeHistory :prizes="prizeHistory" />
-
-    <!-- 活动说明 -->
-    <ActivityInfo />
+  <div class="header-wrap">
+    <h1 class="title">
+      耀你好看·点亮深圳
+    </h1>
+    <h2 class="sub-title">
+      第⼗七届深圳国际电池技术交流会/展览会
+    </h2>
   </div>
+
+  <!-- 转盘 -->
+  <LuckyWheel
+    :draw-count="drawCount"
+    :can-draw="drawCount > 0"
+    @prize-drawn="handlePrizeDrawn"
+    @draw="decreaseDrawCount"
+  />
+
+  <!-- 抽奖次数 -->
+  <DrawCount
+    :count="drawCount"
+    @increase-count="increaseDrawCount"
+  />
+
+  <!-- 中奖记录 -->
+  <PrizeHistory :prizes="prizeHistory" />
+
+  <!-- 活动说明 -->
+  <ActivityInfo />
 
   <!-- 中奖提示 -->
   <div
@@ -102,8 +107,23 @@ const handlePrizeDrawn = (result: Prize) => {
 </script>
 
 <style scoped>
-.wheel-wrap {
-  padding: 60px 0;
+.header-wrap {
+  padding: 20px 0;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.sub-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 400;
 }
 
 /* 结果弹窗 */

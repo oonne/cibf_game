@@ -1,15 +1,13 @@
 <template>
+  <h1>耀你好看·点亮深圳</h1>
   <div class="jigsaw-game">
     <!-- 画布区域 -->
-    <div class="canvas-area">
-      <div class="canvas-grid">
-        <div
-          v-for="i in 15"
-          :key="i"
-          class="grid-cell"
-          :data-position="getPosition(i)"
-        />
-      </div>
+    <div class="canvas-grid">
+      <div
+        v-for="i in 15"
+        :key="i"
+        class="grid-cell"
+      />
     </div>
 
     <!-- 拼图块 -->
@@ -17,7 +15,6 @@
       v-for="(piece, index) in pieces"
       :key="index"
       class="puzzle-piece"
-      :class="{ 'returning': piece.isReturning }"
       :style="{
         backgroundImage: `url(${piece.image})`,
         left: piece.currentX + 'px',
@@ -67,19 +64,14 @@ interface PuzzlePiece {
   dragOffsetY: number;
 }
 
-// 获取位置标识
-const getPosition = (index: number) => {
-  const row = Math.floor((index - 1) / 3) + 1;
-  const col = ((index - 1) % 3) + 1;
-  return `${row}_${col}`;
-};
-
-// 初始化拼图块数据
+/*
+ *拼图块
+ */
 const pieces = ref<PuzzlePiece[]>([]);
 const GRID_SIZE = ref(0); // 格子大小，将在mounted时计算
 const SNAP_THRESHOLD = 30; // 吸附阈值
 
-/* 初始化拼图块 */
+// 初始化拼图块数据
 const initPieces = () => {
   const piecesData: PuzzlePiece[] = [];
   const blockImages = {
@@ -238,7 +230,8 @@ onMounted(() => {
 
 <style scoped>
 .jigsaw-game {
-  width: 100%;
+  width: 100vw;
+  height: 200vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -247,16 +240,13 @@ onMounted(() => {
   overflow-x: hidden;
 }
 
-.canvas-area {
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-}
-
+/*
+ * 画布
+ */
 .canvas-grid {
+  margin: 5vw;
   width: 90vw;
-  max-width: 400px;
+  height: 150vw;
   aspect-ratio: 3/5;
   background: rgba(255, 255, 255, 0.8);
   border: 2px solid #333;
@@ -272,6 +262,9 @@ onMounted(() => {
   background: rgba(0, 0, 0, 0.05);
 }
 
+/*
+ * 拼图块
+ */
 .puzzle-piece {
   width: calc(90vw / 3);
   max-width: calc(400px / 3);
@@ -283,26 +276,12 @@ onMounted(() => {
   cursor: move;
   touch-action: none;
   user-select: none;
-  transition: transform 0.1s;
-  z-index: 1;
-}
-
-.puzzle-piece.returning {
-  transition: left 0.5s ease, top 0.5s ease;
+  transition: all 0.3s;
+  z-index: 10;
 }
 
 .puzzle-piece:active {
   transform: scale(1.05);
   z-index: 100;
-}
-
-@media (max-width: 768px) {
-  .canvas-grid {
-    width: 95vw;
-  }
-
-  .puzzle-piece {
-    width: calc(95vw / 3);
-  }
 }
 </style>

@@ -63,7 +63,7 @@ const handleShare = () => {
   padding: 15px;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
   text-align: center;
 }
 

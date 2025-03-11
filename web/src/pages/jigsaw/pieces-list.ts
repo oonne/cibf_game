@@ -129,8 +129,8 @@ export const piecesList: PuzzlePiece[] = [
   {
     id: '2_3',
     image: block23,
-    width: piecesOverlap,
-    height: piecesWidth,
+    width: piecesWidth,
+    height: piecesOverlap,
     initialX: 0,
     currentX: 0,
     currentY: 0,
@@ -180,8 +180,8 @@ export const piecesList: PuzzlePiece[] = [
   {
     id: '3_3',
     image: block33,
-    width: piecesOverlap,
-    height: piecesWidth,
+    width: piecesWidth,
+    height: piecesOverlap,
     initialX: 0,
     initialY: 0,
     currentX: 0,
@@ -231,8 +231,8 @@ export const piecesList: PuzzlePiece[] = [
   {
     id: '4_3',
     image: block43,
-    width: piecesOverlap,
-    height: piecesWidth,
+    width: piecesWidth,
+    height: piecesOverlap,
     initialX: 0,
     initialY: 0,
     currentX: 0,

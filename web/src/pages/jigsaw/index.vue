@@ -23,15 +23,19 @@
       :class="{ 'puzzle-piece-active': piece.isDragging, 'puzzle-piece-correct': piece.isCorrect }"
       :style="{
         backgroundImage: `url(${piece.image})`,
+        width: piece.width + 'vw',
+        height: piece.height + 'vw',
         left: piece.currentX + 'vw',
         bottom: piece.currentY + 'vw'
       }"
       @touchstart="startDrag($event, piece)"
       @touchmove="onDrag($event, piece)"
       @touchend="endDrag($event, piece)"
+      @touchcancel="endDrag($event, piece)"
       @mousedown="startDrag($event, piece)"
       @mousemove="onDrag($event, piece)"
       @mouseup="endDrag($event, piece)"
+      @mouseleave="endDrag($event, piece)"
       @transitionend="onTransitionEnd(piece)"
     />
   </div>
@@ -44,7 +48,7 @@ import { PuzzlePiece, piecesList } from './pieces-list';
 const pieces = ref<PuzzlePiece[]>(piecesList);
 
 /*
- *拼图块
+ * 拼图块
  */
 const SNAP_THRESHOLD = 10; // 吸附阈值(单位：vw)
 const vwSize = ref(1); // vw单位对应的像素值
@@ -98,33 +102,32 @@ const onDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
  * 拖拽结束
  */
 const endDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
-  if (!piece.isDragging) return;
-  const updatedPiece = { ...piece, isDragging: false };
-
-  // 检查是否在正确位置附近
-  const canvasRect = document.querySelector('.canvas-grid')?.getBoundingClientRect();
-  if (canvasRect) {
-    const pieceRect = (event.target as HTMLElement).getBoundingClientRect();
-    const relativeX = pieceRect.left - canvasRect.left;
-    const relativeY = pieceRect.top - canvasRect.top;
-
-    // 检查是否接近正确位置
-    if (Math.abs(relativeX - piece.correctX) < SNAP_THRESHOLD
-      && Math.abs(relativeY - piece.correctY) < SNAP_THRESHOLD) {
-      // 吸附到正确位置
-      updatedPiece.currentX = piece.correctX + canvasRect.left;
-      updatedPiece.currentY = piece.correctY + canvasRect.top;
-    } else {
-      // 如果没有吸附到正确位置，添加返回初始位置的动画
-      updatedPiece.isReturning = true;
-      updatedPiece.currentX = piece.initialX;
-      updatedPiece.currentY = piece.initialY;
-    }
+  if (!piece.isDragging) {
+    return;
   }
+
+  // 是否靠近正确位置
+  let isCorrect = false;
+  if (Math.abs(piece.currentX - piece.correctX) < SNAP_THRESHOLD
+    && Math.abs(piece.currentY - piece.correctY) < SNAP_THRESHOLD) {
+    isCorrect = true;
+  }
+
+  // 更新拼图块状态
+  const updatedPiece = {
+    ...piece,
+    isDragging: false,
+    isCorrect,
+    isReturning: !isCorrect,
+    currentX: isCorrect ? piece.correctX : piece.initialX,
+    currentY: isCorrect ? piece.correctY : piece.initialY,
+  };
   Object.assign(piece, updatedPiece);
 };
 
-// 动画结束后的处理
+/*
+ * 动画结束后的处理
+ */
 const onTransitionEnd = (piece: PuzzlePiece) => {
   if (piece.isReturning) {
     const updatedPiece = { ...piece, isReturning: false };
@@ -135,7 +138,6 @@ const onTransitionEnd = (piece: PuzzlePiece) => {
 /* 获取vw单位对应的像素值 */
 const getVwSize = () => {
   vwSize.value = document.documentElement.clientWidth / 100;
-  console.log('vwSize', vwSize.value);
 };
 
 /* 进入页面 */
@@ -176,7 +178,7 @@ onUnmounted(() => {
  * 画布
  */
 .canvas-grid {
-  margin: 5vw;
+  margin: calc(5vw - 2px);
   width: 90vw;
   height: 150vw;
   aspect-ratio: 3/5;
@@ -215,6 +217,7 @@ onUnmounted(() => {
 
 .puzzle-piece-active {
   transform: scale(1.1);
+  z-index: 100;
 }
 
 .puzzle-piece-correct {

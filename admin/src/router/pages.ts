@@ -140,6 +140,26 @@ const pages: RouteRecordRaw[] = [
       },
     ],
   },
+
+  /*
+   * CIBF
+   */
+  {
+    path: '/cibf',
+    component: Layout,
+    children: [
+      // 系统配置
+      {
+        path: 'setting',
+        component: () => import('@/pages/cibf/setting/index.vue'),
+        name: 'cibf-setting',
+        meta: {
+          sideKey: 'cibf-setting',
+          title: 'CIBF配置',
+        },
+      },
+    ],
+  },
 ];
 
 export default pages;

@@ -40,6 +40,19 @@ const sideMenu: ISideConfig[] = [
       },
     ],
   },
+
+  // CIBF
+  {
+    key: 'cibf',
+    title: 'CIBF',
+    icon: 'game',
+    children: [
+      {
+        key: 'cibf-setting',
+        title: '游戏配置',
+      },
+    ],
+  },
 ];
 
 export default sideMenu;

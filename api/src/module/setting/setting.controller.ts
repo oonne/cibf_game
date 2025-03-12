@@ -79,27 +79,6 @@ export class SettingController {
   }
 
   /*
-   * 根据key查询设置
-   */
-  @Post('get-setting-by-key')
-  async getSettingByKey(
-    @Body() getSettingByKeyDto: GetSettingByKeyDto,
-  ): Promise<HttpResponse<any>> {
-    const setting = await this.settingService.getDetailByKey(getSettingByKeyDto.key);
-    if (!setting) {
-      return {
-        code: ErrorCode.SETTING_NOT_FOUND,
-        message: '设置不存在',
-      };
-    }
-
-    // 返回字段处理
-    delete setting.id;
-
-    return resSuccess(setting);
-  }
-
-  /*
    * 新增设置
    */
   @Post('add')
@@ -141,6 +120,50 @@ export class SettingController {
     }
 
     const res = await this.settingService.update(updateSettingDto);
+    return resSuccess(res);
+  }
+
+  /*
+   * 根据key查询设置
+   */
+  @Post('get-setting-by-key')
+  async getSettingByKey(
+    @Body() getSettingByKeyDto: GetSettingByKeyDto,
+  ): Promise<HttpResponse<any>> {
+    const setting = await this.settingService.getDetailByKey(getSettingByKeyDto.key);
+    if (!setting) {
+      return {
+        code: ErrorCode.SETTING_NOT_FOUND,
+        message: '设置不存在',
+      };
+    }
+
+    // 返回字段处理
+    delete setting.id;
+
+    return resSuccess(setting);
+  }
+
+  /*
+   * 根据key新增或修改设置
+   */
+  @Post('add-or-update-by-key')
+  @Roles([1])
+  async addOrUpdateByKey(
+    @Body() addOrUpdateSettingByKeyDto: CreateSettingDto,
+  ): Promise<HttpResponse<any>> {
+    const setting = await this.settingService.getDetailByKey(addOrUpdateSettingByKeyDto.key);
+
+    let res;
+    if (setting) {
+      res = await this.settingService.update({
+        ...addOrUpdateSettingByKeyDto,
+        settingId: setting.settingId,
+      });
+    } else {
+      res = await this.settingService.create(addOrUpdateSettingByKeyDto);
+    }
+
     return resSuccess(res);
   }
 

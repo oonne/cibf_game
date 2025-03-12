@@ -43,10 +43,10 @@ export class SettingController {
     // 返回字段处理
     items.forEach((item) => {
       delete item.id;
-      if (item.value.length > 100) {
+      if (item.value?.length > 100) {
         item.value = `${item.value.slice(0, 100)}...`;
       }
-      if (item.remark.length > 100) {
+      if (item.remark?.length > 100) {
         item.remark = `${item.remark.slice(0, 100)}...`;
       }
     });

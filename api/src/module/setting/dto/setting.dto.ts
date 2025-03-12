@@ -35,6 +35,12 @@ export class GetDetailDto {
   settingId: string;
 }
 
+/* 根据key查询设置 */
+export class GetSettingByKeyDto {
+  @IsString()
+  key: string;
+}
+
 /* 新建设置 */
 export class CreateSettingDto {
   @IsString()

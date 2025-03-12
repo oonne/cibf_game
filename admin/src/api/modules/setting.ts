@@ -40,4 +40,20 @@ export default {
       data,
     });
   },
+
+  // 根据key查询设置
+  getSettingByKey(data: object) {
+    return request({
+      url: '/setting/get-setting-by-key',
+      data,
+    });
+  },
+
+  // 根据key新增或修改设置
+  addOrUpdateByKey(data: object) {
+    return request({
+      url: '/setting/add-or-update-by-key',
+      data,
+    });
+  },
 };

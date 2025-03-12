@@ -47,7 +47,7 @@ import ActivityInfo from './components/activity-info.vue';
 import PrizeHistory from './components/prize-history.vue';
 
 // 抽奖次数
-const drawCount = ref(1);
+const drawCount = ref(0);
 
 // 记录中奖记录列表
 const prizeHistory = ref<Prize[]>([]);

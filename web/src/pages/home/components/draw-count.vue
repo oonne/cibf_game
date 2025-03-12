@@ -19,6 +19,13 @@
       >
         分享获取抽奖次数
       </button>
+      <button
+        class="action-btn"
+        :class="{ disabled: hasShared }"
+        @click="handleView"
+      >
+        浏览小程序获取抽奖次数
+      </button>
     </div>
   </div>
 </template>
@@ -40,6 +47,8 @@ const emit = defineEmits(['increase-count']);
 const hasPlayedGame = ref(false);
 // 是否已经分享过
 const hasShared = ref(false);
+// 是否已经浏览过小程序
+const hasViewed = ref(false);
 
 // 处理玩游戏按钮点击
 const handlePlayGame = () => {
@@ -53,6 +62,14 @@ const handleShare = () => {
   if (!hasShared.value) {
     emit('increase-count');
     hasShared.value = true;
+  }
+};
+
+// 处理浏览小程序按钮点击
+const handleView = () => {
+  if (!hasViewed.value) {
+    emit('increase-count');
+    hasViewed.value = true;
   }
 };
 </script>

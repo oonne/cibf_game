@@ -45,6 +45,8 @@ const ErrorCode = {
   USER_NOT_FOUND: 1005001,
   // openId必须唯一
   USER_OPENID_UNIQUE: 1005002,
+  // 活动已结束
+  ACTIVITY_ENDED: 1005003,
 };
 
 export default ErrorCode;

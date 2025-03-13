@@ -167,6 +167,9 @@ const userEntry = async () => {
   if (shared) totalCount += 1;
   if (browsed) totalCount += 1;
   drawCount.value = totalCount - times;
+  if (drawCount.value < 0) {
+    drawCount.value = 0;
+  }
 };
 
 /* 进入页面 */

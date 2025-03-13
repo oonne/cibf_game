@@ -6,6 +6,10 @@
       layout="vertical"
       hide-required-mark
     >
+      <a-form-item label="开启活动">
+        <a-switch v-model:checked="formData.isActive" />
+      </a-form-item>
+
       <a-form-item
         label="奖品一（玩偶）中奖率"
         name="prize_rate_1"
@@ -118,6 +122,7 @@ const SETTING_KEY = 'CIBF_SETTING';
 /* 表单 */
 const formRef = ref();
 const formData = ref({
+  isActive: true,
   prize_rate_1: 0,
   prize_rate_2: 0,
   prize_rate_3: 0,

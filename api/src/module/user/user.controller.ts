@@ -104,9 +104,19 @@ export class UserController {
       await this.UserService.create({
         uuid: userEntryDto.uuid,
         openId: userEntryDto.openId,
+        lastVisitTime: new Date(),
       });
       user = await this.UserService.getDetailByUuid(userEntryDto.uuid);
+    } else {
+      // 更新最后访问时间
+      await this.UserService.update({
+        userId: user.userId,
+        lastVisitTime: new Date(),
+      });
     }
+
+    // 返回字段处理
+    delete user.id;
 
     return resSuccess(user);
   }

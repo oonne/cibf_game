@@ -132,7 +132,9 @@ const userEntry = async () => {
     openid: getUrlParams('openid') || null,
   }));
   if (err) {
-    console.log(err);
+    errorTitle.value = '活动已结束';
+    errorContent.value = '活动已结束，请下次再来参与';
+    showError.value = true;
     return;
   }
   console.log(res);

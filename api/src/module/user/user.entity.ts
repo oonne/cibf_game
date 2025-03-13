@@ -44,6 +44,9 @@ export class User {
   @Column({ comment: '中奖兑换码', nullable: true, length: 255 })
   redeemCode: string;
 
+  @Column({ comment: '是否已兑奖', nullable: false, default: false })
+  hasRedeemed: boolean;
+
   @Column({ comment: '游戏时间', nullable: true })
   gameTime: Date;
 

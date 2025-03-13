@@ -27,7 +27,7 @@ export class UserController {
       hasPlayedGame: getListDto.hasPlayedGame,
       hasShared: getListDto.hasShared,
       hasBrowsed: getListDto.hasBrowsed,
-      winningTimes: getListDto.winningTimes,
+      lotteryTimes: getListDto.lotteryTimes,
       winningPrizeName: getListDto.winningPrizeName,
       redeemCode: getListDto.redeemCode,
     });

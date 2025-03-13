@@ -27,7 +27,7 @@ export class UserService {
     hasPlayedGame,
     hasShared,
     hasBrowsed,
-    winningTimes,
+    lotteryTimes,
     winningPrizeName,
     redeemCode,
   }: {
@@ -40,7 +40,7 @@ export class UserService {
     hasPlayedGame?: boolean;
     hasShared?: boolean;
     hasBrowsed?: boolean;
-    winningTimes?: string;
+    lotteryTimes?: string;
     winningPrizeName?: string;
     redeemCode?: string;
   }): Promise<{ items: User[]; total: number }> {
@@ -56,7 +56,7 @@ export class UserService {
         hasPlayedGame,
         hasShared,
         hasBrowsed,
-        winningTimes: getNumberCondition(winningTimes),
+        lotteryTimes: getNumberCondition(lotteryTimes),
         winningPrizeName: getStringCondition(winningPrizeName),
         redeemCode: getStringCondition(redeemCode),
       },

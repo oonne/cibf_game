@@ -36,7 +36,7 @@ export class User {
   hasBrowsed: boolean;
 
   @Column({ comment: '已抽奖次数', nullable: false, default: 0 })
-  winningTimes: number;
+  lotteryTimes: number;
 
   @Column({ comment: '已中奖品名', nullable: true, length: 255 })
   winningPrizeName: string;

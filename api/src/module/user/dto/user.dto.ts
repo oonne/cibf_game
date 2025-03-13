@@ -40,7 +40,7 @@ export class GetListDto {
 
   @IsString()
   @IsOptional()
-  winningTimes?: string;
+  lotteryTimes?: string;
 
   @IsString()
   @IsOptional()

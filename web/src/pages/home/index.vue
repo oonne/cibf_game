@@ -125,19 +125,26 @@ const initUUID = () => {
   }
 };
 
-// 用户进入
+/* 用户进入 */
 const userEntry = async () => {
   const [err, res] = await to(userApi.userEntry({
     uuid: localStorage.getItem('UUID'),
     openid: getUrlParams('openid') || null,
   }));
+
   if (err) {
+    console.error(err);
     errorTitle.value = '活动已结束';
     errorContent.value = '活动已结束，请下次再来参与';
     showError.value = true;
     return;
   }
-  console.log(res);
+
+  const {
+    hasPlayedGame, hasShared, hasBrowsed, lotteryTimes,
+  } = res.data;
+
+  console.log(hasPlayedGame, hasShared, hasBrowsed, lotteryTimes);
 };
 
 /* 进入页面 */

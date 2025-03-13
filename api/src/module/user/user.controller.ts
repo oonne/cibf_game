@@ -1,10 +1,11 @@
 import { Controller, Post, Body } from '@nestjs/common';
+import { NoLogin } from '../../common/decorator/auth.decorator';
 import { Roles } from '../../common/decorator/roles.decorator';
 import ErrorCode from '../../constant/error-code';
 import { resSuccess } from '../../utils/index';
 import type { HttpResponse, ListResponse } from '../../types/type';
 import { UserService } from './user.service';
-import { GetListDto, GetDetailDto, DeleteUserDto } from './dto/user.dto';
+import { GetListDto, GetDetailDto, DeleteUserDto, UserEntryDto } from './dto/user.dto';
 import type { User } from './user.entity';
 
 @Controller('user')
@@ -81,53 +82,32 @@ export class UserController {
   }
 
   /*
-   * 新用户进入
+   * 用户进入页面
    */
-  // @Post('add')
-  // @Roles([1])
-  // async add(@Body() createUserDto: CreateUserDto): Promise<HttpResponse<any>> {
-  //   // 校验openId唯一
-  //   if (createUserDto.openId) {
-  //     const sameOpenIdUser = await this.UserService.getDetailByOpenId(createUserDto.openId);
-  //     if (sameOpenIdUser) {
-  //       return {
-  //         code: ErrorCode.USER_OPENID_UNIQUE,
-  //         message: 'openId已存在',
-  //       };
-  //     }
-  //   }
+  @Post('user-entry')
+  @NoLogin
+  async userEntry(@Body() userEntryDto: UserEntryDto): Promise<HttpResponse<any>> {
+    // 检查uuid是否存在, 如果用户不存在，则创建用户
+    let user = await this.UserService.getDetailByUuid(userEntryDto.uuid);
+    if (!user) {
+      // 校验openId唯一
+      if (userEntryDto.openId) {
+        const sameOpenIdUser = await this.UserService.getDetailByOpenId(userEntryDto.openId);
+        if (sameOpenIdUser) {
+          return {
+            code: ErrorCode.USER_OPENID_UNIQUE,
+            message: 'openId与uuid不匹配',
+          };
+        }
+      }
 
-  //   // 写入数据库
-  //   const res = this.UserService.create(createUserDto);
-  //   return resSuccess(res);
-  // }
+      await this.UserService.create({
+        uuid: userEntryDto.uuid,
+        openId: userEntryDto.openId,
+      });
+      user = await this.UserService.getDetailByUuid(userEntryDto.uuid);
+    }
 
-  /*
-   * 更新用户
-   */
-  // @Post('update')
-  // @Roles([1])
-  // async update(@Body() updateUserDto: UpdateUserDto): Promise<HttpResponse<any>> {
-  //   const user = await this.UserService.getDetail(updateUserDto.userId);
-  //   if (!user) {
-  //     return {
-  //       code: ErrorCode.USER_NOT_FOUND,
-  //       message: '用户不存在',
-  //     };
-  //   }
-
-  //   // 校验openId唯一
-  //   if (updateUserDto.openId && updateUserDto.openId !== user.openId) {
-  //     const sameOpenIdUser = await this.UserService.getDetailByOpenId(updateUserDto.openId);
-  //     if (sameOpenIdUser) {
-  //       return {
-  //         code: ErrorCode.USER_OPENID_UNIQUE,
-  //         message: 'openId已存在',
-  //       };
-  //     }
-  //   }
-
-  //   const res = await this.UserService.update(updateUserDto);
-  //   return resSuccess(res);
-  // }
+    return resSuccess(user);
+  }
 }

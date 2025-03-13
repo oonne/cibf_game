@@ -76,6 +76,20 @@ export class UserService {
   }
 
   /*
+   * 根据uuid查询单个
+   */
+  getDetailByUuid(uuid: string): Promise<User> {
+    return this.userRepository.findOneBy({ uuid });
+  }
+
+  /*
+   * 根据openId查询单个
+   */
+  getDetailByOpenId(openId: string): Promise<User> {
+    return this.userRepository.findOneBy({ openId });
+  }
+
+  /*
    * 新增
    */
   async create(user: Partial<User>): Promise<User> {

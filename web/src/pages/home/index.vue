@@ -35,39 +35,40 @@
     :content="currentPrize.isWin ? `获得了 ${currentPrize.name}` : ''"
     @confirm="closeResult"
   />
+
+  <!-- 错误提示 -->
+  <ModalPopup
+    :show="showError"
+    :title="errorTitle"
+    :content="errorContent"
+    @confirm="closeError"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { Prize } from '@/constant/prizes';
 import ModalPopup from '@/components/modal-popup.vue';
-import { Utils } from '@/utils/index';
+import { userApi } from '@/api/index';
+import { Utils, to } from '@/utils/index';
 import LuckyWheel from './components/lucky-wheel.vue';
 import DrawCount from './components/draw-count.vue';
 import ActivityInfo from './components/activity-info.vue';
 import PrizeHistory from './components/prize-history.vue';
 
-const { randomChars } = Utils;
-
-const { VITE_BASE_URL } = import.meta.env;
+const { randomChars, getUrlParams } = Utils;
 
 /*
- * 初始化
+ * 错误提示
  */
-// 初始化UUID
-const initUUID = () => {
-  const uuid = localStorage.getItem('UUID');
-  if (!uuid) {
-    localStorage.setItem('UUID', `${randomChars(12)}-${randomChars(4)}`);
-  }
+const showError = ref(false);
+const errorTitle = ref('');
+const errorContent = ref('');
+
+// 关闭错误提示
+const closeError = () => {
+  showError.value = false;
 };
-
-/* 进入页面 */
-onMounted(() => {
-  initUUID();
-
-  console.log(VITE_BASE_URL);
-});
 
 /*
  * 抽奖
@@ -112,6 +113,36 @@ const handlePrizeDrawn = (result: Prize) => {
     prizeHistory.value.push(result);
   }
 };
+
+/*
+ * 初始化
+ */
+// 初始化UUID
+const initUUID = () => {
+  const uuid = localStorage.getItem('UUID');
+  if (!uuid) {
+    localStorage.setItem('UUID', `${randomChars(12)}-${randomChars(4)}`);
+  }
+};
+
+// 用户进入
+const userEntry = async () => {
+  const [err, res] = await to(userApi.userEntry({
+    uuid: localStorage.getItem('UUID'),
+    openid: getUrlParams('openid') || null,
+  }));
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(res);
+};
+
+/* 进入页面 */
+onMounted(() => {
+  initUUID();
+  userEntry();
+});
 </script>
 
 <style scoped>

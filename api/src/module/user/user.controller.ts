@@ -163,11 +163,79 @@ export class UserController {
       };
     }
 
-    // await this.UserService.update({
-    //   userId: user.userId,
-    //   hasPlayedGame: true,
-    //   lastPlayedTime: new Date(),
-    // });
+    // 如果用户已经玩过游戏，则不更新
+    if (user.hasPlayedGame) {
+      return resSuccess(null);
+    }
+
+    await this.UserService.update({
+      userId: user.userId,
+      hasPlayedGame: true,
+      gameTime: new Date(),
+      lastVisitTime: new Date(),
+    });
+
+    return resSuccess(null);
+  }
+
+  /*
+   * 用户分享上报
+   */
+  @Post('share-report')
+  @NoLogin
+  async shareReport(
+    @Body() userOperationReportDto: UserOperationReportDto,
+  ): Promise<HttpResponse<any>> {
+    const user = await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
+    if (!user) {
+      return {
+        code: ErrorCode.USER_NOT_FOUND,
+        message: '用户不存在',
+      };
+    }
+
+    // 如果用户已经分享，则不更新
+    if (user.hasShared) {
+      return resSuccess(null);
+    }
+
+    await this.UserService.update({
+      userId: user.userId,
+      hasShared: true,
+      sharedTime: new Date(),
+      lastVisitTime: new Date(),
+    });
+
+    return resSuccess(null);
+  }
+
+  /*
+   * 用户浏览上报
+   */
+  @Post('browse-report')
+  @NoLogin
+  async browseReport(
+    @Body() userOperationReportDto: UserOperationReportDto,
+  ): Promise<HttpResponse<any>> {
+    const user = await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
+    if (!user) {
+      return {
+        code: ErrorCode.USER_NOT_FOUND,
+        message: '用户不存在',
+      };
+    }
+
+    // 如果用户已经浏览，则不更新
+    if (user.hasBrowsed) {
+      return resSuccess(null);
+    }
+
+    await this.UserService.update({
+      userId: user.userId,
+      hasBrowsed: true,
+      browsedTime: new Date(),
+      lastVisitTime: new Date(),
+    });
 
     return resSuccess(null);
   }

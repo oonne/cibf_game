@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { ref } from 'vue';
 import prizes from '@/constant/prizes';
 
 // 定义组件事件

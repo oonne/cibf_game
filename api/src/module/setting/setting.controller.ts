@@ -12,7 +12,7 @@ import {
   CreateSettingDto,
   UpdateSettingDto,
   DeleteSettingDto,
-  GetSettingByKeyDto,
+  GetSettingValueByKeyDto,
 } from './dto/setting.dto';
 import type { Setting } from './setting.entity';
 
@@ -126,20 +126,17 @@ export class SettingController {
   /*
    * 根据key查询设置
    */
-  @Post('get-setting-by-key')
-  async getSettingByKey(
-    @Body() getSettingByKeyDto: GetSettingByKeyDto,
+  @Post('get-setting-value-by-key')
+  async getSettingValueByKey(
+    @Body() getSettingValueByKeyDto: GetSettingValueByKeyDto,
   ): Promise<HttpResponse<any>> {
-    const setting = await this.settingService.getDetailByKey(getSettingByKeyDto.key);
+    const setting = await this.settingService.getDetailByKey(getSettingValueByKeyDto.key);
     if (!setting) {
       return {
         code: ErrorCode.SETTING_NOT_FOUND,
         message: '设置不存在',
       };
     }
-
-    // 返回字段处理
-    delete setting.id;
 
     return resSuccess(setting);
   }
@@ -152,13 +149,15 @@ export class SettingController {
   async addOrUpdateByKey(
     @Body() addOrUpdateSettingByKeyDto: CreateSettingDto,
   ): Promise<HttpResponse<any>> {
-    const setting = await this.settingService.getDetailByKey(addOrUpdateSettingByKeyDto.key);
+    const settingList = await this.settingService.getList({
+      key: addOrUpdateSettingByKeyDto.key,
+    });
 
     let res;
-    if (setting) {
+    if (settingList.items.length > 0) {
       res = await this.settingService.update({
         ...addOrUpdateSettingByKeyDto,
-        settingId: setting.settingId,
+        settingId: settingList.items[0].settingId,
       });
     } else {
       res = await this.settingService.create(addOrUpdateSettingByKeyDto);

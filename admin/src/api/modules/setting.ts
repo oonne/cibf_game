@@ -42,9 +42,9 @@ export default {
   },
 
   // 根据key查询设置
-  getSettingByKey(data: object) {
+  getSettingValueByKey(data: object) {
     return request({
-      url: '/setting/get-setting-by-key',
+      url: '/setting/get-setting-value-by-key',
       data,
     });
   },

@@ -132,13 +132,13 @@ const formData = ref({
 
 /* 查询配置 */
 const getDetail = async () => {
-  const [err, res] = await to(settingApi.getSettingByKey({ key: SETTING_KEY }));
+  const [err, res] = await to(settingApi.getSettingValueByKey({ key: SETTING_KEY }));
   if (err || !res.data) {
     return;
   }
 
   try {
-    formData.value = JSON.parse(res.data.value);
+    formData.value = JSON.parse(res.data);
   } catch (e) {
     console.error(e);
   }

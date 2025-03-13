@@ -130,9 +130,9 @@ export class UserController {
 
     // 查询配置，判断活动是否结束
     const setting = await this.SettingService.getDetailByKey('CIBF_SETTING');
-    if (setting?.value) {
+    if (setting) {
       try {
-        const settingValue = JSON.parse(setting.value);
+        const settingValue = JSON.parse(setting);
         if (!settingValue.isActive) {
           return {
             code: ErrorCode.ACTIVITY_ENDED,

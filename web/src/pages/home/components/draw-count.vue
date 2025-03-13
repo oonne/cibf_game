@@ -31,45 +31,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
 // 接收父组件传递的抽奖次数
-defineProps<{
-  count: number
+const props = defineProps<{
+  count: number,
+  hasPlayedGame: boolean,
+  hasShared: boolean,
+  hasBrowsed: boolean,
+  lotteryTimes: number
 }>();
 
 const emit = defineEmits(['increase-count']);
 
-// 是否已经玩过游戏
-const hasPlayedGame = ref(false);
-// 是否已经分享过
-const hasShared = ref(false);
-// 是否已经浏览过小程序
-const hasViewed = ref(false);
-
 // 处理玩游戏按钮点击
 const handlePlayGame = () => {
-  if (!hasPlayedGame.value) {
+  if (!props.hasPlayedGame) {
     router.push({ name: 'jigsaw' });
   }
 };
 
 // 处理分享按钮点击
 const handleShare = () => {
-  if (!hasShared.value) {
+  if (!props.hasShared) {
     emit('increase-count');
-    hasShared.value = true;
   }
 };
 
 // 处理浏览小程序按钮点击
 const handleView = () => {
-  if (!hasViewed.value) {
+  if (!props.hasBrowsed) {
     emit('increase-count');
-    hasViewed.value = true;
   }
 };
 </script>

@@ -19,6 +19,10 @@
   <!-- 抽奖次数 -->
   <DrawCount
     :count="drawCount"
+    :has-played-game="hasPlayedGame"
+    :has-shared="hasShared"
+    :has-browsed="hasBrowsed"
+    :lottery-times="lotteryTimes"
     @increase-count="increaseDrawCount"
   />
 
@@ -125,6 +129,11 @@ const initUUID = () => {
   }
 };
 
+const hasPlayedGame = ref(false);
+const hasShared = ref(false);
+const hasBrowsed = ref(false);
+const lotteryTimes = ref(0);
+
 /* 用户进入 */
 const userEntry = async () => {
   const [err, res] = await to(userApi.userEntry({
@@ -141,10 +150,23 @@ const userEntry = async () => {
   }
 
   const {
-    hasPlayedGame, hasShared, hasBrowsed, lotteryTimes,
+    hasPlayedGame: played,
+    hasShared: shared,
+    hasBrowsed: browsed,
+    lotteryTimes: times,
   } = res.data;
 
-  console.log(hasPlayedGame, hasShared, hasBrowsed, lotteryTimes);
+  hasPlayedGame.value = played;
+  hasShared.value = shared;
+  hasBrowsed.value = browsed;
+  lotteryTimes.value = times;
+
+  // 计算总抽奖次数
+  let totalCount = 0;
+  if (played) totalCount += 1;
+  if (shared) totalCount += 1;
+  if (browsed) totalCount += 1;
+  drawCount.value = totalCount - times;
 };
 
 /* 进入页面 */

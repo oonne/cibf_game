@@ -55,28 +55,6 @@ export class GetDetailDto {
   userId: string;
 }
 
-export class CreateUserDto {
-  @IsString()
-  uuid: string;
-
-  @IsString()
-  @IsOptional()
-  openId?: string;
-}
-
-export class UpdateUserDto {
-  @IsString()
-  userId: string;
-
-  @IsString()
-  @IsOptional()
-  openId?: string;
-
-  @IsString()
-  @IsOptional()
-  phone?: string;
-}
-
 export class DeleteUserDto {
   @IsString()
   userId: string;

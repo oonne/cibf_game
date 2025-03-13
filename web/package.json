@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue": "^5.2.0",
+    "axios": "^1.8.3",
     "code-inspector-plugin": "^0.18.2",
     "crypto-js": "^4.2.0",
     "eslint": "^8.57.0",

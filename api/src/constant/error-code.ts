@@ -37,6 +37,14 @@ const ErrorCode = {
   SETTING_NOT_FOUND: 1004001,
   // 设置键必须唯一
   SETTING_KEY_UNIQUE: 1004002,
+
+  /*
+   * User模块
+   */
+  // 用户不存在
+  USER_NOT_FOUND: 1005001,
+  // openId必须唯一
+  USER_OPENID_UNIQUE: 1005002,
 };
 
 export default ErrorCode;

@@ -14,11 +14,14 @@ export class User {
   @Column({ comment: 'userId', length: 255, nullable: false, unique: true })
   userId: string;
 
+  @Column({ comment: 'uuid', length: 255, nullable: false, unique: true })
+  uuid: string;
+
   @Column({ comment: 'openID', length: 255, nullable: true, unique: true })
   openId: string;
 
-  @Column({ comment: 'uuid', length: 255, nullable: false, unique: true })
-  uuid: string;
+  @Column({ comment: '手机号', length: 255, nullable: true, unique: true })
+  phone: string;
 
   @Column({ comment: '最近访问时间', nullable: false })
   lastVisitTime: Date;
@@ -32,8 +35,8 @@ export class User {
   @Column({ comment: '是否已浏览', nullable: false, default: false })
   hasBrowsed: boolean;
 
-  @Column({ comment: '剩余中奖次数', nullable: false, default: 0 })
-  remainingWinningTimes: number;
+  @Column({ comment: '已抽奖次数', nullable: false, default: 0 })
+  winningTimes: number;
 
   @Column({ comment: '已中奖品名', nullable: true, length: 255 })
   winningPrizeName: string;

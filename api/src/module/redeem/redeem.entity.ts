@@ -29,6 +29,8 @@ export class Redeem {
   @Column({ comment: '发放用户ID', length: 255, nullable: true })
   issuedUserId: string;
 
+  @Column({ comment: '发放用户手机号', length: 255, nullable: true })
+  issuedUserPhone: string;
   @Column({ comment: '是否已兑换', nullable: false, default: false })
   isRedeemed: boolean;
 

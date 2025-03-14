@@ -47,6 +47,12 @@ const ErrorCode = {
   USER_OPENID_UNIQUE: 1005002,
   // 活动已结束
   ACTIVITY_ENDED: 1005003,
+
+  /*
+   * Redeem模块
+   */
+  // 兑奖码不存在
+  REDEEM_NOT_FOUND: 1006001,
 };
 
 export default ErrorCode;

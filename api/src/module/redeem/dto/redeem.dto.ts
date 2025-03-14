@@ -20,11 +20,7 @@ export class GetListDto {
 
   @IsString()
   @IsOptional()
-  redeemCodeId?: string;
-
-  @IsString()
-  @IsOptional()
-  openId?: string;
+  redeemCode?: string;
 
   @IsString()
   @IsOptional()
@@ -40,10 +36,6 @@ export class GetListDto {
 
   @IsString()
   @IsOptional()
-  issuedUserId?: string;
-
-  @IsString()
-  @IsOptional()
   issuedUserPhone?: string;
 
   @IsBoolean()
@@ -53,10 +45,6 @@ export class GetListDto {
   @IsString()
   @IsOptional()
   redeemedTime?: string;
-
-  @IsString()
-  @IsOptional()
-  createdAt?: string;
 }
 
 /* 获取兑奖码详情 */

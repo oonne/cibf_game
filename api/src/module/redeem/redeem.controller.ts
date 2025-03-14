@@ -1,5 +1,4 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { Roles } from '../../common/decorator/roles.decorator';
 import ErrorCode from '../../constant/error-code';
 import { resSuccess } from '../../utils/index';
 import type { HttpResponse, ListResponse } from '../../types/type';
@@ -21,16 +20,13 @@ export class RedeemController {
       pageSize: getListDto.pageSize,
       sortField: getListDto.sortField,
       sortOrder: getListDto.sortOrder,
-      redeemCodeId: getListDto.redeemCodeId,
-      openId: getListDto.openId,
+      redeemCode: getListDto.redeemCode,
       prizeName: getListDto.prizeName,
       isIssued: getListDto.isIssued,
       issuedTime: getListDto.issuedTime,
-      issuedUserId: getListDto.issuedUserId,
       issuedUserPhone: getListDto.issuedUserPhone,
       isRedeemed: getListDto.isRedeemed,
       redeemedTime: getListDto.redeemedTime,
-      createdAt: getListDto.createdAt,
     });
 
     // 返回字段处理
@@ -68,7 +64,6 @@ export class RedeemController {
    * 删除兑奖码
    */
   @Post('delete')
-  @Roles([1, 2])
   async delete(@Body() deleteRedeemDto: DeleteRedeemDto): Promise<HttpResponse<any>> {
     const redeem = await this.RedeemService.getDetail(deleteRedeemDto.redeemCodeId);
     if (!redeem) {

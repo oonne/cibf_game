@@ -15,7 +15,7 @@ export class Redeem {
   redeemCodeId: string;
 
   @Column({ comment: '兑奖码', length: 255, nullable: true, unique: true })
-  openId: string;
+  redeemCode: string;
 
   @Column({ comment: '奖品名称', length: 255, nullable: false })
   prizeName: string;

@@ -12,7 +12,7 @@ export default {
   // 删除用户
   deleteUser(data: object) {
     return request({
-      url: '/user/delete-user',
+      url: '/user/delete',
       data,
     });
   },

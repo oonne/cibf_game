@@ -168,6 +168,16 @@ const pages: RouteRecordRaw[] = [
           title: '访客列表',
         },
       },
+      // 访客详情
+      {
+        path: 'user-detail',
+        component: () => import('@/pages/cibf/user/user-detail.vue'),
+        name: 'cibf-user-detail',
+        meta: {
+          sideKey: 'cibf-user',
+          title: '访客详情',
+        },
+      },
     ],
   },
 ];

@@ -164,6 +164,14 @@
         <a-button
           size="small"
           type="link"
+          @click="router.push({ name: 'user-detail', query: { userId: record.userId } })"
+        >
+          详情
+        </a-button>
+        <a-button
+          v-if="[1, 2].includes(staffInfo.role || 0)"
+          size="small"
+          type="link"
           danger
           @click="onDelete(record)"
         >
@@ -175,9 +183,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { message, TableColumnsType } from 'ant-design-vue';
+import { storeToRefs } from 'pinia';
 import dayjs from 'dayjs';
+import { useRouter } from 'vue-router';
 import useTable from '@/hooks/use-table';
 import { userApi } from '@/api/index';
 import { useStaffStore } from '@/store/index';
@@ -185,154 +195,147 @@ import { to, buildErrorMsg, Feedback } from '@/utils/index';
 import type { IUser } from '@/types/user';
 
 const { confirmModal } = Feedback;
+const router = useRouter();
 const staffStore = useStaffStore();
-
+const { staffInfo } = storeToRefs(staffStore);
 /*
  * 列表项
  */
-const columns = computed<TableColumnsType>(() => {
-  const baseColumns: TableColumnsType = [
-    {
-      title: '#',
-      key: 'index',
-      width: 50,
-    },
-    {
-      title: 'UUID',
-      key: 'uuid',
-      sorter: true,
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: 'openId',
-      key: 'openId',
-      sorter: true,
-      customFilterDropdown: true,
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '手机号',
-      key: 'phone',
-      customFilterDropdown: true,
-      sorter: true,
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '首次访问时间',
-      key: 'createdAt',
-      sorter: true,
-      customFilterDropdown: true,
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '最近访问时间',
-      key: 'lastVisitTime',
-      sorter: true,
-      customFilterDropdown: true,
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '是否已玩过游戏',
-      key: 'hasPlayedGame',
-      sorter: true,
-      filters: [
-        {
-          text: '是',
-          value: true,
-        },
-        {
-          text: '否',
-          value: false,
-        },
-      ],
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '是否已分享',
-      key: 'hasShared',
-      sorter: true,
-      filters: [
-        {
-          text: '是',
-          value: true,
-        },
-        {
-          text: '否',
-          value: false,
-        },
-      ],
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '是否已浏览',
-      key: 'hasBrowsed',
-      sorter: true,
-      filters: [
-        {
-          text: '是',
-          value: true,
-        },
-        {
-          text: '否',
-          value: false,
-        },
-      ],
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '已抽奖次数',
-      key: 'lotteryTimes',
-      sorter: true,
-      customFilterDropdown: true,
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '已中奖品名',
-      key: 'winningPrizeName',
-      sorter: true,
-      customFilterDropdown: true,
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: '是否已兑奖',
-      key: 'hasRedeemed',
-      sorter: true,
-      filters: [
-        {
-          text: '是',
-          value: true,
-        },
-        {
-          text: '否',
-          value: false,
-        },
-      ],
-      resizable: true,
-      width: 150,
-    },
-  ];
-
-  if ([1, 2].includes(staffStore.staffInfo.role || 0)) {
-    baseColumns.push({
-      title: '操作',
-      key: 'operation',
-      resizable: true,
-      width: 150,
-    });
-  }
-
-  return baseColumns;
-});
+const columns = ref<TableColumnsType>([
+  {
+    title: '#',
+    key: 'index',
+    width: 50,
+  },
+  {
+    title: 'UUID',
+    key: 'uuid',
+    sorter: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: 'openId',
+    key: 'openId',
+    sorter: true,
+    customFilterDropdown: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '手机号',
+    key: 'phone',
+    customFilterDropdown: true,
+    sorter: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '首次访问时间',
+    key: 'createdAt',
+    sorter: true,
+    customFilterDropdown: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '最近访问时间',
+    key: 'lastVisitTime',
+    sorter: true,
+    customFilterDropdown: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '是否已玩过游戏',
+    key: 'hasPlayedGame',
+    sorter: true,
+    filters: [
+      {
+        text: '是',
+        value: true,
+      },
+      {
+        text: '否',
+        value: false,
+      },
+    ],
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '是否已分享',
+    key: 'hasShared',
+    sorter: true,
+    filters: [
+      {
+        text: '是',
+        value: true,
+      },
+      {
+        text: '否',
+        value: false,
+      },
+    ],
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '是否已浏览',
+    key: 'hasBrowsed',
+    sorter: true,
+    filters: [
+      {
+        text: '是',
+        value: true,
+      },
+      {
+        text: '否',
+        value: false,
+      },
+    ],
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '已抽奖次数',
+    key: 'lotteryTimes',
+    sorter: true,
+    customFilterDropdown: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '已中奖品名',
+    key: 'winningPrizeName',
+    sorter: true,
+    customFilterDropdown: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '是否已兑奖',
+    key: 'hasRedeemed',
+    sorter: true,
+    filters: [
+      {
+        text: '是',
+        value: true,
+      },
+      {
+        text: '否',
+        value: false,
+      },
+    ],
+    resizable: true,
+    width: 150,
+  }, {
+    title: '操作',
+    key: 'operation',
+    resizable: true,
+    width: 150,
+  },
+]);
 
 /*
  * 列表

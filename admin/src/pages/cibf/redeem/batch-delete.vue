@@ -1,8 +1,8 @@
 <template>
   <div class="app-form">
     <a-alert
-      message="此操作会批量生成指定数量的兑换码，生成后无法回退。仅供初始化时使用，请谨慎操作！"
-      type="warning"
+      message="此操作会删除所有指定奖品的兑换码，删除后数据无法找回，无备份。仅供测试时使用，请谨慎操作！"
+      type="error"
       :style="{ marginBottom: '16px' }"
     />
 
@@ -32,24 +32,13 @@
         </a-select>
       </a-form-item>
 
-      <a-form-item
-        label="数量"
-        name="count"
-        :rules="[{ required: true }]"
-      >
-        <a-input-number
-          v-model:value="formData.count"
-          placeholder="请输入数量"
-          :style="{ width: '240px' }"
-        />
-      </a-form-item>
-
       <a-button
         type="primary"
+        danger
         :loading="loading"
         @click="onSubmit"
       >
-        保存
+        删除
       </a-button>
     </a-form>
   </div>
@@ -69,7 +58,6 @@ const router = useRouter();
 const formRef = ref();
 const formData = ref({
   prizeType: prizeTypeList[0]?.type || 1,
-  count: 0,
 });
 
 /* 提交 */
@@ -86,7 +74,7 @@ const onSubmit = async () => {
 
   loading.value = true;
   const [err] = await to(
-    redeemApi.batchGenerate(formData.value),
+    redeemApi.batchDelete(formData.value),
   );
   loading.value = false;
 

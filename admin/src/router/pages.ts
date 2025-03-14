@@ -208,6 +208,16 @@ const pages: RouteRecordRaw[] = [
           title: '批量生成兑换码',
         },
       },
+      // 批量删除兑换码
+      {
+        path: 'batch-delete',
+        component: () => import('@/pages/cibf/redeem/batch-delete.vue'),
+        name: 'cibf-batch-delete',
+        meta: {
+          sideKey: 'cibf-redeem',
+          title: '批量删除兑换码',
+        },
+      },
     ],
   },
 ];

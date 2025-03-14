@@ -9,7 +9,13 @@
       >
         批量生成
       </a-button>
-      <a-button v-if="[1, 2].includes(staffInfo.role || 0)">
+      <a-button
+        v-if="[1, 2].includes(staffInfo.role || 0)"
+        danger
+        @click="router.push({
+          name: 'cibf-batch-delete',
+        })"
+      >
         批量删除
       </a-button>
     </a-space>

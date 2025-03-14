@@ -81,13 +81,6 @@
         <a-button
           size="small"
           type="link"
-          @click="router.push({ name: 'edit-user', query: { userId: record.userId } })"
-        >
-          编辑
-        </a-button>
-        <a-button
-          size="small"
-          type="link"
           danger
           @click="onDelete(record)"
         >
@@ -99,82 +92,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
 import { message, TableColumnsType } from 'ant-design-vue';
 import dayjs from 'dayjs';
 import useTable from '@/hooks/use-table';
 import { userApi } from '@/api/index';
+import { useStaffStore } from '@/store/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
 import type { IUser } from '@/types/user';
 
-const router = useRouter();
 const { confirmModal } = Feedback;
+const staffStore = useStaffStore();
 
 /*
  * 列表项
  */
-const columns = ref<TableColumnsType>([
-  {
-    title: '#',
-    key: 'index',
-    width: 50,
-    fixed: 'left',
-  },
-  {
-    title: '用户名',
-    key: 'username',
-    sorter: true,
-    customFilterDropdown: true,
-    resizable: true,
-    width: 150,
-  },
-  {
-    title: '昵称',
-    key: 'nickname',
-    sorter: true,
-    resizable: true,
-    width: 150,
-  },
-  {
-    title: '是否启用',
-    key: 'isActive',
-    sorter: true,
-    filters: [
-      {
-        text: '启用',
-        value: true,
-      },
-      {
-        text: '禁用',
-        value: false,
-      },
-    ],
-    filterMultiple: false,
-    resizable: true,
-    width: 150,
-  },
-  {
-    title: '手机号',
-    key: 'phone',
-    resizable: true,
-    width: 150,
-  },
-  {
-    title: '更新时间',
-    key: 'updatedAt',
-    sorter: true,
-    resizable: true,
-    width: 150,
-  },
-  {
-    title: '操作',
-    key: 'operation',
-    resizable: true,
-    width: 150,
-    fixed: 'right',
-  },
-]);
+const columns = computed<TableColumnsType>(() => {
+  const baseColumns: TableColumnsType = [
+    {
+      title: '#',
+      key: 'index',
+      width: 50,
+    },
+  ];
+
+  if ([1, 2].includes(staffStore.staffInfo.role || 0)) {
+    baseColumns.push({
+      title: '操作',
+      key: 'operation',
+      resizable: true,
+      width: 150,
+    });
+  }
+
+  return baseColumns;
+});
 
 /*
  * 列表

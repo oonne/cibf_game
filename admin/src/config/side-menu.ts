@@ -51,6 +51,10 @@ const sideMenu: ISideConfig[] = [
         key: 'cibf-setting',
         title: '游戏配置',
       },
+      {
+        key: 'cibf-user',
+        title: '访客列表',
+      },
     ],
   },
 ];

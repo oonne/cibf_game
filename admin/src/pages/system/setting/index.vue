@@ -136,7 +136,6 @@ const columns = ref<TableColumnsType>([
     title: '#',
     key: 'index',
     width: 50,
-    fixed: 'left',
   },
   {
     title: 'KEY',
@@ -173,7 +172,6 @@ const columns = ref<TableColumnsType>([
     key: 'operation',
     resizable: true,
     width: 150,
-    fixed: 'right',
   },
 ]);
 

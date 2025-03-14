@@ -52,6 +52,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { userApi } from '@/api/index';
+import { to } from '@/utils/index';
 import ModalPopup from '@/components/modal-popup.vue';
 import { PuzzlePiece, piecesList } from './pieces-list';
 
@@ -83,7 +85,7 @@ const stopCountDown = () => {
 };
 
 // 结束游戏
-const endGame = (isSuccess: boolean) => {
+const endGame = async (isSuccess: boolean) => {
   stopCountDown();
   isGameOver.value = true;
   showResult.value = true;
@@ -91,6 +93,24 @@ const endGame = (isSuccess: boolean) => {
     title.value = '游戏失败';
     content.value = '请再接再厉';
   }
+
+  // 上报用户玩游戏
+  title.value = '通关啦！';
+  content.value = '获得了抽奖机会+1';
+
+  const [error] = await to(userApi.gameReport({
+    uuid: localStorage.getItem('UUID'),
+  }));
+  if (error) {
+    title.value = '游戏异常';
+    content.value = '服务器繁忙，请稍后重试';
+  }
+};
+
+// 弹框确认时返回
+const handleConfirm = () => {
+  showResult.value = false;
+  router.back();
 };
 
 // 开始倒计时
@@ -113,12 +133,6 @@ const checkIsComplete = () => {
   }
 
   endGame(true);
-};
-
-// 弹框确认时返回
-const handleConfirm = () => {
-  showResult.value = false;
-  router.back();
 };
 
 /* 开始拖拽 */

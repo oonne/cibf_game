@@ -8,4 +8,28 @@ export default {
       data,
     });
   },
+
+  // 用户玩游戏上报
+  gameReport(data: object) {
+    return request({
+      url: '/user/game-report',
+      data,
+    });
+  },
+
+  // 用户分享上报
+  shareReport(data: object) {
+    return request({
+      url: '/user/share-report',
+      data,
+    });
+  },
+
+  // 用户浏览上报
+  browseReport(data: object) {
+    return request({
+      url: '/user/browse-report',
+      data,
+    });
+  },
 };

@@ -59,6 +59,10 @@ const sideMenu: ISideConfig[] = [
         key: 'cibf-redeem',
         title: '兑换码列表',
       },
+      {
+        key: 'cibf-dev-doc',
+        title: '开发文档',
+      },
     ],
   },
 ];

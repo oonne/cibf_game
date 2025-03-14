@@ -157,7 +157,9 @@ export class UserController {
   async gameReport(
     @Body() userOperationReportDto: UserOperationReportDto,
   ): Promise<HttpResponse<any>> {
-    const user = await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
+    const user = userOperationReportDto.openId
+      ? await this.UserService.getDetailByOpenId(userOperationReportDto.openId)
+      : await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
     if (!user) {
       return {
         code: ErrorCode.USER_NOT_FOUND,
@@ -188,7 +190,9 @@ export class UserController {
   async shareReport(
     @Body() userOperationReportDto: UserOperationReportDto,
   ): Promise<HttpResponse<any>> {
-    const user = await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
+    const user = userOperationReportDto.openId
+      ? await this.UserService.getDetailByOpenId(userOperationReportDto.openId)
+      : await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
     if (!user) {
       return {
         code: ErrorCode.USER_NOT_FOUND,
@@ -219,7 +223,9 @@ export class UserController {
   async browseReport(
     @Body() userOperationReportDto: UserOperationReportDto,
   ): Promise<HttpResponse<any>> {
-    const user = await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
+    const user = userOperationReportDto.openId
+      ? await this.UserService.getDetailByOpenId(userOperationReportDto.openId)
+      : await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
     if (!user) {
       return {
         code: ErrorCode.USER_NOT_FOUND,

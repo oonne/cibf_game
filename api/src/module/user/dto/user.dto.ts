@@ -84,5 +84,10 @@ export class UserEntryDto {
 /* 用户操作上报 */
 export class UserOperationReportDto {
   @IsString()
-  uuid: string;
+  @IsOptional()
+  uuid?: string;
+
+  @IsString()
+  @IsOptional()
+  openId?: string;
 }

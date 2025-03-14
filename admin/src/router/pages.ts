@@ -218,6 +218,16 @@ const pages: RouteRecordRaw[] = [
           title: '批量删除兑换码',
         },
       },
+      // 开发文档
+      {
+        path: 'dev-doc',
+        component: () => import('@/pages/cibf/dev-doc/index.vue'),
+        name: 'cibf-dev-doc',
+        meta: {
+          sideKey: 'cibf-dev-doc',
+          title: '开发文档',
+        },
+      },
     ],
   },
 ];

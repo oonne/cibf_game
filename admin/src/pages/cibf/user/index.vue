@@ -366,10 +366,32 @@ const getList = async () => {
     [params.phone] = filters.value.phone;
   }
   if (filters.value.createdAt) {
-    [params.createdAt] = filters.value.createdAt;
+    params.createdAt = filters.value.createdAt[0].map(
+      (item: any) => dayjs(item).valueOf(),
+    ).join(',');
   }
   if (filters.value.lastVisitTime) {
-    [params.lastVisitTime] = filters.value.lastVisitTime;
+    params.lastVisitTime = filters.value.lastVisitTime[0].map(
+      (item: any) => dayjs(item).valueOf(),
+    ).join(',');
+  }
+  if (filters.value.hasPlayedGame) {
+    [params.hasPlayedGame] = filters.value.hasPlayedGame;
+  }
+  if (filters.value.hasShared) {
+    [params.hasShared] = filters.value.hasShared;
+  }
+  if (filters.value.hasBrowsed) {
+    [params.hasBrowsed] = filters.value.hasBrowsed;
+  }
+  if (filters.value.lotteryTimes) {
+    [params.lotteryTimes] = filters.value.lotteryTimes;
+  }
+  if (filters.value.winningPrizeName) {
+    [params.winningPrizeName] = filters.value.winningPrizeName;
+  }
+  if (filters.value.hasRedeemed) {
+    [params.hasRedeemed] = filters.value.hasRedeemed;
   }
   if (sorter.value.columnKey) {
     params.sortField = sorter.value.columnKey;

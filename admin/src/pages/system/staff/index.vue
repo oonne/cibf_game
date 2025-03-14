@@ -363,10 +363,4 @@ const onDelete = async (record: IStaff) => {
 </script>
 
 <style scoped>
-.copy-icon {
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-  fill: #666;
-}
 </style>

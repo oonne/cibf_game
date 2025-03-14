@@ -54,6 +54,15 @@
   margin: 30px auto;
 }
 
+/* 复制按钮 */
+.copy-icon {
+  flex-shrink: 0;
+  cursor: pointer;
+  fill: var(--primary-color);
+  width: 16px;
+  height: 16px;
+}
+
 /* 
  * 常用样式
  */

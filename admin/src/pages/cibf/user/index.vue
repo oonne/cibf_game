@@ -164,7 +164,7 @@
         <a-button
           size="small"
           type="link"
-          @click="router.push({ name: 'user-detail', query: { userId: record.userId } })"
+          @click="router.push({ name: 'cibf-user-detail', query: { userId: record.userId } })"
         >
           详情
         </a-button>
@@ -447,10 +447,4 @@ const onDelete = async (record: IUser) => {
 </script>
 
 <style scoped>
-.copy-icon {
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-  fill: #666;
-}
 </style>

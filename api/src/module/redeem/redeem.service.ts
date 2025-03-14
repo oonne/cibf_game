@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Utils, Condition } from '../../utils/index';
 import { Redeem } from './redeem.entity';
 
@@ -23,7 +23,7 @@ export class RedeemService {
     sortField = 'createdAt',
     sortOrder = 'desc',
     redeemCode,
-    prizeName,
+    prizeType,
     isIssued,
     issuedTime,
     issuedUserPhone,
@@ -35,7 +35,7 @@ export class RedeemService {
     sortField?: string;
     sortOrder?: string;
     redeemCode?: string;
-    prizeName?: string;
+    prizeType?: number[];
     isIssued?: boolean;
     issuedTime?: string;
     issuedUserPhone?: string;
@@ -50,7 +50,7 @@ export class RedeemService {
       },
       where: {
         redeemCode: getStringCondition(redeemCode),
-        prizeName: getStringCondition(prizeName),
+        prizeType: prizeType?.length ? In(prizeType) : undefined,
         isIssued,
         issuedTime: getDateRangeCondition(issuedTime),
         issuedUserPhone: getStringCondition(issuedUserPhone),

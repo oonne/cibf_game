@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { prizeTypeDesc } from '../../constant/prize';
 
 @Entity()
 export class Redeem {
@@ -17,8 +18,8 @@ export class Redeem {
   @Column({ comment: '兑奖码', length: 255, nullable: true, unique: true })
   redeemCode: string;
 
-  @Column({ comment: '奖品名称', length: 255, nullable: false })
-  prizeName: string;
+  @Column({ comment: `奖品: ${prizeTypeDesc}`, type: 'int', nullable: false })
+  prizeType: number;
 
   @Column({ comment: '是否已发放', nullable: false, default: false })
   isIssued: boolean;

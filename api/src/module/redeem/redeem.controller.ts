@@ -21,7 +21,7 @@ export class RedeemController {
       sortField: getListDto.sortField,
       sortOrder: getListDto.sortOrder,
       redeemCode: getListDto.redeemCode,
-      prizeName: getListDto.prizeName,
+      prizeType: getListDto.prizeType,
       isIssued: getListDto.isIssued,
       issuedTime: getListDto.issuedTime,
       issuedUserPhone: getListDto.issuedUserPhone,

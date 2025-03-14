@@ -1,4 +1,5 @@
-import { IsString, IsOptional, IsBoolean, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsNumber, IsIn } from 'class-validator';
+import { prizeTypeKeyArr } from '../../../constant/prize';
 
 /* 获取兑奖码列表 */
 export class GetListDto {
@@ -22,9 +23,10 @@ export class GetListDto {
   @IsOptional()
   redeemCode?: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  prizeName?: string;
+  @IsIn(prizeTypeKeyArr, { each: true })
+  prizeType?: number[];
 
   @IsBoolean()
   @IsOptional()

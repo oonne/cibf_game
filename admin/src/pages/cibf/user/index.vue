@@ -56,14 +56,14 @@
         {{ index + 1 }}
       </template>
 
-      <!-- 用户名 -->
-      <template v-if="column.key === 'username'">
-        {{ record.username || '-' }}
+      <!-- UUID -->
+      <template v-if="column.key === 'uuid'">
+        {{ record.uuid || '-' }}
       </template>
 
-      <!-- 昵称 -->
-      <template v-if="column.key === 'nickname'">
-        {{ record.nickname || '-' }}
+      <!-- openId -->
+      <template v-if="column.key === 'openId'">
+        {{ record.openId || '-' }}
       </template>
 
       <!-- 手机号 -->
@@ -71,9 +71,44 @@
         {{ record.phone || '-' }}
       </template>
 
-      <!-- 更新时间 -->
-      <template v-if="column.key === 'updatedAt'">
-        {{ dayjs(record.updatedAt).format('YYYY-MM-DD HH:mm:ss') || '-' }}
+      <!-- 首次访问时间 -->
+      <template v-if="column.key === 'createdAt'">
+        {{ dayjs(record.createdAt).format('YYYY-MM-DD HH:mm:ss') || '-' }}
+      </template>
+
+      <!-- 最近访问时间 -->
+      <template v-if="column.key === 'lastVisitTime'">
+        {{ dayjs(record.lastVisitTime).format('YYYY-MM-DD HH:mm:ss') || '-' }}
+      </template>
+
+      <!-- 是否已玩过游戏 -->
+      <template v-if="column.key === 'hasPlayedGame'">
+        {{ record.hasPlayedGame ? '是' : '否' }}
+      </template>
+
+      <!-- 是否已分享 -->
+      <template v-if="column.key === 'hasShared'">
+        {{ record.hasShared ? '是' : '否' }}
+      </template>
+
+      <!-- 是否已浏览 -->
+      <template v-if="column.key === 'hasBrowsed'">
+        {{ record.hasBrowsed ? '是' : '否' }}
+      </template>
+
+      <!-- 已抽奖次数 -->
+      <template v-if="column.key === 'lotteryTimes'">
+        {{ record.lotteryTimes || 0 }}
+      </template>
+
+      <!-- 已中奖品名 -->
+      <template v-if="column.key === 'winningPrizeName'">
+        {{ record.winningPrizeName || '-' }}
+      </template>
+
+      <!-- 是否已兑奖 -->
+      <template v-if="column.key === 'hasRedeemed'">
+        {{ record.hasRedeemed ? '是' : '否' }}
       </template>
 
       <!-- 操作 -->
@@ -113,6 +148,83 @@ const columns = computed<TableColumnsType>(() => {
       title: '#',
       key: 'index',
       width: 50,
+    },
+    {
+      title: 'UUID',
+      key: 'uuid',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: 'openId',
+      key: 'openId',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '手机号',
+      key: 'phone',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '首次访问时间',
+      key: 'createdAt',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '最近访问时间',
+      key: 'lastVisitTime',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '是否已玩过游戏',
+      key: 'hasPlayedGame',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '是否已分享',
+      key: 'hasShared',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '是否已浏览',
+      key: 'hasBrowsed',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '已抽奖次数',
+      key: 'lotteryTimes',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '已中奖品名',
+      key: 'winningPrizeName',
+      sorter: true,
+      resizable: true,
+      width: 150,
+    },
+    {
+      title: '是否已兑奖',
+      key: 'hasRedeemed',
+      sorter: true,
+      resizable: true,
+      width: 150,
     },
   ];
 

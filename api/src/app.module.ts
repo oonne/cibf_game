@@ -16,6 +16,8 @@ import { SettingModule } from './module/setting/setting.module';
 import { SettingController } from './module/setting/setting.controller';
 import { UserModule } from './module/user/user.module';
 import { UserController } from './module/user/user.controller';
+import { RedeemModule } from './module/redeem/redeem.module';
+import { RedeemController } from './module/redeem/redeem.controller';
 
 @Module({
   providers: [
@@ -61,6 +63,7 @@ import { UserController } from './module/user/user.controller';
     RecycleModule,
     SettingModule,
     UserModule,
+    RedeemModule,
   ],
 })
 export class AppModule implements NestModule {
@@ -70,5 +73,6 @@ export class AppModule implements NestModule {
     consumer.apply(LoggerMiddleware).forRoutes(RecycleController);
     consumer.apply(LoggerMiddleware).forRoutes(SettingController);
     consumer.apply(LoggerMiddleware).forRoutes(UserController);
+    consumer.apply(LoggerMiddleware).forRoutes(RedeemController);
   }
 }

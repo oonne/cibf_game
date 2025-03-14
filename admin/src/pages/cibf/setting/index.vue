@@ -6,12 +6,12 @@
       layout="vertical"
       hide-required-mark
     >
-      <a-form-item label="开启活动">
+      <a-form-item label="开启活动（活动结束后，请关闭此开关）">
         <a-switch v-model:checked="formData.isActive" />
       </a-form-item>
 
       <a-form-item
-        label="奖品一（玩偶）中奖率"
+        :label="`奖品一（${prizeTypeList[0].name}）中奖率`"
         name="prize_rate_1"
         :rules="[{ required: true }]"
       >
@@ -29,7 +29,7 @@
       </a-form-item>
 
       <a-form-item
-        label="奖品二（加湿器）中奖率"
+        :label="`奖品二（${prizeTypeList[1].name}）中奖率`"
         name="prize_rate_2"
         :rules="[{ required: true }]"
       >
@@ -47,7 +47,7 @@
       </a-form-item>
 
       <a-form-item
-        label="奖品三（雨伞）中奖率"
+        :label="`奖品三（${prizeTypeList[2].name}）中奖率`"
         name="prize_rate_3"
         :rules="[{ required: true }]"
       >
@@ -65,7 +65,7 @@
       </a-form-item>
 
       <a-form-item
-        label="奖品四（感谢参与）中奖率"
+        :label="`奖品四（${prizeTypeList[3].name}）中奖率`"
         name="prize_rate_4"
         :rules="[{ required: true }]"
       >
@@ -83,7 +83,7 @@
       </a-form-item>
 
       <a-form-item
-        label="奖品五（手持电风扇）中奖率"
+        :label="`奖品五（${prizeTypeList[4].name}）中奖率`"
         name="prize_rate_5"
         :rules="[{ required: true }]"
       >
@@ -116,6 +116,7 @@ import { ref, onMounted } from 'vue';
 import { message } from 'ant-design-vue';
 import { settingApi } from '@/api/index';
 import { to, buildErrorMsg } from '@/utils/index';
+import prizeTypeList from '@/constant/prize';
 
 const SETTING_KEY = 'CIBF_SETTING';
 

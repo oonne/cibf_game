@@ -55,6 +55,10 @@ const sideMenu: ISideConfig[] = [
         key: 'cibf-user',
         title: '访客列表',
       },
+      {
+        key: 'cibf-redeem',
+        title: '兑换码列表',
+      },
     ],
   },
 ];

@@ -5,7 +5,7 @@ import { Utils, Condition } from '../../utils/index';
 import { User } from './user.entity';
 
 const { generateId } = Utils;
-const { getStringCondition, getNumberCondition } = Condition;
+const { getStringCondition, getNumberCondition, getDateRangeCondition } = Condition;
 
 @Injectable()
 export class UserService {
@@ -24,12 +24,14 @@ export class UserService {
     sortOrder = 'desc',
     openId,
     phone,
+    createdAt,
+    lastVisitTime,
     hasPlayedGame,
     hasShared,
     hasBrowsed,
-    lotteryTimes,
     winningPrizeName,
-    redeemCode,
+    lotteryTimes,
+    hasRedeemed,
   }: {
     pageNo?: number;
     pageSize?: number;
@@ -37,12 +39,14 @@ export class UserService {
     sortOrder?: string;
     openId?: string;
     phone?: string;
+    createdAt?: string;
+    lastVisitTime?: string;
     hasPlayedGame?: boolean;
     hasShared?: boolean;
     hasBrowsed?: boolean;
-    lotteryTimes?: string;
     winningPrizeName?: string;
-    redeemCode?: string;
+    lotteryTimes?: string;
+    hasRedeemed?: boolean;
   }): Promise<{ items: User[]; total: number }> {
     const [items, total] = await this.userRepository.findAndCount({
       skip: (pageNo - 1) * pageSize,
@@ -53,12 +57,14 @@ export class UserService {
       where: {
         openId: getStringCondition(openId),
         phone: getStringCondition(phone),
+        createdAt: getDateRangeCondition(createdAt),
+        lastVisitTime: getDateRangeCondition(lastVisitTime),
         hasPlayedGame,
         hasShared,
         hasBrowsed,
         lotteryTimes: getNumberCondition(lotteryTimes),
         winningPrizeName: getStringCondition(winningPrizeName),
-        redeemCode: getStringCondition(redeemCode),
+        hasRedeemed,
       },
     });
 

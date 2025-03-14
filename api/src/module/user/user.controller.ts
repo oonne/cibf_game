@@ -34,12 +34,14 @@ export class UserController {
       sortOrder: getListDto.sortOrder,
       openId: getListDto.openId,
       phone: getListDto.phone,
+      createdAt: getListDto.createdAt,
+      lastVisitTime: getListDto.lastVisitTime,
       hasPlayedGame: getListDto.hasPlayedGame,
       hasShared: getListDto.hasShared,
       hasBrowsed: getListDto.hasBrowsed,
-      lotteryTimes: getListDto.lotteryTimes,
       winningPrizeName: getListDto.winningPrizeName,
-      redeemCode: getListDto.redeemCode,
+      lotteryTimes: getListDto.lotteryTimes,
+      hasRedeemed: getListDto.hasRedeemed,
     });
 
     // 返回字段处理

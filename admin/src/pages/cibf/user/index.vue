@@ -28,7 +28,13 @@
     >
       <div class="table-filter-dropdown">
         <!-- 搜索 -->
-        <template v-if="column.key === 'username'">
+        <template
+          v-if="column.key === 'openId'
+            || column.key === 'phone'
+            || column.key === 'winningPrizeName'
+            || column.key === 'lotteryTimes'
+          "
+        >
           <a-input-search
             :value="selectedKeys[0]"
             size="small"
@@ -37,16 +43,58 @@
             @search="confirm"
           />
         </template>
+
+        <!-- 时间 -->
+        <template v-if="column.key === 'createdAt' || column.key === 'lastVisitTime'">
+          <a-range-picker
+            :value="selectedKeys[0]"
+            size="small"
+            allow-clear
+            :presets="rangePresets"
+            @change="(e: any) => {
+              setSelectedKeys(e ? [e] : []);
+              confirm();
+            }"
+          />
+        </template>
       </div>
     </template>
 
     <!-- 显示当前的搜索条件 -->
     <template #headerCell="{ column }">
-      <template v-if="column.key === 'username' && filters.username">
-        用户名({{ filters.username[0] }})
+      <template v-if="column.key === 'openId' && filters.openId">
+        openId({{ filters.openId[0] }})
       </template>
-      <template v-if="column.key === 'isActive' && filters.isActive">
-        是否启用({{ filters.isActive[0] === true ? '启用' : '禁用' }})
+      <template v-if="column.key === 'phone' && filters.phone">
+        手机号({{ filters.phone[0] }})
+      </template>
+      <template v-if="column.key === 'createdAt' && filters.createdAt">
+        首次访问时间({{ filters.createdAt[0].map(
+          (item: any) => dayjs(item).format('YYYY-MM-DD'),
+        ).join(' ~ ') }})
+      </template>
+      <template v-if="column.key === 'lastVisitTime' && filters.lastVisitTime">
+        最近访问时间({{ filters.lastVisitTime[0].map(
+          (item: any) => dayjs(item).format('YYYY-MM-DD'),
+        ).join(' ~ ') }})
+      </template>
+      <template v-if="column.key === 'hasPlayedGame' && filters.hasPlayedGame">
+        是否已玩过游戏({{ filters.hasPlayedGame[0] === true ? '是' : '否' }})
+      </template>
+      <template v-if="column.key === 'hasShared' && filters.hasShared">
+        是否已分享({{ filters.hasShared[0] === true ? '是' : '否' }})
+      </template>
+      <template v-if="column.key === 'hasBrowsed' && filters.hasBrowsed">
+        是否已浏览({{ filters.hasBrowsed[0] === true ? '是' : '否' }})
+      </template>
+      <template v-if="column.key === 'lotteryTimes' && filters.lotteryTimes">
+        已抽奖次数({{ filters.lotteryTimes[0] }})
+      </template>
+      <template v-if="column.key === 'winningPrizeName' && filters.winningPrizeName">
+        已中奖品名({{ filters.winningPrizeName[0] }})
+      </template>
+      <template v-if="column.key === 'hasRedeemed' && filters.hasRedeemed">
+        是否已兑奖({{ filters.hasRedeemed[0] === true ? '是' : '否' }})
       </template>
     </template>
 
@@ -160,12 +208,14 @@ const columns = computed<TableColumnsType>(() => {
       title: 'openId',
       key: 'openId',
       sorter: true,
+      customFilterDropdown: true,
       resizable: true,
       width: 150,
     },
     {
       title: '手机号',
       key: 'phone',
+      customFilterDropdown: true,
       sorter: true,
       resizable: true,
       width: 150,
@@ -174,6 +224,7 @@ const columns = computed<TableColumnsType>(() => {
       title: '首次访问时间',
       key: 'createdAt',
       sorter: true,
+      customFilterDropdown: true,
       resizable: true,
       width: 150,
     },
@@ -181,6 +232,7 @@ const columns = computed<TableColumnsType>(() => {
       title: '最近访问时间',
       key: 'lastVisitTime',
       sorter: true,
+      customFilterDropdown: true,
       resizable: true,
       width: 150,
     },
@@ -188,6 +240,16 @@ const columns = computed<TableColumnsType>(() => {
       title: '是否已玩过游戏',
       key: 'hasPlayedGame',
       sorter: true,
+      filters: [
+        {
+          text: '是',
+          value: true,
+        },
+        {
+          text: '否',
+          value: false,
+        },
+      ],
       resizable: true,
       width: 150,
     },
@@ -195,6 +257,16 @@ const columns = computed<TableColumnsType>(() => {
       title: '是否已分享',
       key: 'hasShared',
       sorter: true,
+      filters: [
+        {
+          text: '是',
+          value: true,
+        },
+        {
+          text: '否',
+          value: false,
+        },
+      ],
       resizable: true,
       width: 150,
     },
@@ -202,6 +274,16 @@ const columns = computed<TableColumnsType>(() => {
       title: '是否已浏览',
       key: 'hasBrowsed',
       sorter: true,
+      filters: [
+        {
+          text: '是',
+          value: true,
+        },
+        {
+          text: '否',
+          value: false,
+        },
+      ],
       resizable: true,
       width: 150,
     },
@@ -209,6 +291,7 @@ const columns = computed<TableColumnsType>(() => {
       title: '已抽奖次数',
       key: 'lotteryTimes',
       sorter: true,
+      customFilterDropdown: true,
       resizable: true,
       width: 150,
     },
@@ -216,6 +299,7 @@ const columns = computed<TableColumnsType>(() => {
       title: '已中奖品名',
       key: 'winningPrizeName',
       sorter: true,
+      customFilterDropdown: true,
       resizable: true,
       width: 150,
     },
@@ -223,6 +307,16 @@ const columns = computed<TableColumnsType>(() => {
       title: '是否已兑奖',
       key: 'hasRedeemed',
       sorter: true,
+      filters: [
+        {
+          text: '是',
+          value: true,
+        },
+        {
+          text: '否',
+          value: false,
+        },
+      ],
       resizable: true,
       width: 150,
     },
@@ -253,6 +347,7 @@ const {
   changeTable,
   onResizeColumn,
   rowClassName,
+  rangePresets,
 } = useTable();
 
 /*
@@ -264,11 +359,17 @@ const getList = async () => {
     pageNo: pagination.value.current,
     pageSize: pagination.value.pageSize,
   };
-  if (filters.value.username) {
-    [params.username] = filters.value.username;
+  if (filters.value.openId) {
+    [params.openId] = filters.value.openId;
   }
-  if (filters.value.isActive?.length === 1) {
-    [params.isActive] = filters.value.isActive;
+  if (filters.value.phone) {
+    [params.phone] = filters.value.phone;
+  }
+  if (filters.value.createdAt) {
+    [params.createdAt] = filters.value.createdAt;
+  }
+  if (filters.value.lastVisitTime) {
+    [params.lastVisitTime] = filters.value.lastVisitTime;
   }
   if (sorter.value.columnKey) {
     params.sortField = sorter.value.columnKey;

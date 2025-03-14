@@ -26,6 +26,14 @@ export class GetListDto {
   @IsOptional()
   phone?: string;
 
+  @IsString()
+  @IsOptional()
+  createdAt?: string;
+
+  @IsString()
+  @IsOptional()
+  lastVisitTime?: string;
+
   @IsBoolean()
   @IsOptional()
   hasPlayedGame?: boolean;
@@ -46,9 +54,9 @@ export class GetListDto {
   @IsOptional()
   winningPrizeName?: string;
 
-  @IsString()
+  @IsBoolean()
   @IsOptional()
-  redeemCode?: string;
+  hasRedeemed?: boolean;
 }
 
 /* 获取用户详情 */

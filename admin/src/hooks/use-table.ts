@@ -94,15 +94,8 @@ const useTable = () => {
    */
   const rangePresets = ref([
     { label: '今天', value: [dayjs(), dayjs()] },
-    { label: '最近30天', value: [dayjs().add(-30, 'd'), dayjs()] },
-    { label: '本月', value: [dayjs().startOf('month'), dayjs().endOf('month')] },
-    {
-      label: '上月',
-      value: [
-        dayjs().subtract(1, 'month').startOf('month'),
-        dayjs().subtract(1, 'month').endOf('month'),
-      ],
-    },
+    { label: '昨天', value: [dayjs().subtract(1, 'day'), dayjs().subtract(1, 'day')] },
+    { label: '最近7天', value: [dayjs().subtract(7, 'day'), dayjs()] },
   ]);
 
   /*

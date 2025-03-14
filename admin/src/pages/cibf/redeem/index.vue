@@ -1,12 +1,15 @@
 <template>
   <div class="app-view-header">
-    <div>
+    <a-space>
       <a-button
         type="primary"
       >
-        生成兑奖码
+        批量生成
       </a-button>
-    </div>
+      <a-button>
+        批量删除
+      </a-button>
+    </a-space>
 
     <div class="app-view-header-sum">
       总计: {{ pagination.total }}
@@ -140,6 +143,18 @@
         <a-button
           size="small"
           type="link"
+          @click="router.push({
+            name: 'cibf-redeem-detail',
+            query: {
+              redeemCodeId: record.id,
+            },
+          })"
+        >
+          详情
+        </a-button>
+        <a-button
+          size="small"
+          type="link"
           danger
           @click="onDelete(record)"
         >
@@ -154,6 +169,7 @@
 import { ref, onMounted } from 'vue';
 import { message, TableColumnsType } from 'ant-design-vue';
 import dayjs from 'dayjs';
+import { useRouter } from 'vue-router';
 import useTable from '@/hooks/use-table';
 import { redeemApi } from '@/api/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
@@ -161,6 +177,7 @@ import type { IRedeem } from '@/types/redeem';
 import { getPrizeTypeText, getPrizeTypeFilters } from './redeem-utils';
 
 const { confirmModal } = Feedback;
+const router = useRouter();
 
 /*
  * 列表项
@@ -335,7 +352,7 @@ onMounted(() => {
 const onDelete = async (record: IRedeem) => {
   const confirm = await confirmModal({
     title: '删除',
-    content: `确定删除兑奖码 ${record.redeemCode} 吗？`,
+    content: `确定删除兑奖码 ${getPrizeTypeText(record.prizeType)}(${record.redeemCode}) 吗？`,
   });
 
   if (!confirm) {

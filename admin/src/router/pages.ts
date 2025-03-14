@@ -188,6 +188,16 @@ const pages: RouteRecordRaw[] = [
           title: '兑换码列表',
         },
       },
+      // 兑换码详情
+      {
+        path: 'redeem-detail',
+        component: () => import('@/pages/cibf/redeem/redeem-detail.vue'),
+        name: 'cibf-redeem-detail',
+        meta: {
+          sideKey: 'cibf-redeem',
+          title: '兑换码详情',
+        },
+      },
     ],
   },
 ];

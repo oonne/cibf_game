@@ -3,6 +3,9 @@
     <a-space>
       <a-button
         type="primary"
+        @click="router.push({
+          name: 'cibf-batch-generate',
+        })"
       >
         批量生成
       </a-button>
@@ -51,9 +54,7 @@
         </template>
 
         <!-- 时间 -->
-        <template
-          v-if="column.key === 'issuedTime' || column.key === 'redeemedTime'"
-        >
+        <template v-if="column.key === 'issuedTime' || column.key === 'redeemedTime'">
           <a-range-picker
             :value="selectedKeys[0]"
             size="small"
@@ -370,5 +371,4 @@ const onDelete = async (record: IRedeem) => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

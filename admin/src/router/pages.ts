@@ -198,6 +198,16 @@ const pages: RouteRecordRaw[] = [
           title: '兑换码详情',
         },
       },
+      // 批量生成兑换码
+      {
+        path: 'batch-generate',
+        component: () => import('@/pages/cibf/redeem/batch-generate.vue'),
+        name: 'cibf-batch-generate',
+        meta: {
+          sideKey: 'cibf-redeem',
+          title: '批量生成兑换码',
+        },
+      },
     ],
   },
 ];

@@ -3,7 +3,13 @@ import ErrorCode from '../../constant/error-code';
 import { resSuccess } from '../../utils/index';
 import type { HttpResponse, ListResponse } from '../../types/type';
 import { RedeemService } from './redeem.service';
-import { GetListDto, GetDetailDto, DeleteRedeemDto } from './dto/redeem.dto';
+import {
+  GetListDto,
+  GetDetailDto,
+  DeleteRedeemDto,
+  BatchGenerateRedeemDto,
+  BatchDeleteRedeemDto,
+} from './dto/redeem.dto';
 import type { Redeem } from './redeem.entity';
 
 @Controller('redeem')
@@ -74,6 +80,28 @@ export class RedeemController {
     }
 
     await this.RedeemService.delete(deleteRedeemDto.redeemCodeId);
+    return resSuccess(null);
+  }
+
+  /*
+   * 批量生成兑奖码
+   */
+  @Post('batch-generate')
+  async batchGenerate(
+    @Body() batchGenerateRedeemDto: BatchGenerateRedeemDto,
+  ): Promise<HttpResponse<any>> {
+    await this.RedeemService.createBatch(batchGenerateRedeemDto);
+    return resSuccess(null);
+  }
+
+  /*
+   * 批量删除兑奖码
+   */
+  @Post('batch-delete')
+  async batchDelete(
+    @Body() batchDeleteRedeemDto: BatchDeleteRedeemDto,
+  ): Promise<HttpResponse<any>> {
+    await this.RedeemService.deleteBatch(batchDeleteRedeemDto);
     return resSuccess(null);
   }
 }

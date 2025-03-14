@@ -60,3 +60,18 @@ export class DeleteRedeemDto {
   @IsString()
   redeemCodeId: string;
 }
+
+/* 批量生成兑奖码 */
+export class BatchGenerateRedeemDto {
+  @IsIn(prizeTypeKeyArr)
+  prizeType: number;
+
+  @IsNumber()
+  count: number;
+}
+
+/* 批量删除兑奖码 */
+export class BatchDeleteRedeemDto {
+  @IsIn(prizeTypeKeyArr)
+  prizeType: number;
+}

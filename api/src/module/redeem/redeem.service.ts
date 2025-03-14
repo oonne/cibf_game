@@ -80,9 +80,27 @@ export class RedeemService {
   }
 
   /*
-   * 批量新增兑奖码
+   * 批量生成兑奖码
    */
-  async createBatch(): Promise<void> {
-    console.log(generateId('TODO'));
+  async createBatch({ prizeType, count }: { prizeType: number; count: number }): Promise<void> {
+    const redeemCodes = [];
+    for (let i = 0; i < count; i++) {
+      redeemCodes.push({
+        redeemCodeId: generateId('redeem'),
+        redeemCode: generateId('CIBF'),
+        prizeType,
+        isIssued: false,
+        isRedeemed: false,
+      });
+    }
+
+    await this.redeemRepository.insert(redeemCodes);
+  }
+
+  /*
+   * 批量删除兑奖码
+   */
+  async deleteBatch({ prizeType }: { prizeType: number }): Promise<void> {
+    await this.redeemRepository.delete({ prizeType });
   }
 }

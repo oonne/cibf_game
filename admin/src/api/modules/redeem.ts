@@ -24,4 +24,20 @@ export default {
       data,
     });
   },
+
+  // 批量生成兑换码
+  batchGenerate(data: object) {
+    return request({
+      url: '/redeem/batch-generate',
+      data,
+    });
+  },
+
+  // 批量删除兑换码
+  batchDelete(data: object) {
+    return request({
+      url: '/redeem/batch-delete',
+      data,
+    });
+  },
 };

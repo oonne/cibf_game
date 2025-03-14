@@ -9,7 +9,7 @@
       >
         批量生成
       </a-button>
-      <a-button>
+      <a-button v-if="[1, 2].includes(staffInfo.role || 0)">
         批量删除
       </a-button>
     </a-space>
@@ -169,17 +169,20 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { message, TableColumnsType } from 'ant-design-vue';
+import { storeToRefs } from 'pinia';
 import dayjs from 'dayjs';
 import { useRouter } from 'vue-router';
 import useTable from '@/hooks/use-table';
 import { redeemApi } from '@/api/index';
+import { useStaffStore } from '@/store/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
 import type { IRedeem } from '@/types/redeem';
 import { getPrizeTypeText, getPrizeTypeFilters } from './redeem-utils';
 
 const { confirmModal } = Feedback;
 const router = useRouter();
-
+const staffStore = useStaffStore();
+const { staffInfo } = storeToRefs(staffStore);
 /*
  * 列表项
  */

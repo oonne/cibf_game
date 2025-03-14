@@ -8,19 +8,27 @@
     >
       <a-form-item
         label="奖品"
-        name="奖品"
+        name="prizeType"
         :rules="[{ required: true }]"
       >
-        <a-input
+        <a-select
           v-model:value="formData.prizeType"
-          placeholder="请输入奖品"
+          placeholder="请选择奖品"
           :style="{ width: '240px' }"
-        />
+        >
+          <a-select-option
+            v-for="item in prizeTypeList"
+            :key="item.type"
+            :value="item.type"
+          >
+            {{ item.name }}
+          </a-select-option>
+        </a-select>
       </a-form-item>
 
       <a-form-item
         label="数量"
-        name="数量"
+        name="count"
         :rules="[{ required: true }]"
       >
         <a-input-number
@@ -47,13 +55,14 @@ import { message } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import { redeemApi } from '@/api/index';
 import { to, buildErrorMsg } from '@/utils/index';
+import prizeTypeList from '@/constant/prize';
 
 const router = useRouter();
 
 /* 表单 */
 const formRef = ref();
 const formData = ref({
-  prizeType: 1,
+  prizeType: prizeTypeList[0]?.type || 1,
   count: 0,
 });
 

@@ -12,6 +12,10 @@
         @click="handlePrizeClick(prize)"
       >
         {{ prize.winningPrizeName }}
+        <span
+          v-if="prize.hasRedeemed"
+          :style="{ color: '#f66' }"
+        >(已兑奖)</span>
       </div>
     </div>
   </div>
@@ -145,6 +149,9 @@ const submitPhone = async () => {
  * 点击奖品
  */
 const handlePrizeClick = (prize: any) => {
+  if (prize.hasRedeemed) {
+    return;
+  }
   // 保存当前奖品
   currentPrize.value = prize;
   if (!props.phone) {

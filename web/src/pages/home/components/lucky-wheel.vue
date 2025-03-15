@@ -106,6 +106,7 @@ const startRotate = async () => {
     ...prizes[prizeIndex],
     winningPrizeName,
     redeemCode,
+    hasRedeemed: false,
   });
 };
 </script>

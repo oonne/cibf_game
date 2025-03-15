@@ -91,6 +91,7 @@ const currentPrize = ref({
   isWin: false,
   winningPrizeName: '',
   redeemCode: '',
+  hasRedeemed: false,
 });
 
 // 关闭结果弹窗
@@ -151,6 +152,7 @@ const userEntry = async () => {
     lotteryTimes: times,
     winningPrizeName,
     redeemCode,
+    hasRedeemed,
   } = res.data;
 
   hasPlayedGame.value = played;
@@ -174,6 +176,7 @@ const userEntry = async () => {
     prizeHistory.value.push({
       winningPrizeName,
       redeemCode,
+      hasRedeemed,
     });
   }
 };

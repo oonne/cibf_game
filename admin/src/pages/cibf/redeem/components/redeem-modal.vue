@@ -17,7 +17,7 @@
       >
         <a-input
           v-model:value="formData.redeemCode"
-          placeholder="请输入兑换码"
+          placeholder="请输入兑换码，可使用扫码枪快速扫码"
         />
       </a-form-item>
     </a-form>

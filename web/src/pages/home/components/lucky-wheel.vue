@@ -28,10 +28,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { userApi } from '@/api/index';
 import prizes from '@/constant/prizes';
+import { to } from '@/utils/index';
 
 // 定义组件事件
-const emit = defineEmits(['prize-drawn', 'draw']);
+const emit = defineEmits(['prize-drawn']);
 
 // 定义props
 const props = defineProps<{
@@ -54,15 +56,20 @@ const startRotate = async () => {
   if (isRotating.value) return;
   if (!props.canDraw) return;
 
-  // 通知父组件减少抽奖次数
-  emit('draw');
+  let prizeIndex = 5;
 
+  // 调用抽奖接口
+  const [err, res] = await to(userApi.lottery({
+    uuid: localStorage.getItem('UUID'),
+  }));
+  if (err || !res.data.isWinning || !res.data.winningPrizeType) {
+    prizeIndex = 5;
+  } else {
+    prizeIndex = res.data.winningPrizeType - 1;
+  }
+
+  // 开始旋转，获取当前旋转角度（可能已经旋转了多次）
   isRotating.value = true;
-
-  // 随机选择一个奖品索引 (0 到 prizeCount-1)
-  const prizeIndex = Math.floor(Math.random() * prizeCount);
-
-  // 获取当前旋转角度（可能已经旋转了多次）
   const currentRotation = rotation.value;
 
   // 计算目标角度：在当前角度基础上至少旋转2圈以上

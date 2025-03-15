@@ -362,6 +362,8 @@ export class UserController {
     return resSuccess({
       isWinning: true,
       winningPrizeName: redeem.prizeName,
+      winningPrizeType: redeem.prizeType,
+      message: '中奖了',
     });
   }
 }

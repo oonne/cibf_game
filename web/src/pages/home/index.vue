@@ -13,7 +13,6 @@
     :draw-count="drawCount"
     :can-draw="drawCount > 0"
     @prize-drawn="handlePrizeDrawn"
-    @draw="decreaseDrawCount"
   />
 
   <!-- 抽奖次数 -->
@@ -50,7 +49,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { Prize } from '@/constant/prizes';
 import ModalPopup from '@/components/modal-popup.vue';
 import { userApi } from '@/api/index';
@@ -61,7 +59,6 @@ import ActivityInfo from './components/activity-info.vue';
 import PrizeHistory from './components/prize-history.vue';
 
 const { randomChars, getUrlParams } = Utils;
-const router = useRouter();
 
 /*
  * 错误提示
@@ -97,15 +94,12 @@ const closeResult = () => {
   showResult.value = false;
 };
 
-// 减少抽奖次数
-const decreaseDrawCount = () => {
+// 处理抽奖完成事件
+const handlePrizeDrawn = (result: Prize) => {
   if (drawCount.value > 0) {
     drawCount.value -= 1;
   }
-};
 
-// 处理抽奖完成事件
-const handlePrizeDrawn = (result: Prize) => {
   currentPrize.value = result;
   showResult.value = true;
   // 如果是中奖的奖品，添加到历史记录中
@@ -172,12 +166,6 @@ const userEntry = async () => {
 onMounted(() => {
   initUUID();
   userEntry();
-});
-
-// 路由监听
-router.beforeEach((toRoute, fromRoute, next) => {
-  console.log('TODO: 路由监听');
-  next();
 });
 </script>
 

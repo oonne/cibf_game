@@ -185,33 +185,16 @@
     </template>
   </a-table>
 
-  <!-- 兑奖弹框 -->
-  <a-modal
-    v-model:visible="redeemModalVisible"
-    title="兑奖"
-    :confirm-loading="redeemLoading"
-    @ok="handleRedeemSubmit"
-  >
-    <a-form
-      :model="redeemForm"
-      layout="vertical"
-    >
-      <a-form-item
-        label="兑换码"
-        name="redeemCode"
-        :rules="[{ required: true, message: '请输入兑换码' }]"
-      >
-        <a-input
-          v-model:value="redeemForm.redeemCode"
-          placeholder="请输入兑换码"
-        />
-      </a-form-item>
-    </a-form>
-  </a-modal>
+  <!-- 兑奖弹框组件 -->
+  <redeem-modal
+    :visible="redeemModalVisible"
+    @update:visible="redeemModalVisible = $event"
+    @success="getList"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted } from 'vue';
 import { message, TableColumnsType } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
 import dayjs from 'dayjs';
@@ -222,6 +205,7 @@ import { useStaffStore } from '@/store/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
 import type { IRedeem } from '@/types/redeem';
 import { getPrizeTypeText, getPrizeTypeFilters } from './redeem-utils';
+import RedeemModal from './components/redeem-modal.vue';
 
 const { confirmModal } = Feedback;
 const router = useRouter();
@@ -420,36 +404,10 @@ const onDelete = async (record: IRedeem) => {
 
 // 兑奖弹框相关
 const redeemModalVisible = ref<boolean>(false);
-const redeemLoading = ref<boolean>(false);
-const redeemForm = reactive({
-  redeemCode: '',
-});
 
 // 显示兑奖弹框
 const showRedeemModal = () => {
-  redeemForm.redeemCode = '';
   redeemModalVisible.value = true;
-};
-
-// 提交兑奖
-const handleRedeemSubmit = async () => {
-  if (!redeemForm.redeemCode) {
-    message.warning('请输入兑换码');
-    return;
-  }
-
-  redeemLoading.value = true;
-  const [err] = await to(redeemApi.redeemCode({ redeemCode: redeemForm.redeemCode }));
-  redeemLoading.value = false;
-
-  if (err) {
-    message.error(buildErrorMsg({ err, defaultMsg: '兑奖失败' }));
-    return;
-  }
-
-  message.success('兑奖成功');
-  redeemModalVisible.value = false;
-  getList();
 };
 </script>
 

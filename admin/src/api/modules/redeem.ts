@@ -44,7 +44,7 @@ export default {
   // 兑换码兑奖
   redeemCode(data: object) {
     return request({
-      url: '/redeem/redeem-code',
+      url: '/redeem/redeem',
       data,
     });
   },

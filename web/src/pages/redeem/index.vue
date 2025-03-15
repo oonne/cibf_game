@@ -7,6 +7,9 @@
       ref="qrCodeRef"
       class="qr-code"
     />
+    <div class="redeem-code">
+      {{ redeemCode }}
+    </div>
     <p class="redeem-instructions">
       兑奖时间: 2025年5月15日-2025年5月17日
     </p>
@@ -61,6 +64,13 @@ onMounted(async () => {
 .qr-code img {
   max-width: 200px;
   height: auto;
+}
+
+.redeem-code {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .redeem-instructions {

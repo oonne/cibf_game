@@ -91,3 +91,12 @@ export class UserOperationReportDto {
   @IsOptional()
   openId?: string;
 }
+
+/* 提交手机号 */
+export class SubmitPhoneDto {
+  @IsString()
+  uuid: string;
+
+  @IsString()
+  phone: string;
+}

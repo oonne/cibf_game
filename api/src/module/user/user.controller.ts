@@ -14,6 +14,7 @@ import {
   DeleteUserDto,
   UserEntryDto,
   UserOperationReportDto,
+  SubmitPhoneDto,
 } from './dto/user.dto';
 import type { User } from './user.entity';
 
@@ -362,7 +363,7 @@ export class UserController {
       });
     }
 
-    // 更新兑奖码状态
+    // 更新兑奖码
     await this.RedeemService.update({
       redeemCodeId: redeem.redeemCodeId,
       isIssued: true,
@@ -387,5 +388,29 @@ export class UserController {
       winningPrizeType: redeem.prizeType,
       message: '中奖了',
     });
+  }
+
+  /*
+   * 提交手机号
+   */
+  @Post('submit-phone')
+  @NoLogin
+  async submitPhone(@Body() submitPhoneDto: SubmitPhoneDto): Promise<HttpResponse<any>> {
+    // 查询用户
+    const user = await this.UserService.getDetailByUuid(submitPhoneDto.uuid);
+    if (!user) {
+      return {
+        code: ErrorCode.USER_NOT_FOUND,
+        message: '用户不存在',
+      };
+    }
+
+    // 更新用户手机号
+    await this.UserService.update({
+      userId: user.userId,
+      phone: submitPhoneDto.phone,
+    });
+
+    return resSuccess(null);
   }
 }

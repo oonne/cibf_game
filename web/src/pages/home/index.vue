@@ -25,7 +25,10 @@
   />
 
   <!-- 中奖记录 -->
-  <PrizeHistory :prizes="prizeHistory" />
+  <PrizeHistory
+    :prizes="prizeHistory"
+    :phone="phone"
+  />
 
   <!-- 活动说明 -->
   <ActivityInfo />
@@ -123,6 +126,7 @@ const hasPlayedGame = ref(false);
 const hasShared = ref(false);
 const hasBrowsed = ref(false);
 const lotteryTimes = ref(0);
+const phone = ref('');
 
 /* 用户进入 */
 const userEntry = async () => {
@@ -150,6 +154,7 @@ const userEntry = async () => {
   hasShared.value = shared;
   hasBrowsed.value = browsed;
   lotteryTimes.value = times;
+  phone.value = res.data.phone;
 
   // 计算总抽奖次数
   let totalCount = 0;

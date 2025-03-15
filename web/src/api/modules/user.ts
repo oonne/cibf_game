@@ -40,4 +40,12 @@ export default {
       data,
     });
   },
+
+  // 提交手机号
+  submitPhone(data: object) {
+    return request({
+      url: '/user/submit-phone',
+      data,
+    });
+  },
 };

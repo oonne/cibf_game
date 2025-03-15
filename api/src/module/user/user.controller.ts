@@ -386,6 +386,7 @@ export class UserController {
       isWinning: true,
       winningPrizeName: prizeName,
       winningPrizeType: redeem.prizeType,
+      redeemCode: redeem.redeemCode,
       message: '中奖了',
     });
   }

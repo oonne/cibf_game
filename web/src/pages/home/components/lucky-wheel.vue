@@ -30,7 +30,9 @@
 import { ref } from 'vue';
 import { userApi } from '@/api/index';
 import prizes from '@/constant/prizes';
-import { to } from '@/utils/index';
+import { Utils, to } from '@/utils/index';
+
+const { sleep } = Utils;
 
 // 定义组件事件
 const emit = defineEmits(['prize-drawn']);
@@ -57,6 +59,8 @@ const startRotate = async () => {
   if (!props.canDraw) return;
 
   let prizeIndex = 5;
+  let winningPrizeName = '';
+  let redeemCode = '';
 
   // 调用抽奖接口
   const [err, res] = await to(userApi.lottery({
@@ -66,6 +70,8 @@ const startRotate = async () => {
     prizeIndex = 5;
   } else {
     prizeIndex = res.data.winningPrizeType - 1;
+    winningPrizeName = res.data.winningPrizeName;
+    redeemCode = res.data.redeemCode;
   }
 
   // 开始旋转，获取当前旋转角度（可能已经旋转了多次）
@@ -91,12 +97,16 @@ const startRotate = async () => {
   // 设置新的旋转角度
   rotation.value = targetAngle;
 
-  // 旋转结束后触发中奖事件
-  setTimeout(() => {
-    isRotating.value = false;
-    // 通知父组件抽奖已完成，返回完整的奖品对象
-    emit('prize-drawn', prizes[prizeIndex]);
-  }, 5000); // 旋转动画持续5秒
+  // 旋转动画持续5秒
+  await sleep(5000);
+  isRotating.value = false;
+
+  // 通知父组件抽奖已完成，返回完整的奖品对象
+  emit('prize-drawn', {
+    ...prizes[prizeIndex],
+    winningPrizeName,
+    redeemCode,
+  });
 };
 </script>
 

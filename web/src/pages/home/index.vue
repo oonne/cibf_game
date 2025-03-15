@@ -52,7 +52,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { Prize } from '@/constant/prizes';
 import ModalPopup from '@/components/modal-popup.vue';
 import { userApi } from '@/api/index';
 import { Utils, to } from '@/utils/index';
@@ -82,14 +81,16 @@ const closeError = () => {
 const drawCount = ref(0);
 
 // 记录中奖记录列表
-const prizeHistory = ref<Prize[]>([]);
+const prizeHistory = ref<any[]>([]);
 // 是否显示结果
 const showResult = ref(false);
 // 当前中奖奖品
-const currentPrize = ref<Prize>({
+const currentPrize = ref({
   id: 0,
   name: '',
   isWin: false,
+  winningPrizeName: '',
+  redeemCode: '',
 });
 
 // 关闭结果弹窗
@@ -98,7 +99,7 @@ const closeResult = () => {
 };
 
 // 处理抽奖完成事件
-const handlePrizeDrawn = (result: Prize) => {
+const handlePrizeDrawn = (result: any) => {
   if (drawCount.value > 0) {
     drawCount.value -= 1;
   }
@@ -148,6 +149,8 @@ const userEntry = async () => {
     hasShared: shared,
     hasBrowsed: browsed,
     lotteryTimes: times,
+    winningPrizeName,
+    redeemCode,
   } = res.data;
 
   hasPlayedGame.value = played;
@@ -164,6 +167,14 @@ const userEntry = async () => {
   drawCount.value = totalCount - times;
   if (drawCount.value < 0) {
     drawCount.value = 0;
+  }
+
+  // 已中奖的奖品
+  if (redeemCode) {
+    prizeHistory.value.push({
+      winningPrizeName,
+      redeemCode,
+    });
   }
 };
 

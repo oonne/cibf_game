@@ -20,12 +20,13 @@ import qrcode from 'qrcode';
 
 const route = useRoute();
 const prizeName = ref(route.query.name as string || '未知奖品');
+const redeemCode = ref(route.query.code as string || '');
 const qrCodeRef = ref<HTMLElement>();
 
 onMounted(async () => {
   if (qrCodeRef.value) {
     try {
-      const qrCodeUrl = await qrcode.toDataURL('1234567');
+      const qrCodeUrl = await qrcode.toDataURL(redeemCode.value);
       const img = document.createElement('img');
       img.src = qrCodeUrl;
       qrCodeRef.value.appendChild(img);

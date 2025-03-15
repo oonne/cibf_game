@@ -11,7 +11,7 @@
         class="prize-item"
         @click="handlePrizeClick(prize)"
       >
-        {{ prize.name }}
+        {{ prize.winningPrizeName }}
       </div>
     </div>
   </div>
@@ -61,14 +61,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { Prize } from '@/constant/prizes';
 import { userApi } from '@/api/index';
 import { to } from '@/utils/index';
 
 const router = useRouter();
 
 const props = defineProps<{
-  prizes: Prize[]
+  prizes: any[]
   phone: string
 }>();
 
@@ -76,7 +75,7 @@ const props = defineProps<{
 const showPhoneModal = ref(false);
 const phoneNumber = ref('');
 const phoneError = ref('');
-const currentPrize = ref<Prize | null>(null);
+const currentPrize = ref<any>(null);
 
 // 关闭手机号输入弹框
 const closePhoneModal = () => {
@@ -127,18 +126,18 @@ const submitPhone = async () => {
 
 /* 跳转到兑奖码页面 */
 const goRedeem = () => {
-// 跳转到兑奖码页面
+  // 跳转到兑奖码页面
   router.push({
     name: 'redeem',
     query: {
-      id: currentPrize.value?.id,
-      name: currentPrize.value?.name,
+      name: currentPrize.value?.winningPrizeName,
+      code: currentPrize.value?.redeemCode,
     },
   });
 };
 
 /* 点击奖品 */
-const handlePrizeClick = (prize: Prize) => {
+const handlePrizeClick = (prize: any) => {
   // 保存当前奖品
   currentPrize.value = prize;
   if (!props.phone) {

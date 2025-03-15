@@ -40,7 +40,16 @@
         align="center"
         gap="small"
       >
-        {{ detail.issuedUserPhone || '-' }}
+        <a-button
+          v-if="detail.issuedUserId"
+          type="link"
+          @click="router.push({
+            name: 'cibf-user-detail',
+            query: { userId: detail.issuedUserId },
+          })"
+        >
+          {{ detail.issuedUserPhone || '-' }}
+        </a-button>
         <Icon
           v-if="detail.issuedUserPhone"
           icon="copy"
@@ -65,7 +74,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { message } from 'ant-design-vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { redeemApi } from '@/api/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
@@ -75,6 +84,7 @@ import type { IRedeem } from '@/types/redeem';
 import { getPrizeTypeText } from './redeem-utils';
 
 const route = useRoute();
+const router = useRouter();
 const { copyText } = Feedback;
 
 const detail = ref<IRedeem>({

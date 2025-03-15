@@ -92,7 +92,16 @@
     </a-descriptions-item>
 
     <a-descriptions-item label="中奖兑换码">
-      {{ detail.redeemCode }}
+      <a-button
+        v-if="detail.redeemCodeId"
+        type="link"
+        @click="router.push({
+          name: 'cibf-redeem-detail',
+          query: { redeemCodeId: detail.redeemCodeId },
+        })"
+      >
+        {{ detail.redeemCode }}
+      </a-button>
     </a-descriptions-item>
     <a-descriptions-item
       label="是否已兑奖"
@@ -106,7 +115,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { message } from 'ant-design-vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { userApi } from '@/api/index';
 import { to, buildErrorMsg, Feedback } from '@/utils/index';
@@ -115,6 +124,7 @@ import Loading from '@/components/loading/index.vue';
 import type { IUser } from '@/types/user';
 
 const route = useRoute();
+const router = useRouter();
 const { copyText } = Feedback;
 
 const detail = ref<IUser>({

@@ -133,7 +133,7 @@ const phone = ref('');
 const userEntry = async () => {
   const [err, res] = await to(userApi.userEntry({
     uuid: localStorage.getItem('UUID'),
-    openid: getUrlParams('openid') || null,
+    openId: getUrlParams('openid') || null,
   }));
 
   if (err) {

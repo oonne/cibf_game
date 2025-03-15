@@ -151,7 +151,16 @@
 
       <!-- 已中奖品名 -->
       <template v-if="column.key === 'winningPrizeName'">
-        {{ record.winningPrizeName || '-' }}
+        <a-button
+          v-if="record.redeemCodeId"
+          type="link"
+          @click="router.push({
+            name: 'cibf-redeem-detail',
+            query: { redeemCodeId: record.redeemCodeId },
+          })"
+        >
+          {{ record.winningPrizeName }}
+        </a-button>
       </template>
 
       <!-- 是否已兑奖 -->
@@ -446,5 +455,4 @@ const onDelete = async (record: IUser) => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

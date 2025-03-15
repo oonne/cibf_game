@@ -136,7 +136,16 @@
 
       <!-- 发放用户手机号 -->
       <template v-if="column.key === 'issuedUserPhone'">
-        {{ record.issuedUserPhone || '-' }}
+        <a-button
+          v-if="record.issuedUserId"
+          type="link"
+          @click="router.push({
+            name: 'cibf-user-detail',
+            query: { userId: record.issuedUserId },
+          })"
+        >
+          {{ record.issuedUserPhone || '-' }}
+        </a-button>
       </template>
 
       <!-- 是否已兑换 -->

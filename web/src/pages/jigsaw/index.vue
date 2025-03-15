@@ -98,10 +98,10 @@ const endGame = async (isSuccess: boolean) => {
   title.value = '通关啦！';
   content.value = '获得了抽奖机会+1';
 
-  const [error] = await to(userApi.gameReport({
+  const [err] = await to(userApi.gameReport({
     uuid: localStorage.getItem('UUID'),
   }));
-  if (error) {
+  if (err) {
     title.value = '游戏异常';
     content.value = '服务器繁忙，请稍后重试';
   }

@@ -32,6 +32,11 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { userApi } from '@/api/index';
+import { to } from '@/utils/index';
+
+// 声明wx变量，确保TypeScript识别它
+declare const wx: any;
 
 const router = useRouter();
 
@@ -44,7 +49,7 @@ const props = defineProps<{
   lotteryTimes: number
 }>();
 
-// 处理玩游戏按钮点击
+/* 处理玩游戏按钮点击 */
 const handlePlayGame = () => {
   if (props.hasPlayedGame) {
     return;
@@ -52,20 +57,49 @@ const handlePlayGame = () => {
   router.push({ name: 'jigsaw' });
 };
 
-// 处理分享按钮点击
+/* 处理分享按钮点击 */
 const handleShare = () => {
-  if (!props.hasShared) {
+  if (props.hasShared) {
     return;
   }
-  console.log('TODO: 调起小程序分享');
+
+  // 判断是否在小程序环境中
+  wx.miniProgram.getEnv(async (res: { miniprogram: boolean }) => {
+    if (res.miniprogram) {
+      // 在小程序环境中，调用postMessage触发分享
+      wx.miniProgram.postMessage({
+        data: {
+          action: 'share',
+        },
+      });
+
+      // 分享增加次数
+      await to(userApi.shareReport({
+        uuid: localStorage.getItem('UUID'),
+      }));
+    } else {
+      console.log('非小程序环境，无法调起分享');
+    }
+  });
 };
 
-// 处理浏览小程序按钮点击
+/* 处理浏览小程序按钮点击 */
 const handleView = () => {
   if (!props.hasBrowsed) {
     return;
   }
-  console.log('TODO: 跳转到小程序页面');
+  // 判断是否在小程序环境中
+  wx.miniProgram.getEnv((res: { miniprogram: boolean }) => {
+    if (res.miniprogram) {
+      // 在小程序环境中，调用navigateTo跳转
+      wx.miniProgram.navigateTo({
+        url: '/pages/index/index',
+      });
+      console.log('已跳转');
+    } else {
+      console.log('非小程序环境，无法调起分享');
+    }
+  });
 };
 </script>
 

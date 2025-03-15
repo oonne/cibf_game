@@ -17,11 +17,20 @@
         请再通过在连接里面携带openId参数，用于标识用户。
       </li>
       <li>
-        小程序的分享页面设置
+        活动页面页面设置
         <a
           href="https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/miniapp/component/onShareAppMessage.html"
           target="_blank"
         >onShareAppMessage</a> 方法，用于分享当前活动页面。请设置path，使得分享出去的链接，可以直接进入到当前活动页面。
+      </li>
+      <li>
+        活动页面的webview组件设置 bindmessage 事件，用于接收分享回调。
+      </li>
+      <li>
+        提供一个页面，用于H5页面点击“浏览小程序获取抽奖次数”的回调。
+      </li>
+      <li>
+        浏览小程序页面后，进行计时，达到规定时间后，调用 <b>https://cibf-api.wuyanxun.com/user/browse-report</b> 接口，上报浏览小程序。请求方法: <b>POST</b>。请求参数: <b>openId</b>。
       </li>
     </ol>
   </div>

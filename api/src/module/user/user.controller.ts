@@ -2,6 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { NoLogin } from '../../common/decorator/auth.decorator';
 import { Roles } from '../../common/decorator/roles.decorator';
 import ErrorCode from '../../constant/error-code';
+import { prizeTypeList } from '../../constant/prize';
 import { resSuccess, Utils } from '../../utils/index';
 import type { HttpResponse, ListResponse } from '../../types/type';
 import { SettingService } from '../setting/setting.service';
@@ -266,15 +267,6 @@ export class UserController {
       };
     }
 
-    // 如果已经中过一次奖，默认不中奖
-    if (user.winningPrizeName) {
-      return resSuccess({
-        isWinning: false,
-        winningPrizeName: '',
-        message: '已中过奖',
-      });
-    }
-
     // 如果抽奖次数不足，则不中奖
     let lotteryTimes = 0;
     if (user.hasPlayedGame) {
@@ -292,6 +284,21 @@ export class UserController {
         isWinning: false,
         winningPrizeName: '',
         message: '抽奖次数不足',
+      });
+    }
+
+    // 更新用户抽奖次数
+    await this.UserService.update({
+      userId: user.userId,
+      lotteryTimes: user.lotteryTimes + 1,
+    });
+
+    // 如果已经中过一次奖，默认不中奖
+    if (user.winningPrizeName) {
+      return resSuccess({
+        isWinning: false,
+        winningPrizeName: '',
+        message: '已中过奖',
       });
     }
 
@@ -326,9 +333,6 @@ export class UserController {
       });
     }
 
-    // 开始抽奖，抽奖次数-1
-    lotteryTimes -= 1;
-
     // settingValue 中有 prize_rate_1 ~ prize_rate_5，对应数字表示中奖率（百分比）。
     // 根据中奖概率依次判断，如果中奖，查找是否存在未发放的兑奖码。
     // 如果存在，则中奖，不进行后续判断，返回奖品和兑奖码
@@ -358,10 +362,28 @@ export class UserController {
       });
     }
 
+    // 更新兑奖码状态
+    await this.RedeemService.update({
+      redeemCodeId: redeem.redeemCodeId,
+      isIssued: true,
+      issuedTime: new Date(),
+      issuedUserId: user.userId,
+    });
+
+    // 获取奖品名
+    const prizeName = prizeTypeList.find((item) => item.key === redeem.prizeType)?.name;
+
+    // 更新用户中奖信息
+    await this.UserService.update({
+      userId: user.userId,
+      winningPrizeName: prizeName,
+      redeemCode: redeem.redeemCode,
+    });
+
     // 返回中奖信息
     return resSuccess({
       isWinning: true,
-      winningPrizeName: redeem.prizeName,
+      winningPrizeName: prizeName,
       winningPrizeType: redeem.prizeType,
       message: '中奖了',
     });

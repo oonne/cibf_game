@@ -80,6 +80,25 @@ export class RedeemService {
   }
 
   /*
+   * 更新
+   */
+  async update(redeem: Partial<Redeem>): Promise<Redeem> {
+    let redeemToUpdate = await this.redeemRepository.findOneBy({
+      redeemCodeId: redeem.redeemCodeId,
+    });
+    if (!redeemToUpdate) {
+      throw new Error('Redeem not found');
+    }
+
+    redeemToUpdate = {
+      ...redeemToUpdate,
+      ...redeem,
+    };
+
+    return this.redeemRepository.save(redeemToUpdate);
+  }
+
+  /*
    * 删除
    */
   async delete(redeemCodeId: string): Promise<void> {

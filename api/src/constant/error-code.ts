@@ -53,6 +53,10 @@ const ErrorCode = {
    */
   // 兑奖码不存在
   REDEEM_NOT_FOUND: 1006001,
+  // 兑奖码已兑奖
+  REDEEM_ALREADY_REDEEMED: 1006002,
+  // 兑奖码未发放
+  REDEEM_NOT_ISSUED: 1006003,
 };
 
 export default ErrorCode;

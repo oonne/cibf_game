@@ -73,6 +73,13 @@ export class RedeemService {
   }
 
   /*
+   * 根据redeemCode查询单个
+   */
+  getDetailByRedeemCode(redeemCode: string): Promise<Redeem> {
+    return this.redeemRepository.findOneBy({ redeemCode });
+  }
+
+  /*
    * 根据prizeType查询未发放的兑奖码
    */
   getUnissuedByPrizeType(prizeType: number): Promise<Redeem> {

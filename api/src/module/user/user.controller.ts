@@ -378,7 +378,9 @@ export class UserController {
     await this.UserService.update({
       userId: user.userId,
       winningPrizeName: prizeName,
+      redeemCodeId: redeem.redeemCodeId,
       redeemCode: redeem.redeemCode,
+      winningTime: new Date(),
     });
 
     // 返回中奖信息
@@ -410,6 +412,12 @@ export class UserController {
     await this.UserService.update({
       userId: user.userId,
       phone: submitPhoneDto.phone,
+    });
+
+    // 更新兑奖码手机号
+    await this.RedeemService.update({
+      redeemCodeId: user.redeemCodeId,
+      issuedUserPhone: submitPhoneDto.phone,
     });
 
     return resSuccess(null);

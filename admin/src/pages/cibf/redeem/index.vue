@@ -157,7 +157,7 @@
           @click="router.push({
             name: 'cibf-redeem-detail',
             query: {
-              redeemCodeId: record.id,
+              redeemCodeId: record.redeemCodeId,
             },
           })"
         >

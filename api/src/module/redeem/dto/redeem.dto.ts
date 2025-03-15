@@ -75,3 +75,9 @@ export class BatchDeleteRedeemDto {
   @IsIn(prizeTypeKeyArr)
   prizeType: number;
 }
+
+/* 兑奖 */
+export class RedeemDto {
+  @IsString()
+  redeemCode: string;
+}

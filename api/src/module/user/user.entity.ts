@@ -41,6 +41,9 @@ export class User {
   @Column({ comment: '已中奖品名', nullable: true, length: 255 })
   winningPrizeName: string;
 
+  @Column({ comment: '中奖兑换码Id', nullable: true, length: 255 })
+  redeemCodeId: string;
+
   @Column({ comment: '中奖兑换码', nullable: true, length: 255 })
   redeemCode: string;
 

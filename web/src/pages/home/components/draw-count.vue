@@ -44,27 +44,28 @@ const props = defineProps<{
   lotteryTimes: number
 }>();
 
-const emit = defineEmits(['increase-count']);
-
 // 处理玩游戏按钮点击
 const handlePlayGame = () => {
-  if (!props.hasPlayedGame) {
-    router.push({ name: 'jigsaw' });
+  if (props.hasPlayedGame) {
+    return;
   }
+  router.push({ name: 'jigsaw' });
 };
 
 // 处理分享按钮点击
 const handleShare = () => {
   if (!props.hasShared) {
-    emit('increase-count');
+    return;
   }
+  console.log('TODO: 调起小程序分享');
 };
 
 // 处理浏览小程序按钮点击
 const handleView = () => {
   if (!props.hasBrowsed) {
-    emit('increase-count');
+    return;
   }
+  console.log('TODO: 跳转到小程序页面');
 };
 </script>
 

@@ -73,6 +73,13 @@ export class RedeemService {
   }
 
   /*
+   * 根据prizeType查询未发放的兑奖码
+   */
+  getUnissuedByPrizeType(prizeType: number): Promise<Redeem> {
+    return this.redeemRepository.findOneBy({ prizeType, isIssued: false });
+  }
+
+  /*
    * 删除
    */
   async delete(redeemCodeId: string): Promise<void> {

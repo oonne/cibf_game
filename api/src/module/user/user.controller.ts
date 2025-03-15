@@ -2,9 +2,10 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { NoLogin } from '../../common/decorator/auth.decorator';
 import { Roles } from '../../common/decorator/roles.decorator';
 import ErrorCode from '../../constant/error-code';
-import { resSuccess } from '../../utils/index';
+import { resSuccess, Utils } from '../../utils/index';
 import type { HttpResponse, ListResponse } from '../../types/type';
 import { SettingService } from '../setting/setting.service';
+import { RedeemService } from '../redeem/redeem.service';
 import { UserService } from './user.service';
 import {
   GetListDto,
@@ -15,11 +16,14 @@ import {
 } from './dto/user.dto';
 import type { User } from './user.entity';
 
+const { randomWithin } = Utils;
+
 @Controller('user')
 export class UserController {
   constructor(
     private readonly UserService: UserService,
     private readonly SettingService: SettingService,
+    private readonly RedeemService: RedeemService,
   ) {}
 
   /*
@@ -246,5 +250,118 @@ export class UserController {
     });
 
     return resSuccess(null);
+  }
+
+  /*
+   * 用户抽奖
+   */
+  @Post('lottery')
+  @NoLogin
+  async lottery(@Body() userLotteryDto: UserOperationReportDto): Promise<HttpResponse<any>> {
+    const user = await this.UserService.getDetailByUuid(userLotteryDto.uuid);
+    if (!user) {
+      return {
+        code: ErrorCode.USER_NOT_FOUND,
+        message: '用户不存在',
+      };
+    }
+
+    // 如果已经中过一次奖，默认不中奖
+    if (user.winningPrizeName) {
+      return resSuccess({
+        isWinning: false,
+        winningPrizeName: '',
+        message: '已中过奖',
+      });
+    }
+
+    // 如果抽奖次数不足，则不中奖
+    let lotteryTimes = 0;
+    if (user.hasPlayedGame) {
+      lotteryTimes += 1;
+    }
+    if (user.hasShared) {
+      lotteryTimes += 1;
+    }
+    if (user.hasBrowsed) {
+      lotteryTimes += 1;
+    }
+    lotteryTimes -= user.lotteryTimes;
+    if (lotteryTimes <= 0) {
+      return resSuccess({
+        isWinning: false,
+        winningPrizeName: '',
+        message: '抽奖次数不足',
+      });
+    }
+
+    // 查询配置
+    const setting = await this.SettingService.getDetailByKey('CIBF_SETTING');
+    if (!setting) {
+      return resSuccess({
+        isWinning: false,
+        winningPrizeName: '',
+        message: '查询配置失效',
+      });
+    }
+    let settingValue: any;
+
+    try {
+      settingValue = JSON.parse(setting);
+    } catch (e) {
+      console.error(e);
+      return resSuccess({
+        isWinning: false,
+        winningPrizeName: '',
+        message: '查询配置错误',
+      });
+    }
+
+    // 判断活动是否结束
+    if (!settingValue.isActive) {
+      return resSuccess({
+        isWinning: false,
+        winningPrizeName: '',
+        message: '活动已结束',
+      });
+    }
+
+    // 开始抽奖，抽奖次数-1
+    lotteryTimes -= 1;
+
+    // settingValue 中有 prize_rate_1 ~ prize_rate_5，对应数字表示中奖率（百分比）。
+    // 根据中奖概率依次判断，如果中奖，查找是否存在未发放的兑奖码。
+    // 如果存在，则中奖，不进行后续判断，返回奖品和兑奖码
+    // 如果每个奖品都没有中奖，返回不中奖
+    let redeem: any;
+    for (let i = 1; i <= 5; i++) {
+      const prizeRate = settingValue[`prize_rate_${i}`];
+      const random = randomWithin(100);
+      if (random < prizeRate) {
+        redeem = await this.RedeemService.getUnissuedByPrizeType(i);
+        if (!redeem) {
+          return resSuccess({
+            isWinning: false,
+            winningPrizeName: '',
+            message: `奖品 ${i} 不足`,
+          });
+        }
+        break;
+      }
+    }
+
+    if (!redeem) {
+      return resSuccess({
+        isWinning: false,
+        winningPrizeName: '',
+        message: '所有奖品都未抽中',
+      });
+    }
+
+    // 返回中奖信息
+    return resSuccess({
+      isWinning: true,
+      winningPrizeName: redeem.prizeName,
+    });
   }
 }

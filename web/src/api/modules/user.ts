@@ -32,4 +32,12 @@ export default {
       data,
     });
   },
+
+  // 抽奖
+  lottery(data: object) {
+    return request({
+      url: '/user/lottery',
+      data,
+    });
+  },
 };

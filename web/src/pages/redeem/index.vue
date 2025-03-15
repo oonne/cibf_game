@@ -8,7 +8,10 @@
       class="qr-code"
     />
     <p class="redeem-instructions">
-      请在2024年4月30日内到深圳会展中心4号馆的A12展位兑奖
+      兑奖时间: 2025年5月15日-2025年5月17日
+    </p>
+    <p class="redeem-instructions">
+      兑奖地点: 深圳市会展中心xx号馆xx展位
     </p>
   </div>
 </template>

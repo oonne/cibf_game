@@ -3,6 +3,10 @@
     <a-space>
       <a-button
         type="primary"
+      >
+        兑奖
+      </a-button>
+      <a-button
         @click="router.push({
           name: 'cibf-batch-generate',
         })"

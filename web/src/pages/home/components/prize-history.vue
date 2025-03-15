@@ -68,21 +68,35 @@ const router = useRouter();
 
 const props = defineProps<{
   prizes: any[]
-  phone: string
+  phone?: string
 }>();
 
-// 手机号相关
+const currentPrize = ref<any>(null);
+
+/* 跳转到兑奖码页面 */
+const goRedeem = () => {
+  // 跳转到兑奖码页面
+  router.push({
+    name: 'redeem',
+    query: {
+      name: currentPrize.value?.winningPrizeName,
+      code: currentPrize.value?.redeemCode,
+    },
+  });
+};
+
+/*
+ * 填写手机号弹框
+ */
 const showPhoneModal = ref(false);
 const phoneNumber = ref('');
 const phoneError = ref('');
-const currentPrize = ref<any>(null);
 
 // 关闭手机号输入弹框
 const closePhoneModal = () => {
   showPhoneModal.value = false;
   phoneNumber.value = '';
   phoneError.value = '';
-  currentPrize.value = null;
 };
 
 // 验证手机号
@@ -122,21 +136,14 @@ const submitPhone = async () => {
 
   // 关闭弹框
   closePhoneModal();
-};
 
-/* 跳转到兑奖码页面 */
-const goRedeem = () => {
   // 跳转到兑奖码页面
-  router.push({
-    name: 'redeem',
-    query: {
-      name: currentPrize.value?.winningPrizeName,
-      code: currentPrize.value?.redeemCode,
-    },
-  });
+  goRedeem();
 };
 
-/* 点击奖品 */
+/*
+ * 点击奖品
+ */
 const handlePrizeClick = (prize: any) => {
   // 保存当前奖品
   currentPrize.value = prize;

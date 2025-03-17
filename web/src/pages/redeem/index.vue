@@ -14,7 +14,7 @@
       兑奖时间: 2025年5月15日-2025年5月17日
     </p>
     <p class="redeem-instructions">
-      兑奖地点: 深圳市会展中心xx号馆xx展位
+      兑奖地点: 深圳市会展中心 南登录大厅
     </p>
   </div>
 </template>

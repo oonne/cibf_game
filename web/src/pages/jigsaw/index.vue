@@ -63,7 +63,7 @@ const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
 /*
  * 游戏控制
  */
-const SNAP_THRESHOLD = 10; // 吸附阈值(单位：vw)
+const SNAP_THRESHOLD = 15; // 吸附阈值(单位：vw)
 const vwSize = ref(1); // vw单位对应的像素值
 const countDown = ref(100); // 倒计时
 let timer: number | null = null; // 计时器

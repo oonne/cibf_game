@@ -17,7 +17,7 @@ RUN pnpm install
 RUN npm run build
 
 # 暴露端口
-EXPOSE 10011
+EXPOSE 10012
 
 # 启动应用
 CMD ["npm", "run", "start"] 

@@ -20,13 +20,13 @@ fi
 
 # 压缩本地 dist 目录
 echo "正在压缩 dist 目录..."
-zip -r cibf_web.zip dist -x "*.DS_Store"
+zip -r cibf_admin.zip dist -x "*.DS_Store"
 rm -rf dist
 
 # 上传到服务器的 /data/web 目录
-echo "正在上传 cibf_web.zip 到服务器..."
-scp cibf_web.zip root@$SERVER_IP:/data/web
-rm -rf cibf_web.zip
+echo "正在上传 cibf_admin.zip 到服务器..."
+scp cibf_admin.zip root@$SERVER_IP:/data/web
+rm -rf cibf_admin.zip
 
 # 连接到服务器
 ssh root@$SERVER_IP << 'EOF'
@@ -34,21 +34,21 @@ ssh root@$SERVER_IP << 'EOF'
 # 打开 /data/web 目录
 cd /data/web
 
-# 解压 cibf_web.zip 到 /data/web 目录
-echo "正在解压 cibf_web.zip..."
-unzip cibf_web.zip
+# 解压 cibf_admin.zip 到 /data/web 目录
+echo "正在解压 cibf_admin.zip..."
+unzip cibf_admin.zip
 
 # 删除压缩文件
-rm -rf cibf_web.zip
+rm -rf cibf_admin.zip
 
-# 删除原有的 cibf_web 目录
-rm -rf cibf_web
+# 删除原有的 cibf_admin 目录
+rm -rf cibf_admin
 
-# 将 dist 目录重命名为 cibf_web
-mv dist cibf_web
+# 将 dist 目录重命名为 cibf_admin
+mv dist cibf_admin
 
 # 退出服务器
 exit
 EOF
 
-echo "cibf_web 已经更新！"
+echo "cibf_admin 已经更新！"

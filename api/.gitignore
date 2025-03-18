@@ -46,7 +46,7 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
-game_api_image.tar
+cibf_api_image.tar
 
 # Runtime data
 pids

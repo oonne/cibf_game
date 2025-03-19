@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import {
   GetListDto,
   GetDetailDto,
+  UpdateUserDto,
   DeleteUserDto,
   UserEntryDto,
   UserOperationReportDto,
@@ -79,6 +80,28 @@ export class UserController {
     delete user.id;
 
     return resSuccess(user);
+  }
+
+  /*
+   * 更新用户信息
+   */
+  @Post('update')
+  @Roles([1, 2])
+  async update(@Body() updateUserDto: UpdateUserDto): Promise<HttpResponse<any>> {
+    const user = await this.UserService.getDetail(updateUserDto.userId);
+    if (!user) {
+      return {
+        code: ErrorCode.USER_NOT_FOUND,
+        message: '用户不存在',
+      };
+    }
+
+    await this.UserService.update({
+      userId: user.userId,
+      ...updateUserDto,
+    });
+
+    return resSuccess(null);
   }
 
   /*

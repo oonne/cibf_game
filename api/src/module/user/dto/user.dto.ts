@@ -65,6 +65,40 @@ export class GetDetailDto {
   userId: string;
 }
 
+/* 更新用户信息 */
+export class UpdateUserDto {
+  @IsString()
+  userId: string;
+
+  @IsBoolean()
+  @IsOptional()
+  hasPlayedGame?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  hasShared?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  hasBrowsed?: boolean;
+
+  @IsNumber()
+  @IsOptional()
+  lotteryTimes?: number;
+
+  @IsString()
+  @IsOptional()
+  winningPrizeName?: string;
+
+  @IsString()
+  @IsOptional()
+  redeemCodeId?: string;
+
+  @IsString()
+  @IsOptional()
+  redeemCode?: string;
+}
+
 /* 删除用户 */
 export class DeleteUserDto {
   @IsString()

@@ -20,9 +20,10 @@
       v-for="(piece, index) in pieces"
       :key="index"
       class="puzzle-piece"
-      :class="{ 'puzzle-piece-active': piece.isDragging,
-                'puzzle-piece-correct': piece.isCorrect,
-                'puzzle-piece-returning': piece.isReturning,
+      :class="{
+        'puzzle-piece-active': piece.isDragging,
+        'puzzle-piece-correct': piece.isCorrect,
+        'puzzle-piece-returning': piece.isReturning,
       }"
       :style="{
         backgroundImage: `url(${piece.image})`,
@@ -252,6 +253,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+* {
+  /* 拼图块宽度 */
+  --piece-width: 25vw;
+  /* 画布垂直margin */
+  --canvas-vertical-margin: 2vw;
+}
+
 .header-wrap {
   padding: 20px 0;
 }
@@ -264,7 +272,7 @@ onUnmounted(() => {
 
 .jigsaw-wrap {
   width: 100vw;
-  height: 220vw;
+  height: 200vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -276,8 +284,9 @@ onUnmounted(() => {
  * 画布
  */
 .canvas-grid {
-  margin: calc(9.5vw - 2px);
-  width: 81vw;
+  margin: calc(var(--canvas-vertical-margin) - 2px)
+   calc((100vw - (3 * var(--piece-width)))/2 - 2px);
+  width: calc(var(--piece-width) * 3);
   aspect-ratio: 3/5;
   background: rgba(255, 255, 255, 0.8);
   border: 2px solid #333;
@@ -298,7 +307,7 @@ onUnmounted(() => {
  * 拼图块
  */
 .puzzle-piece {
-  width: 27vw;
+  width: 25vw;
   aspect-ratio: 1;
   position: absolute;
   background-size: contain;

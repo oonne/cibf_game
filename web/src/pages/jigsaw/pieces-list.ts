@@ -33,11 +33,13 @@ export interface PuzzlePiece {
 }
 
 // 每个格子的宽度
-const piecesWidth = 27;
+const piecesWidth = 25;
 // 拼图块突出的长度
-const piecesOverlap = 36.31;
+const piecesOverlap = 33.62;
 // jigsaw-wrap的高度
-const jigsawWrapHeight = 220;
+const jigsawWrapHeight = 200;
+// 画布垂直margin
+const canvasVerticalMargin = 2;
 
 // 生成随机位置
 const generateRandomPositions = () => {
@@ -83,7 +85,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[0].x,
     currentY: randomPositions[0].y,
     correctX: (100 - piecesWidth * 3) / 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 4 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -100,7 +102,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[1].x,
     currentY: randomPositions[1].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 4 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -117,7 +119,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[2].x,
     currentY: randomPositions[2].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 4,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 4 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -134,7 +136,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[3].x,
     currentY: randomPositions[3].y,
     correctX: (100 - piecesWidth * 3) / 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 3 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -151,7 +153,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[4].x,
     currentY: randomPositions[4].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 3 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -168,7 +170,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[5].x,
     currentY: randomPositions[5].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 3,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 3 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -185,7 +187,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[6].x,
     currentY: randomPositions[6].y,
     correctX: (100 - piecesWidth * 3) / 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 2 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -202,7 +204,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[7].x,
     currentY: randomPositions[7].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 2 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -219,7 +221,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[8].x,
     currentY: randomPositions[8].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth * 2,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth * 2 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -236,7 +238,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[9].x,
     currentY: randomPositions[9].y,
     correctX: (100 - piecesWidth * 3) / 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -253,7 +255,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[10].x,
     currentY: randomPositions[10].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -270,7 +272,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[11].x,
     currentY: randomPositions[11].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5 + piecesWidth,
+    correctY: jigsawWrapHeight - piecesWidth * 5 + piecesWidth - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -287,7 +289,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[12].x,
     currentY: randomPositions[12].y,
     correctX: (100 - piecesWidth * 3) / 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
+    correctY: jigsawWrapHeight - piecesWidth * 5 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -304,7 +306,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[13].x,
     currentY: randomPositions[13].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
+    correctY: jigsawWrapHeight - piecesWidth * 5 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,
@@ -321,7 +323,7 @@ export const piecesList: PuzzlePiece[] = [
     currentX: randomPositions[14].x,
     currentY: randomPositions[14].y,
     correctX: (100 - piecesWidth * 3) / 2 + piecesWidth * 2,
-    correctY: jigsawWrapHeight - (100 - piecesWidth * 3) / 2 - piecesWidth * 5,
+    correctY: jigsawWrapHeight - piecesWidth * 5 - canvasVerticalMargin,
     touchX: 0,
     touchY: 0,
     isDragging: false,

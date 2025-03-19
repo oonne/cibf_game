@@ -178,6 +178,13 @@
           详情
         </a-button>
         <a-button
+          size="small"
+          type="link"
+          @click="router.push({ name: 'cibf-edit-user', query: { userId: record.userId } })"
+        >
+          编辑
+        </a-button>
+        <a-button
           v-if="[1, 2].includes(staffInfo.role || 0)"
           size="small"
           type="link"

@@ -178,6 +178,16 @@ const pages: RouteRecordRaw[] = [
           title: '访客详情',
         },
       },
+      // 编辑访客
+      {
+        path: 'edit-user',
+        component: () => import('@/pages/cibf/user/edit-user.vue'),
+        name: 'cibf-edit-user',
+        meta: {
+          sideKey: 'cibf-user',
+          title: '编辑访客',
+        },
+      },
       // 兑换码列表
       {
         path: 'redeem',

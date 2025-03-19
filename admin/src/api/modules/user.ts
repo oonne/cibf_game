@@ -17,6 +17,14 @@ export default {
     });
   },
 
+  // 编辑用户
+  updateUser(data: object) {
+    return request({
+      url: '/user/update',
+      data,
+    });
+  },
+
   // 删除用户
   deleteUser(data: object) {
     return request({

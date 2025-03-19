@@ -64,11 +64,17 @@ const router = useRouter();
 const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
 
 /*
- * 游戏控制
+ * 常量
  */
 const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
+const COUNT_DOWN = 100; // 倒计时(单位：秒)
+// const GAME_TOTAL_COUNT = 5; // 游戏总次数
+
+/*
+ * 游戏控制
+ */
 const vwSize = ref(1); // vw单位对应的像素值
-const countDown = ref(100); // 倒计时
+const countDown = ref(COUNT_DOWN); // 倒计时
 let timer: number | null = null; // 计时器
 const isGameOver = ref(false); // 游戏是否结束
 

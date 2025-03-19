@@ -20,7 +20,10 @@
       v-for="(piece, index) in pieces"
       :key="index"
       class="puzzle-piece"
-      :class="{ 'puzzle-piece-active': piece.isDragging, 'puzzle-piece-correct': piece.isCorrect }"
+      :class="{ 'puzzle-piece-active': piece.isDragging,
+                'puzzle-piece-correct': piece.isCorrect,
+                'puzzle-piece-returning': piece.isReturning,
+      }"
       :style="{
         backgroundImage: `url(${piece.image})`,
         width: piece.width + 'vw',
@@ -63,7 +66,7 @@ const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
 /*
  * 游戏控制
  */
-const SNAP_THRESHOLD = 15; // 吸附阈值(单位：vw)
+const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
 const vwSize = ref(1); // vw单位对应的像素值
 const countDown = ref(100); // 倒计时
 let timer: number | null = null; // 计时器
@@ -300,7 +303,7 @@ onUnmounted(() => {
   user-select: none;
   z-index: 10;
   transform: scale(0.5);
-  transition: all 0.3s;
+  transition: scale 0.3s;
 }
 
 .puzzle-piece-active {
@@ -309,6 +312,11 @@ onUnmounted(() => {
 }
 
 .puzzle-piece-correct {
+  transition: all 0.3s;
   transform: scale(1);
+}
+
+.puzzle-piece-returning {
+  transition: all 0.3s;
 }
 </style>

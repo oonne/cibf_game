@@ -1,6 +1,15 @@
 <template>
   <div class="header-wrap">
     <h1 class="title">
+      耀你好看·点亮深圳
+    </h1>
+    <h2 class="sub-title">
+      第⼗七届深圳国际电池技术交流会/展览会
+    </h2>
+  </div>
+
+  <div class="header-wrap">
+    <h1 class="title">
       倒计时：{{ countDown }}秒
     </h1>
   </div>
@@ -253,13 +262,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-* {
-  /* 拼图块宽度 */
-  --piece-width: 25vw;
-  /* 画布垂直margin */
-  --canvas-vertical-margin: 2vw;
-}
-
 .header-wrap {
   padding: 20px 0;
 }
@@ -267,10 +269,24 @@ onUnmounted(() => {
 .title {
   font-size: 36px;
   font-weight: bold;
+  margin-bottom: 10px;
   text-align: center;
 }
 
+.sub-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 400;
+}
+
 .jigsaw-wrap {
+  /* 拼图块宽度 */
+  --piece-width: 25vw;
+  /* 画布垂直margin */
+  --canvas-vertical-margin: 2vw;
+
   width: 100vw;
   height: 200vw;
   display: flex;

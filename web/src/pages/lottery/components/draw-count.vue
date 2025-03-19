@@ -1,17 +1,6 @@
 <template>
   <div class="draw-count">
-    <h3>抽奖次数</h3>
-    <div class="count-info">
-      我的抽奖次数：{{ count }}次
-    </div>
     <div class="action-buttons">
-      <button
-        class="action-btn"
-        :class="{ disabled: hasPlayedGame }"
-        @click="handlePlayGame"
-      >
-        玩游戏获取抽奖次数
-      </button>
       <button
         class="action-btn"
         :class="{ disabled: hasShared }"
@@ -31,14 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
 import { userApi } from '@/api/index';
 import { to } from '@/utils/index';
 
 // 声明wx变量，确保TypeScript识别它
 declare const wx: any;
-
-const router = useRouter();
 
 // 接收父组件传递的抽奖次数
 const props = defineProps<{
@@ -48,14 +34,6 @@ const props = defineProps<{
   hasBrowsed: boolean,
   lotteryTimes: number
 }>();
-
-/* 处理玩游戏按钮点击 */
-const handlePlayGame = () => {
-  if (props.hasPlayedGame) {
-    return;
-  }
-  router.push({ name: 'jigsaw' });
-};
 
 /* 处理分享按钮点击 */
 const handleShare = () => {
@@ -111,17 +89,6 @@ const handleView = () => {
   border-radius: 10px;
   border: 1px solid #ddd;
   text-align: center;
-}
-
-.draw-count h3 {
-  color: #E91E63;
-  margin-bottom: 10px;
-}
-
-.count-info {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 15px;
 }
 
 .action-buttons {

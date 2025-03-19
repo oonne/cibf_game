@@ -13,7 +13,7 @@
         小程序新增一个活动页面，使用<a
           href="https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html"
           target="_blank"
-        >webview组件</a>，嵌入一个网页。网页域名为: <b>https://cibf.wuyanxun.com/#/home?openId=xxxxxx</b> 。
+        >webview组件</a>，嵌入一个网页。网页域名为: <b>https://cibf.wuyanxun.com/#/jigsaw?openId=xxxxxx</b> 。
         请再通过在连接里面携带openId参数，用于标识用户。
       </li>
       <li>

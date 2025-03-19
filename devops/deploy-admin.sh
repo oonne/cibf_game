@@ -5,10 +5,11 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 cd "$SCRIPT_DIR"
 
-# 服务器配置
-SERVER_IP=8.129.24.250
+# 加载配置文件
+source server.conf
 
 # 编译项目
+cd "../admin"
 echo "正在编译 web 项目..."
 npm run build
 

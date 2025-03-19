@@ -1,11 +1,14 @@
 #!/bin/bash
-SERVER_IP=8.129.24.250
 
 # 获取当前路径
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 cd "$SCRIPT_DIR"
 
+# 加载配置文件
+source server.conf
+
 # 构建镜像
+cd "../api"
 docker compose build
 echo "构建镜像完成"
 

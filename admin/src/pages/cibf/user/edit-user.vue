@@ -1,5 +1,11 @@
 <template>
   <div class="app-form">
+    <a-alert
+      message="此操作会影响数据完整性，仅供提开发调试时使用，请勿操作真实客户！"
+      type="error"
+      :style="{ marginBottom: '16px' }"
+    />
+
     <a-form
       ref="formRef"
       :model="formData"
@@ -61,6 +67,11 @@
         />
       </a-form-item>
 
+      <!-- 是否已兑奖 -->
+      <a-form-item label="是否已兑奖">
+        <a-switch v-model:checked="formData.hasRedeemed" />
+      </a-form-item>
+
       <a-space>
         <a-button
           @click="onClearPrize"
@@ -102,6 +113,7 @@ const formData = ref<IUser>({
   winningPrizeName: '',
   redeemCodeId: '',
   redeemCode: '',
+  hasRedeemed: false,
 });
 
 /* 查询详情 */
@@ -129,6 +141,7 @@ const onClearPrize = () => {
   formData.value.winningPrizeName = '';
   formData.value.redeemCodeId = '';
   formData.value.redeemCode = '';
+  formData.value.hasRedeemed = false;
 };
 
 /* 提交 */

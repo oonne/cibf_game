@@ -97,6 +97,10 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   redeemCode?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  hasRedeemed?: boolean;
 }
 
 /* 删除用户 */

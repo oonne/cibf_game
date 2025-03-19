@@ -5,6 +5,8 @@
 
 .html, .body{
   color: #3f3f4a;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* 滚动条的宽度 */

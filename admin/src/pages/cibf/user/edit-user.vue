@@ -6,6 +6,13 @@
       layout="vertical"
       hide-required-mark
     >
+      <a-form-item
+        name="phone"
+        label="手机号"
+      >
+        <a-input v-model:value="formData.phone" />
+      </a-form-item>
+
       <a-form-item label="是否已玩过游戏">
         <a-switch v-model:checked="formData.hasPlayedGame" />
       </a-form-item>
@@ -87,6 +94,7 @@ const router = useRouter();
 const formRef = ref();
 const formData = ref<IUser>({
   userId: '',
+  phone: '',
   hasPlayedGame: false,
   hasShared: false,
   hasBrowsed: false,

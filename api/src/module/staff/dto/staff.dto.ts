@@ -65,6 +65,10 @@ export class UpdateStaffDto {
 
   @IsOptional()
   @IsString()
+  phone: string;
+
+  @IsOptional()
+  @IsString()
   name: string;
 
   @IsOptional()

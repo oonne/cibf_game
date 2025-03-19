@@ -84,14 +84,19 @@ const stopCountDown = () => {
   }
 };
 
-// 结束游戏
+/*
+ * 结束游戏
+ */
 const endGame = async (isSuccess: boolean) => {
   stopCountDown();
   isGameOver.value = true;
   showResult.value = true;
+
+  // 游戏失败
   if (!isSuccess) {
     title.value = '游戏失败';
     content.value = '请再接再厉';
+    return;
   }
 
   // 上报用户玩游戏

@@ -4,13 +4,13 @@ import pages from './pages';
 // 默认跳转到首页
 pages.push({
   path: '/',
-  redirect: '/home',
+  redirect: '/jigsaw',
 });
 
 // 找不到则跳转到首页
 pages.push({
   path: '/:pathMatch(.*)*',
-  redirect: '/home',
+  redirect: '/jigsaw',
 });
 
 // 创建路由

@@ -29,7 +29,7 @@
 
     <!-- 开始游戏按钮 -->
     <div
-      v-if="!isGamePlaying"
+      v-if="!isGamePlaying && gameTimes < GAME_TOTAL_COUNT"
       class="start-game-btn"
       @click="startGame"
     >
@@ -121,6 +121,7 @@ const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
  */
 const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
 const COUNT_DOWN = 10; // 倒计时(单位：秒)
+const GAME_TOTAL_COUNT = 5;
 
 /*
  * 弹窗
@@ -135,7 +136,8 @@ const content = ref('');
 const isActivityEnd = ref(false);
 const gameTimes = ref(0);
 
-/* 用户进入 */const userEntry = async () => {
+/* 用户进入 */
+const userEntry = async () => {
   const [err, res] = await to(userApi.userEntry({
     uuid: localStorage.getItem('UUID'),
     openId: getUrlParams('openid') || null,
@@ -151,6 +153,11 @@ const gameTimes = ref(0);
   }
 
   gameTimes.value = res.data.gameTimes;
+
+  // 如果游戏已通关，直接进入抽奖页面
+  if (res.data.hasPlayedGame) {
+    router.push({ name: 'lottery' });
+  }
 };
 
 /*
@@ -183,6 +190,7 @@ const endGame = async (isSuccess: boolean) => {
     title.value = '游戏失败';
     content.value = '请再接再厉';
     showResult.value = true;
+    gameTimes.value += 1;
 
     // 上报游戏失败
     await to(userApi.gameFailReport({
@@ -195,7 +203,7 @@ const endGame = async (isSuccess: boolean) => {
   title.value = '通关啦！';
   content.value = '获得了抽奖机会+1';
   showResult.value = true;
-
+  gameTimes.value += 1;
   // 上报游戏通关
   const [err] = await to(userApi.gameReport({
     uuid: localStorage.getItem('UUID'),

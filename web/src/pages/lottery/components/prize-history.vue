@@ -174,7 +174,7 @@ const handlePrizeClick = (prize: any) => {
 }
 
 .prize-history h3 {
-  color: #E91E63;
+  color: var(--primary-color);
   margin-bottom: 15px;
   text-align: center;
 }
@@ -221,7 +221,7 @@ const handlePrizeClick = (prize: any) => {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #E91E63;
+  color: var(--primary-color);
 }
 
 .popup-body {
@@ -251,7 +251,7 @@ const handlePrizeClick = (prize: any) => {
 }
 
 .popup-btn {
-  background-color: #E91E63;
+  background-color: var(--primary-color);
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -267,7 +267,7 @@ const handlePrizeClick = (prize: any) => {
 }
 
 .popup-btn:hover {
-  background-color: #C2185B;
+  background-color: var(--secondary-color);
 }
 
 .cancel-btn:hover {

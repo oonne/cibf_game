@@ -235,7 +235,7 @@ onMounted(() => {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #E91E63;
+  color: var(--primary-color);
 }
 
 .result-title.no-win {
@@ -248,7 +248,7 @@ onMounted(() => {
 }
 
 .result-btn {
-  background-color: #E91E63;
+  background-color: var(--primary-color);
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -258,7 +258,7 @@ onMounted(() => {
 }
 
 .result-btn:hover {
-  background-color: #C2185B;
+  background-color: var(--secondary-color);
 }
 
 @keyframes popup {

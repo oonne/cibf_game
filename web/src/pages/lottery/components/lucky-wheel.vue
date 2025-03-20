@@ -144,7 +144,7 @@ const startRotate = async () => {
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 30px solid #E91E63;
+  border-bottom: 30px solid var(--primary-color);
   z-index: 10;
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
 }
@@ -156,7 +156,7 @@ const startRotate = async () => {
   transform: translate(-50%, -50%);
   width: 70px;
   height: 70px;
-  background-color: #E91E63;
+  background-color: var(--primary-color);
   border-radius: 50%;
   display: flex;
   justify-content: center;

@@ -410,7 +410,7 @@ onUnmounted(() => {
 }
 
 .modal-btn {
-  background: #007AFF;
+  background: var(--primary-color);
   color: #fff;
   border: none;
   padding: 8px 20px;

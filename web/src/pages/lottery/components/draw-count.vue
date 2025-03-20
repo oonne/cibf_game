@@ -102,14 +102,14 @@ const handleView = () => {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #E91E63;
+  background-color: var(--primary-color);
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .action-btn:hover:not(.disabled) {
-  background-color: #C2185B;
+  background-color: var(--secondary-color);
 }
 
 .action-btn.disabled {

@@ -26,7 +26,7 @@
 }
 
 .activity-info h3 {
-  color: #E91E63;
+  color: var(--primary-color);
   margin-bottom: 15px;
   text-align: center;
 }

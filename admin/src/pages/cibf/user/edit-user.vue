@@ -19,7 +19,7 @@
         <a-input v-model:value="formData.phone" />
       </a-form-item>
 
-      <a-form-item label="是否已玩过游戏">
+      <a-form-item label="是否已通关游戏">
         <a-switch v-model:checked="formData.hasPlayedGame" />
       </a-form-item>
 

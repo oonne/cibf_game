@@ -32,6 +32,7 @@
           v-if="column.key === 'openId'
             || column.key === 'phone'
             || column.key === 'winningPrizeName'
+            || column.key === 'gameTimes'
             || column.key === 'lotteryTimes'
           "
         >
@@ -78,8 +79,11 @@
           (item: any) => dayjs(item).format('YYYY-MM-DD'),
         ).join(' ~ ') }})
       </template>
+      <template v-if="column.key === 'gameTimes' && filters.gameTimes">
+        已玩游戏次数({{ filters.gameTimes[0] }})
+      </template>
       <template v-if="column.key === 'hasPlayedGame' && filters.hasPlayedGame">
-        是否已玩过游戏({{ filters.hasPlayedGame[0] === true ? '是' : '否' }})
+        是否已通关游戏({{ filters.hasPlayedGame[0] === true ? '是' : '否' }})
       </template>
       <template v-if="column.key === 'hasShared' && filters.hasShared">
         是否已分享({{ filters.hasShared[0] === true ? '是' : '否' }})
@@ -129,7 +133,12 @@
         {{ dayjs(record.lastVisitTime).format('YYYY-MM-DD HH:mm:ss') || '-' }}
       </template>
 
-      <!-- 是否已玩过游戏 -->
+      <!-- 已玩游戏次数 -->
+      <template v-if="column.key === 'gameTimes'">
+        {{ record.gameTimes || 0 }}
+      </template>
+
+      <!-- 是否通关游戏 -->
       <template v-if="column.key === 'hasPlayedGame'">
         {{ record.hasPlayedGame ? '是' : '否' }}
       </template>
@@ -263,7 +272,15 @@ const columns = ref<TableColumnsType>([
     width: 150,
   },
   {
-    title: '是否已玩过游戏',
+    title: '已玩游戏次数',
+    key: 'gameTimes',
+    sorter: true,
+    customFilterDropdown: true,
+    resizable: true,
+    width: 150,
+  },
+  {
+    title: '是否已通关游戏',
     key: 'hasPlayedGame',
     sorter: true,
     filters: [
@@ -393,6 +410,9 @@ const getList = async () => {
     params.lastVisitTime = filters.value.lastVisitTime[0].map(
       (item: any) => dayjs(item).valueOf(),
     ).join(',');
+  }
+  if (filters.value.gameTimes) {
+    [params.gameTimes] = filters.value.gameTimes;
   }
   if (filters.value.hasPlayedGame) {
     [params.hasPlayedGame] = filters.value.hasPlayedGame;

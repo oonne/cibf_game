@@ -54,14 +54,14 @@
     <a-descriptions-item label="首次访问时间">
       {{ dayjs(detail.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
     </a-descriptions-item>
-    <a-descriptions-item
-      label="最后访问时间"
-      :span="2"
-    >
+    <a-descriptions-item label="最后访问时间">
       {{ dayjs(detail.lastVisitTime).format('YYYY-MM-DD HH:mm:ss') }}
     </a-descriptions-item>
+    <a-descriptions-item label="已玩游戏次数">
+      {{ detail.gameTimes }}
+    </a-descriptions-item>
 
-    <a-descriptions-item label="是否已玩过游戏">
+    <a-descriptions-item label="是否已通关游戏">
       {{ detail.hasPlayedGame ? '是' : '否' }}
     </a-descriptions-item>
     <a-descriptions-item label="是否已分享">
@@ -71,7 +71,7 @@
       {{ detail.hasBrowsed ? '是' : '否' }}
     </a-descriptions-item>
 
-    <a-descriptions-item label="游戏时间">
+    <a-descriptions-item label="游戏通关时间">
       {{ detail.gameTime ? dayjs(detail.gameTime).format('YYYY-MM-DD HH:mm:ss') : '-' }}
     </a-descriptions-item>
     <a-descriptions-item label="分享时间">

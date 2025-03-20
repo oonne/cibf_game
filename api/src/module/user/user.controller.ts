@@ -197,7 +197,7 @@ export class UserController {
       };
     }
 
-    // 如果用户已经玩过游戏，则不更新
+    // 如果用户已经通关游戏，则不更新
     if (user.hasPlayedGame) {
       return resSuccess(null);
     }

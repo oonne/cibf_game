@@ -33,7 +33,7 @@
       class="start-game-btn"
       @click="startGame"
     >
-      开始游戏
+      {{ gameTimes > 0 ? '重新开始' : '开始游戏' }}
     </div>
 
     <!-- 拼图块 -->
@@ -80,8 +80,11 @@
       <div class="modal-body">
         {{ content }}
       </div>
-      <div class="modal-footer">
-        <!-- 成功 -->
+      <div
+        v-if="!isActivityEnd"
+        class="modal-footer"
+      >
+        <!-- 游戏成功 -->
         <button
           v-if="isGameSuccess"
           class="modal-btn"
@@ -89,9 +92,9 @@
         >
           去抽奖
         </button>
-        <!-- 失败 -->
+        <!-- 游戏失败 -->
         <button
-          v-else
+          v-if="!isGameSuccess"
           class="modal-btn"
           @click="handleGameOver"
         >
@@ -106,10 +109,11 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { userApi } from '@/api/index';
-import { to } from '@/utils/index';
+import { Utils, to } from '@/utils/index';
 import { PuzzlePiece, piecesList } from './pieces-list';
 
 const router = useRouter();
+const { initUUID, getUrlParams } = Utils;
 const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
 
 /*
@@ -119,6 +123,37 @@ const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
 const COUNT_DOWN = 10; // 倒计时(单位：秒)
 
 /*
+ * 弹窗
+ */
+const showResult = ref(false);
+const title = ref('');
+const content = ref('');
+
+/*
+ * 用户数据
+ */
+const isActivityEnd = ref(false);
+const gameTimes = ref(0);
+
+/* 用户进入 */const userEntry = async () => {
+  const [err, res] = await to(userApi.userEntry({
+    uuid: localStorage.getItem('UUID'),
+    openId: getUrlParams('openid') || null,
+  }));
+
+  if (err) {
+    console.error(err);
+    isActivityEnd.value = true;
+    title.value = '活动已结束';
+    content.value = '活动已结束，请下次再来参与';
+    showResult.value = true;
+    return;
+  }
+
+  gameTimes.value = res.data.gameTimes;
+};
+
+/*
  * 游戏控制
  */
 const vwSize = ref(1); // vw单位对应的像素值
@@ -126,13 +161,6 @@ const countDown = ref(COUNT_DOWN); // 倒计时
 let timer: number | null = null; // 计时器
 const isGamePlaying = ref(false); // 游戏是进行中
 const isGameSuccess = ref(false); // 游戏是否通关
-
-// 是否显示结果弹窗
-const showResult = ref(false);
-
-// 弹窗标题和内容
-const title = ref('恭喜您');
-const content = ref('获得了抽奖机会+1');
 
 // 停止倒计时
 const stopCountDown = () => {
@@ -301,6 +329,8 @@ const getVwSize = () => {
 
 /* 进入页面 */
 onMounted(() => {
+  initUUID();
+  userEntry();
   getVwSize();
   window.addEventListener('resize', getVwSize);
 });

@@ -86,6 +86,14 @@ const getAllUrlParams = (): { [key: string]: string } => {
   }, {} as { [key: string]: string });
 };
 
+/* 初始化UUID */
+const initUUID = () => {
+  const uuid = localStorage.getItem('UUID');
+  if (!uuid) {
+    localStorage.setItem('UUID', `${randomChars(12)}-${randomChars(4)}`);
+  }
+};
+
 export default {
   randomDigits,
   randomWithin,
@@ -94,4 +102,5 @@ export default {
   debounce,
   getUrlParams,
   getAllUrlParams,
+  initUUID,
 };

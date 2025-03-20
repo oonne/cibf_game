@@ -60,7 +60,7 @@ import DrawCount from './components/draw-count.vue';
 import ActivityInfo from './components/activity-info.vue';
 import PrizeHistory from './components/prize-history.vue';
 
-const { randomChars, getUrlParams } = Utils;
+const { initUUID, getUrlParams } = Utils;
 
 /*
  * 错误提示
@@ -114,16 +114,8 @@ const handlePrizeDrawn = (result: any) => {
 };
 
 /*
- * 初始化
+ * 用户数据
  */
-// 初始化UUID
-const initUUID = () => {
-  const uuid = localStorage.getItem('UUID');
-  if (!uuid) {
-    localStorage.setItem('UUID', `${randomChars(12)}-${randomChars(4)}`);
-  }
-};
-
 const hasPlayedGame = ref(false);
 const hasShared = ref(false);
 const hasBrowsed = ref(false);

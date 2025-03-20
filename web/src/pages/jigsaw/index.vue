@@ -20,6 +20,7 @@
   <div class="jigsaw-wrap">
     <!-- 画布区域 -->
     <div class="canvas-grid">
+      <div class="canvas-grid-bg" />
       <div
         v-for="i in 15"
         :key="i"
@@ -93,13 +94,23 @@
           去抽奖
         </button>
         <!-- 游戏失败 -->
-        <button
+        <div
           v-if="!isGameSuccess"
-          class="modal-btn"
-          @click="handleGameOver"
+          class="modal-btn-group"
         >
-          确定
-        </button>
+          <button
+            class="modal-btn"
+            @click="handleGameOver"
+          >
+            继续游戏
+          </button>
+          <button
+            class="modal-btn"
+            @click="router.push({ name: 'lottery' })"
+          >
+            去抽奖
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -120,7 +131,7 @@ const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
  * 常量
  */
 const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
-const COUNT_DOWN = 100; // 倒计时(单位：秒)
+const COUNT_DOWN = 10; // 倒计时(单位：秒)
 const GAME_TOTAL_COUNT = 5;
 
 /*
@@ -200,8 +211,8 @@ const endGame = async (isSuccess: boolean) => {
   }
 
   // 游戏通关
-  title.value = '通关啦！';
-  content.value = '获得了抽奖机会+1';
+  title.value = '恭喜通关';
+  content.value = '可以抽奖啦';
   showResult.value = true;
   gameTimes.value += 1;
   // 上报游戏通关
@@ -416,7 +427,16 @@ const handleGameOver = () => {
   position: relative;
   background: #f5f5f5;
 }
-
+.canvas-grid-bg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('@/assets/img/bg.png') no-repeat center center;
+  background-size: 100% 100%;
+  opacity: 0.2;
+}
 .grid-cell {
   border: 1px dashed #999;
   background: rgba(0, 0, 0, 0.05);
@@ -492,6 +512,12 @@ const handleGameOver = () => {
 
 .modal-footer {
   text-align: center;
+}
+
+.modal-btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 .modal-btn {

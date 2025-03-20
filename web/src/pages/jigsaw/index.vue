@@ -57,7 +57,6 @@
   <div
     v-if="showResult"
     class="modal-mask"
-    @click="handleConfirm"
   >
     <div
       class="modal-content"
@@ -70,11 +69,20 @@
         {{ content }}
       </div>
       <div class="modal-footer">
+        <!-- 成功 -->
         <button
+          v-if="isGameSuccess"
           class="modal-btn"
           @click="handleConfirm"
         >
-          确定
+          去抽奖
+        </button>
+        <!-- 失败 -->
+        <button
+          v-else
+          class="modal-btn"
+        >
+          再试一次
         </button>
       </div>
     </div>
@@ -105,6 +113,7 @@ const vwSize = ref(1); // vw单位对应的像素值
 const countDown = ref(COUNT_DOWN); // 倒计时
 let timer: number | null = null; // 计时器
 const isGameOver = ref(false); // 游戏是否结束
+const isGameSuccess = ref(false); // 游戏是否通关
 
 // 是否显示结果弹窗
 const showResult = ref(false);
@@ -127,19 +136,22 @@ const stopCountDown = () => {
 const endGame = async (isSuccess: boolean) => {
   stopCountDown();
   isGameOver.value = true;
-  showResult.value = true;
+  isGameSuccess.value = isSuccess;
 
   // 游戏失败
   if (!isSuccess) {
     title.value = '游戏失败';
     content.value = '请再接再厉';
+    showResult.value = true;
     return;
   }
 
-  // 上报用户玩游戏
+  // 游戏通关
   title.value = '通关啦！';
   content.value = '获得了抽奖机会+1';
+  showResult.value = true;
 
+  // 上报用户玩游戏
   const [err] = await to(userApi.gameReport({
     uuid: localStorage.getItem('UUID'),
   }));
@@ -149,13 +161,7 @@ const endGame = async (isSuccess: boolean) => {
   }
 };
 
-// 弹框确认时返回
-const handleConfirm = () => {
-  showResult.value = false;
-  router.back();
-};
-
-// 开始倒计时
+/* 开始倒计时 */
 const startCountDown = () => {
   timer = window.setInterval(() => {
     if (countDown.value > 0) {
@@ -277,6 +283,12 @@ onUnmounted(() => {
   stopCountDown();
   window.removeEventListener('resize', getVwSize);
 });
+
+/* 跳转到抽奖页面 */
+const handleConfirm = () => {
+  showResult.value = false;
+  router.push({ name: 'lottery' });
+};
 </script>
 
 <style scoped>

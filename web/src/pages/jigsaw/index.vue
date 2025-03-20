@@ -120,7 +120,7 @@ const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
  * 常量
  */
 const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
-const COUNT_DOWN = 10; // 倒计时(单位：秒)
+const COUNT_DOWN = 100; // 倒计时(单位：秒)
 const GAME_TOTAL_COUNT = 5;
 
 /*
@@ -152,10 +152,10 @@ const userEntry = async () => {
     return;
   }
 
-  gameTimes.value = res.data.gameTimes;
+  gameTimes.value = res.data.gameTimes || 0;
 
-  // 如果游戏已通关，直接进入抽奖页面
-  if (res.data.hasPlayedGame) {
+  // 如果游戏已通关，或游戏次数全部耗尽，直接进入抽奖页面
+  if (res.data.hasPlayedGame || gameTimes.value >= GAME_TOTAL_COUNT) {
     router.push({ name: 'lottery' });
   }
 };

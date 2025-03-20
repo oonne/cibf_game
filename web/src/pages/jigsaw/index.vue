@@ -81,8 +81,9 @@
         <button
           v-else
           class="modal-btn"
+          @click="showResult = false"
         >
-          再试一次
+          确定
         </button>
       </div>
     </div>
@@ -103,7 +104,7 @@ const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
  * 常量
  */
 const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
-const COUNT_DOWN = 100; // 倒计时(单位：秒)
+const COUNT_DOWN = 10; // 倒计时(单位：秒)
 // const GAME_TOTAL_COUNT = 5; // 游戏总次数
 
 /*

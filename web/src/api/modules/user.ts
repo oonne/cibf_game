@@ -9,6 +9,14 @@ export default {
     });
   },
 
+  // 游戏失败上报
+  gameFailReport(data: object) {
+    return request({
+      url: '/user/game-fail-report',
+      data,
+    });
+  },
+
   // 用户玩游戏上报
   gameReport(data: object) {
     return request({

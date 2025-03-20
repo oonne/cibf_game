@@ -16,7 +16,22 @@
         name="phone"
         label="手机号"
       >
-        <a-input v-model:value="formData.phone" />
+        <a-input
+          v-model:value="formData.phone"
+          allow-clear
+        />
+      </a-form-item>
+
+      <a-form-item
+        label="已玩游戏次数"
+        name="gameTimes"
+        :rules="[{ required: true }]"
+      >
+        <a-input-number
+          v-model:value="formData.gameTimes"
+          :min="0"
+          :precision="0"
+        />
       </a-form-item>
 
       <a-form-item label="是否已通关游戏">
@@ -106,6 +121,7 @@ const formRef = ref();
 const formData = ref<IUser>({
   userId: '',
   phone: '',
+  gameTimes: 0,
   hasPlayedGame: false,
   hasShared: false,
   hasBrowsed: false,

@@ -155,6 +155,11 @@ const endGame = async (isSuccess: boolean) => {
     title.value = '游戏失败';
     content.value = '请再接再厉';
     showResult.value = true;
+
+    // 上报游戏失败
+    await to(userApi.gameFailReport({
+      uuid: localStorage.getItem('UUID'),
+    }));
     return;
   }
 
@@ -163,7 +168,7 @@ const endGame = async (isSuccess: boolean) => {
   content.value = '获得了抽奖机会+1';
   showResult.value = true;
 
-  // 上报用户玩游戏
+  // 上报游戏通关
   const [err] = await to(userApi.gameReport({
     uuid: localStorage.getItem('UUID'),
   }));
@@ -312,10 +317,12 @@ const handleConfirm = () => {
   router.push({ name: 'lottery' });
 };
 
-// 处理游戏结束
+/* 处理游戏结束 */
 const handleGameOver = () => {
   showResult.value = false;
   isGamePlaying.value = false;
+  // 重置拼图块位置
+  pieces.value = JSON.parse(JSON.stringify(piecesList));
 };
 </script>
 

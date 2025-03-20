@@ -180,6 +180,34 @@ export class UserController {
   }
 
   /*
+   * 游戏失败上报
+   */
+  @Post('game-fail-report')
+  @NoLogin
+  async gameFailReport(
+    @Body() userOperationReportDto: UserOperationReportDto,
+  ): Promise<HttpResponse<any>> {
+    const user = userOperationReportDto.openId
+      ? await this.UserService.getDetailByOpenId(userOperationReportDto.openId)
+      : await this.UserService.getDetailByUuid(userOperationReportDto.uuid);
+    if (!user) {
+      return {
+        code: ErrorCode.USER_NOT_FOUND,
+        message: '用户不存在',
+      };
+    }
+
+    // 只增加游戏次数
+    await this.UserService.update({
+      userId: user.userId,
+      gameTimes: user.gameTimes + 1,
+      lastVisitTime: new Date(),
+    });
+
+    return resSuccess(null);
+  }
+
+  /*
    * 用户通关游戏上报
    */
   @Post('game-report')

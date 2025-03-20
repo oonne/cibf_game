@@ -54,12 +54,31 @@
   </div>
 
   <!-- 结果弹窗 -->
-  <modal-popup
-    :show="showResult"
-    :title="title"
-    :content="content"
-    @confirm="handleConfirm"
-  />
+  <div
+    v-if="showResult"
+    class="modal-mask"
+    @click="handleConfirm"
+  >
+    <div
+      class="modal-content"
+      @click.stop
+    >
+      <h3 class="modal-title">
+        {{ title }}
+      </h3>
+      <div class="modal-body">
+        {{ content }}
+      </div>
+      <div class="modal-footer">
+        <button
+          class="modal-btn"
+          @click="handleConfirm"
+        >
+          确定
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -67,7 +86,6 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { userApi } from '@/api/index';
 import { to } from '@/utils/index';
-import ModalPopup from '@/components/modal-popup.vue';
 import { PuzzlePiece, piecesList } from './pieces-list';
 
 const router = useRouter();
@@ -349,5 +367,59 @@ onUnmounted(() => {
 
 .puzzle-piece-returning {
   transition: all 0.3s;
+}
+
+/* 弹窗样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 300px;
+  padding: 20px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.modal-body {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.modal-footer {
+  text-align: center;
+}
+
+.modal-btn {
+  background: #007AFF;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal-btn:active {
+  opacity: 0.8;
 }
 </style>

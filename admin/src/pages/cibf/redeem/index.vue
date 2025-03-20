@@ -392,7 +392,7 @@ const onDelete = async (record: IRedeem) => {
     return;
   }
 
-  const [err] = await to(redeemApi.deleteRedeem({ redeemId: record.id as number }));
+  const [err] = await to(redeemApi.deleteRedeem({ redeemId: record.redeemId }));
   if (err) {
     message.error(buildErrorMsg({ err, defaultMsg: '删除失败' }));
     return;

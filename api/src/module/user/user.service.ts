@@ -26,6 +26,7 @@ export class UserService {
     phone,
     createdAt,
     lastVisitTime,
+    gameTimes,
     hasPlayedGame,
     hasShared,
     hasBrowsed,
@@ -41,6 +42,7 @@ export class UserService {
     phone?: string;
     createdAt?: string;
     lastVisitTime?: string;
+    gameTimes?: string;
     hasPlayedGame?: boolean;
     hasShared?: boolean;
     hasBrowsed?: boolean;
@@ -59,6 +61,7 @@ export class UserService {
         phone: getStringCondition(phone),
         createdAt: getDateRangeCondition(createdAt),
         lastVisitTime: getDateRangeCondition(lastVisitTime),
+        gameTimes: getNumberCondition(gameTimes),
         hasPlayedGame,
         hasShared,
         hasBrowsed,

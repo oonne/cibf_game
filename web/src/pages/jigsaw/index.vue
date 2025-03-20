@@ -117,7 +117,6 @@ const pieces = ref<PuzzlePiece[]>(JSON.parse(JSON.stringify(piecesList)));
  */
 const SNAP_THRESHOLD = 20; // 吸附阈值(单位：vw)
 const COUNT_DOWN = 10; // 倒计时(单位：秒)
-// const GAME_TOTAL_COUNT = 5; // 游戏总次数
 
 /*
  * 游戏控制

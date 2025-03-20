@@ -34,6 +34,10 @@ export class GetListDto {
   @IsOptional()
   lastVisitTime?: string;
 
+  @IsString()
+  @IsOptional()
+  gameTimes?: string;
+
   @IsBoolean()
   @IsOptional()
   hasPlayedGame?: boolean;
@@ -69,6 +73,10 @@ export class GetDetailDto {
 export class UpdateUserDto {
   @IsString()
   userId: string;
+
+  @IsNumber()
+  @IsOptional()
+  gameTimes?: number;
 
   @IsBoolean()
   @IsOptional()

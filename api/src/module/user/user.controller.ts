@@ -43,6 +43,7 @@ export class UserController {
       phone: getListDto.phone,
       createdAt: getListDto.createdAt,
       lastVisitTime: getListDto.lastVisitTime,
+      gameTimes: getListDto.gameTimes,
       hasPlayedGame: getListDto.hasPlayedGame,
       hasShared: getListDto.hasShared,
       hasBrowsed: getListDto.hasBrowsed,
@@ -179,7 +180,7 @@ export class UserController {
   }
 
   /*
-   * 用户玩游戏上报
+   * 用户通关游戏上报
    */
   @Post('game-report')
   @NoLogin
@@ -204,6 +205,7 @@ export class UserController {
     await this.UserService.update({
       userId: user.userId,
       hasPlayedGame: true,
+      gameTimes: user.gameTimes + 1,
       gameTime: new Date(),
       lastVisitTime: new Date(),
     });

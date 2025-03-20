@@ -26,7 +26,10 @@ export class User {
   @Column({ comment: '最近访问时间', nullable: false })
   lastVisitTime: Date;
 
-  @Column({ comment: '是否已玩过游戏', nullable: false, default: false })
+  @Column({ comment: '已玩游戏次数', nullable: false, default: 0 })
+  gameTimes: number;
+
+  @Column({ comment: '是否已通关游戏', nullable: false, default: false })
   hasPlayedGame: boolean;
 
   @Column({ comment: '是否已分享', nullable: false, default: false })

@@ -8,7 +8,10 @@
     </h2>
   </div>
 
-  <div class="header-wrap">
+  <div
+    v-if="isGamePlaying"
+    class="header-wrap"
+  >
     <h1 class="title">
       倒计时：{{ countDown }}秒
     </h1>
@@ -22,6 +25,15 @@
         :key="i"
         class="grid-cell"
       />
+    </div>
+
+    <!-- 开始游戏按钮 -->
+    <div
+      v-if="!isGamePlaying"
+      class="start-game-btn"
+      @click="startGame"
+    >
+      开始游戏
     </div>
 
     <!-- 拼图块 -->
@@ -81,7 +93,7 @@
         <button
           v-else
           class="modal-btn"
-          @click="showResult = false"
+          @click="handleGameOver"
         >
           确定
         </button>
@@ -113,7 +125,7 @@ const COUNT_DOWN = 10; // 倒计时(单位：秒)
 const vwSize = ref(1); // vw单位对应的像素值
 const countDown = ref(COUNT_DOWN); // 倒计时
 let timer: number | null = null; // 计时器
-const isGameOver = ref(false); // 游戏是否结束
+const isGamePlaying = ref(false); // 游戏是进行中
 const isGameSuccess = ref(false); // 游戏是否通关
 
 // 是否显示结果弹窗
@@ -136,7 +148,7 @@ const stopCountDown = () => {
  */
 const endGame = async (isSuccess: boolean) => {
   stopCountDown();
-  isGameOver.value = true;
+  isGamePlaying.value = false;
   isGameSuccess.value = isSuccess;
 
   // 游戏失败
@@ -173,6 +185,17 @@ const startCountDown = () => {
   }, 1000);
 };
 
+/*
+ * 开始游戏
+ */
+const startGame = () => {
+  isGamePlaying.value = true;
+  countDown.value = COUNT_DOWN;
+  // 重置拼图块位置
+  pieces.value = JSON.parse(JSON.stringify(piecesList));
+  startCountDown();
+};
+
 // 检查所有拼图块是否都在正确位置
 const checkIsComplete = () => {
   const isComplete = pieces.value.every((piece) => piece.isCorrect);
@@ -187,7 +210,7 @@ const checkIsComplete = () => {
 /* 开始拖拽 */
 const startDrag = (event: MouseEvent | TouchEvent, piece: PuzzlePiece) => {
   event.preventDefault();
-  if (piece.isDragging || piece.isCorrect || piece.isReturning || isGameOver.value) {
+  if (piece.isDragging || piece.isCorrect || piece.isReturning || !isGamePlaying.value) {
     return;
   }
   const pos = event instanceof MouseEvent ? event : event.touches[0];
@@ -275,7 +298,6 @@ const getVwSize = () => {
 /* 进入页面 */
 onMounted(() => {
   getVwSize();
-  startCountDown();
   window.addEventListener('resize', getVwSize);
 });
 
@@ -289,6 +311,12 @@ onUnmounted(() => {
 const handleConfirm = () => {
   showResult.value = false;
   router.push({ name: 'lottery' });
+};
+
+// 处理游戏结束
+const handleGameOver = () => {
+  showResult.value = false;
+  isGamePlaying.value = false;
 };
 </script>
 
@@ -434,5 +462,25 @@ const handleConfirm = () => {
 
 .modal-btn:active {
   opacity: 0.8;
+}
+
+.start-game-btn {
+  position: absolute;
+  top: calc(var(--piece-width) * 5 / 2 + var(--canvas-vertical-margin));
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--primary-color);
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s;
+}
+
+.start-game-btn:active {
+  opacity: 0.8;
+  transform: translate(-50%, -50%) scale(0.95);
 }
 </style>

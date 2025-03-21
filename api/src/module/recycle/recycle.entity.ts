@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { recycleTypeDesc } from '../../constant/recycle-type';
 
@@ -12,6 +13,7 @@ export class Recycle {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index({ unique: true })
   @Column({ comment: 'recycleId', length: 255, nullable: false, unique: true })
   recycleId: string;
 

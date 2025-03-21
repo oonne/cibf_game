@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { prizeTypeDesc } from '../../constant/prize';
 
@@ -12,9 +13,11 @@ export class Redeem {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index({ unique: true })
   @Column({ comment: '兑奖码ID', length: 255, nullable: false, unique: true })
   redeemCodeId: string;
 
+  @Index({ unique: true })
   @Column({ comment: '兑奖码', length: 255, nullable: true, unique: true })
   redeemCode: string;
 

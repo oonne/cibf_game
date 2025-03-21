@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 
 @Entity()
@@ -11,12 +12,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index({ unique: true })
   @Column({ comment: 'userId', length: 255, nullable: false, unique: true })
   userId: string;
 
+  @Index({ unique: true })
   @Column({ comment: 'uuid', length: 255, nullable: false, unique: true })
   uuid: string;
 
+  @Index({ unique: true })
   @Column({ comment: 'openID', length: 255, nullable: true, unique: true })
   openId: string;
 

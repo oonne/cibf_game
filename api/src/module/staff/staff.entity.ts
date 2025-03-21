@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { roleDesc } from '../../constant/role';
 
@@ -12,9 +13,11 @@ export class Staff {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Index({ unique: true })
   @Column({ comment: 'staffId', length: 255, nullable: false, unique: true })
   staffId: string;
 
+  @Index({ unique: true })
   @Column({ comment: '用户名', length: 255, nullable: false, unique: true })
   name: string;
 

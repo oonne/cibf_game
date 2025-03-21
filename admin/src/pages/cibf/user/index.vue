@@ -105,7 +105,7 @@
     <template #bodyCell="{ column, record, index }">
       <!-- 序号 -->
       <template v-if="column.key === 'index'">
-        {{ index + 1 }}
+        {{ (pagination.current - 1) * pagination.pageSize + index + 1 }}
       </template>
 
       <!-- UUID -->
